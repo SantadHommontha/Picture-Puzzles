@@ -6,11 +6,10 @@ using System.Collections.Generic;
 public class Dust_Controller : MonoBehaviour
 {
     [SerializeField] private RectTransform rectTransform;
-    [SerializeField] private GameObject dustPrefab;
-    [SerializeField] private int numberOfDusts = 100;
-    [SerializeField] private float minDistance = 50f;
+  
+    [SerializeField] private Dust_Controller_Setting setting;
 
-    private List<Vector2> dustPositions = new List<Vector2>();
+    private List<Vector2> dust_Positions = new List<Vector2>();
 
     void Awake()
     {
@@ -32,26 +31,20 @@ public class Dust_Controller : MonoBehaviour
     }
     private void SpawnDusts()
     {
-        Rect bgRect = rectTransform.rect;
+        Rect bg_Rect = rectTransform.rect;
 
-        for (int i = 0; i < numberOfDusts; i++)
+        for (int i = 0; i < setting.number_Of_Dusts; i++)
         {
-            Vector2 randomPos = GetValidPosition(bgRect);
+            Vector2 randomPos = GetValidPosition(bg_Rect);
 
-            // สร้างฝุ่นและตั้งตำแหน่ง
-            GameObject dust = Instantiate(dustPrefab, rectTransform);
+            
+            var dust = Instantiate(setting.dust_prefap, rectTransform);
             var dust_s = dust.GetComponent<Dust>();
             dust_s.Set_Position(randomPos);
-            // RectTransform dustRect = dust.GetComponent<RectTransform>();
-            // dustRect.anchoredPosition = randomPos;
-
-            // เก็บตำแหน่ง
-            dustPositions.Add(randomPos);
-
-
-
+          
+            dust_Positions.Add(randomPos);
         }
-        dustPositions.Clear();
+        dust_Positions.Clear();
     }
     private Vector2 GetValidPosition(Rect bgRect)
     {
@@ -76,10 +69,10 @@ public class Dust_Controller : MonoBehaviour
 
     private bool IsPositionOccupied(Vector2 position)
     {
-        foreach (Vector2 dustPos in dustPositions)
+        foreach (Vector2 dustPos in dust_Positions)
         {
 
-            if (Vector2.Distance(dustPos, position) < minDistance)
+            if (Vector2.Distance(dustPos, position) < setting.min_Distance)
             {
                 return true;
             }

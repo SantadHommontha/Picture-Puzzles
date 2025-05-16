@@ -215,6 +215,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5949252499478272273, guid: 9737da18be503604ab5dd922348eeb84, type: 3}
+      propertyPath: m_Color.a
+      value: 0.043137256
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -364,9 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rectTransform: {fileID: 282080190}
-  dustPrefab: {fileID: 879904243090058512, guid: 9737da18be503604ab5dd922348eeb84, type: 3}
-  numberOfDusts: 15
-  minDistance: 280
+  setting: {fileID: 11400000, guid: ac172d70c748c4940ac097881b587d61, type: 2}
 --- !u!1001 &416438270
 PrefabInstance:
   m_ObjectHideFlags: 0

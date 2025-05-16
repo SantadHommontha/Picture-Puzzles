@@ -6,6 +6,8 @@ public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private Sprite[] dust_image;
     [SerializeField] private Color[] colors;
+    [SerializeField] private Dust_Setting setting;
+    
     private RectTransform rectTransform;
     private Image image;
 
@@ -21,8 +23,6 @@ public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler
         image = GetComponent<Image>();
 
         start_color = image.color;
-        //  alpha = start_color.a;
-        //  Debug.Log(alpha);
     }
 
 
@@ -34,7 +34,6 @@ public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler
     public void Random_Color()
     {
         image.color = colors[UnityEngine.Random.Range(0, colors.Length)];
-
     }
 
 
@@ -51,7 +50,13 @@ public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler
 
     public void Wipe()
     {
+        alpha -= setting.wipe_speed * Time.deltaTime ;
 
+        image.color = new Color(image.color.r, image.color.g, image.color.b, UnityEngine.Mathf.Clamp01((alpha / 255)));
+        if (alpha <= 10)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()
@@ -80,14 +85,8 @@ public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler
         Debug.Log(name);
         if (isDragging)
         {
-            alpha -= 10;
 
-            image.color = new Color(image.color.r, image.color.g, image.color.b, UnityEngine.Mathf.Clamp01((alpha / 255)));
-            if (alpha <= 0)
-            {
-                gameObject.SetActive(false);
-            }
-            //do
+            Wipe();
         }
     }
 }

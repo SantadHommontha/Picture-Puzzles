@@ -97,3 +97,4 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0.7536311, a: 1}
   - {r: 0, g: 1, b: 0.5863812, a: 1}
   - {r: 1, g: 0, b: 0.269979, a: 1}
+  setting: {fileID: 11400000, guid: 8a248bd92b4b3074087a79f2564f7e29, type: 2}
