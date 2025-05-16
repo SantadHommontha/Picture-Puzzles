@@ -51,18 +51,23 @@ public class Dust_Controller : MonoBehaviour
 
 
         }
+        dustPositions.Clear();
     }
     private Vector2 GetValidPosition(Rect bgRect)
     {
         Vector2 randomPos;
-
+        int count = 0;
 
         do
         {
             float randomX = Random.Range(bgRect.xMin, bgRect.xMax);
             float randomY = Random.Range(bgRect.yMin, bgRect.yMax);
             randomPos = new Vector2(randomX, randomY);
-
+            count++;
+            if (count > 9)
+            {
+                return randomPos;
+            }
         } while (IsPositionOccupied(randomPos));
 
         return randomPos;

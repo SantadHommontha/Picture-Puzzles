@@ -2,16 +2,17 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Dust : MonoBehaviour,IDust ,IPointerDownHandler,IPointerUpHandler,IDragHandler
+public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     [SerializeField] private Sprite[] dust_image;
+    [SerializeField] private Color[] colors;
     private RectTransform rectTransform;
     private Image image;
 
     private Color start_color;
     private float alpha = 255;
 
-      private bool isDragging = false;
+    private bool isDragging = false;
 
 
     void Awake()
@@ -20,8 +21,8 @@ public class Dust : MonoBehaviour,IDust ,IPointerDownHandler,IPointerUpHandler,I
         image = GetComponent<Image>();
 
         start_color = image.color;
-      //  alpha = start_color.a;
-      //  Debug.Log(alpha);
+        //  alpha = start_color.a;
+        //  Debug.Log(alpha);
     }
 
 
@@ -30,11 +31,16 @@ public class Dust : MonoBehaviour,IDust ,IPointerDownHandler,IPointerUpHandler,I
     {
         image.sprite = dust_image[UnityEngine.Random.Range(0, dust_image.Length)];
     }
+    public void Random_Color()
+    {
+        image.color = colors[UnityEngine.Random.Range(0, colors.Length)];
+
+    }
 
 
     public void Set_Position(float _x, float _y)
     {
-        Set_Position(new Vector2(_x,_y));
+        Set_Position(new Vector2(_x, _y));
     }
 
 
@@ -50,12 +56,13 @@ public class Dust : MonoBehaviour,IDust ,IPointerDownHandler,IPointerUpHandler,I
 
     void Start()
     {
-
+        Random_Sprite();
+        Random_Color();
     }
 
     void Update()
     {
-        
+
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -79,7 +86,7 @@ public class Dust : MonoBehaviour,IDust ,IPointerDownHandler,IPointerUpHandler,I
             if (alpha <= 0)
             {
                 gameObject.SetActive(false);
-            } 
+            }
             //do
         }
     }
