@@ -351,5 +351,5 @@ MonoBehaviour:
   is_title: 0
   image: {fileID: 1886115855672407554}
   title_name: {fileID: 7177762603384246876}
-  select_Group_Value: {fileID: 11400000, guid: 95ee83430922ede4fb977e9989bba949, type: 2}
-  select_Image_Value: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}
+  select_Group: {fileID: 11400000, guid: 95ee83430922ede4fb977e9989bba949, type: 2}
+  sprite_Data: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}

@@ -6,6 +6,9 @@ using UnityEngine.Events;
 public class CustomEvent : UnityEvent<Component, object> { }
 public class GameEventListener : MonoBehaviour
 {
+    #if UNITY_EDITOR
+    [SerializeField] [TextArea] private string description;
+    #endif
     public CustomEvent response;
     public GameEvent gameEvent;
 

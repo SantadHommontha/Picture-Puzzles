@@ -10,8 +10,8 @@ public class Group_A_Image : MonoBehaviour, IPointerDownHandler
     [SerializeField] private Image image;
     [SerializeField] private TMP_Text title_name;
 
-    [SerializeField] private Select_Group_Value select_Group_Value;
-    [SerializeField] private Select_image_Value select_Image_Value;
+    [SerializeField] private Select_Group_Value select_Group;
+    [SerializeField] private SpriteData_Value sprite_Data;
     private Group_Image group_Image;
     private SpriteData spriteData;
 
@@ -35,7 +35,7 @@ public class Group_A_Image : MonoBehaviour, IPointerDownHandler
     }
 
 
-     public void Set_UP(Sprite _title_image, string _title_name,SpriteData _spriteData )
+    public void Set_UP(Sprite _title_image, string _title_name, SpriteData _spriteData)
     {
         Set_Image(_title_image);
         Set_Title_Name(_title_name);
@@ -49,11 +49,11 @@ public class Group_A_Image : MonoBehaviour, IPointerDownHandler
 
         if (is_title)
         {
-            select_Group_Value.Value = group_Image;
+            select_Group.Value = group_Image;
         }
         else
         {
-
+            sprite_Data.Value = spriteData;
         }
     }
 
