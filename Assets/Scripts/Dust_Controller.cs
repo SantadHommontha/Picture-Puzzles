@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Dust_Controller : MonoBehaviour
 {
-    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private RectTransform target_image;
   
     [SerializeField] private Dust_Controller_Setting setting;
 
@@ -14,7 +14,7 @@ public class Dust_Controller : MonoBehaviour
     void Awake()
     {
 
-        rectTransform = GetComponent<RectTransform>();
+        target_image = GetComponent<RectTransform>();
     }
     void Start()
     {
@@ -27,14 +27,14 @@ public class Dust_Controller : MonoBehaviour
     }
     private void SpawnDusts()
     {
-        Rect bg_Rect = rectTransform.rect;
+        Rect bg_Rect = target_image.rect;
 
         for (int i = 0; i < setting.number_Of_Dusts; i++)
         {
             Vector2 randomPos = GetValidPosition(bg_Rect);
 
             
-            var dust = Instantiate(setting.dust_prefap, rectTransform);
+            var dust = Instantiate(setting.dust_prefap, target_image);
             var dust_s = dust.GetComponent<Dust>();
             dust_s.Set_Position(randomPos);
           
