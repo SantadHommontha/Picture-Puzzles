@@ -349,7 +349,8 @@ Transform:
   m_LocalPosition: {x: 383.6213, y: 1019.1117, z: -6.149585}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1605995523}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &204341042
@@ -583,9 +584,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   select_image: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}
+  select_Group_Value: {fileID: 0}
   event_canvas_choose_image: {fileID: 11400000, guid: 0178cbf9cdaee124eb87e0ced49271d3, type: 2}
   event_canvas_play: {fileID: 11400000, guid: 026e3168543f8c84e98939f3ac76630c, type: 2}
   event_spawn_dust: {fileID: 11400000, guid: 74a28cbb515a0fe4691362f25c2b51bb, type: 2}
+  event_spawn_image: {fileID: 11400000, guid: 94d1d2b28761cc644a1351166739c779, type: 2}
+  event_spawn_group: {fileID: 11400000, guid: a89fc47828be96743b229f9bffa32cb5, type: 2}
 --- !u!1 &542189877 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4508456470137156740, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
@@ -677,6 +681,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 777960692}
   m_CullTransparentMesh: 1
+--- !u!114 &854661620 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1059376878691582155, guid: f5166bd7011abf844b94bbebe89c062d, type: 3}
+  m_PrefabInstance: {fileID: 7518706938105510859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 629f1b521f97714429f37edc768888ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &911942625
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,6 +979,97 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6690207066080501212, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
   m_PrefabInstance: {fileID: 2220191228432514897}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1605995522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1605995523}
+  - component: {fileID: 1605995524}
+  - component: {fileID: 1605995525}
+  m_Layer: 0
+  m_Name: Dust Manage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1605995523
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605995522}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 204341041}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1605995524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605995522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9239407a7b4eb43a8513392a1f53b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: 
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 854661620}
+        m_TargetAssemblyTypeName: Group_Image_Controller, Assembly-CSharp
+        m_MethodName: Show_Image_In_Group
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  gameEvent: {fileID: 11400000, guid: 94d1d2b28761cc644a1351166739c779, type: 2}
+--- !u!114 &1605995525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605995522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9239407a7b4eb43a8513392a1f53b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: 
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 854661620}
+        m_TargetAssemblyTypeName: Group_Image_Controller, Assembly-CSharp
+        m_MethodName: Show_Group
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  gameEvent: {fileID: 11400000, guid: a89fc47828be96743b229f9bffa32cb5, type: 2}
 --- !u!1 &1826899625
 GameObject:
   m_ObjectHideFlags: 0

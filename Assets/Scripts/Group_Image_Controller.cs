@@ -1,30 +1,31 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //[CreateAssetMenu(fileName = "Group_Image_Controller", menuName = "Scriptable Objects/Group_Image_Controller")]
 public class Group_Image_Controller : MonoBehaviour
 {
-    [SerializeField] private SpriteValue selcet_sprite;
+
 
     [SerializeField] private Group_Image[] group_Images;
 
+    [Header("Setting")]
     [SerializeField] private Group_Image_Controller_Setting setting;
 
     // [SerializeField] private GameObject score_area;
     [SerializeField] private GameObject score_sontent;
 
-
+    [Header("Value")]
     [SerializeField] private Select_Group_Value select_Group_Value;
     [SerializeField] private BoolValue back_btn;
-
+    [SerializeField] private SpriteData_Value sprite_Data;
 
     void Start()
     {
-        select_Group_Value.OnValueChange += Show_Image_In_Group;
+       
 
+        Show_Group();
 
-        Show_Image_Group();
-        back_btn.OnValueChange += Show_Image_Group;
     }
 
 
@@ -64,29 +65,35 @@ public class Group_Image_Controller : MonoBehaviour
         img_a_image.Set_UP(_spriteData.image, _spriteData.name, _spriteData);
         img_a_image.is_title = false;
     }
-    private void Show_Image_Group() => Show_Image_Group(true);
-    private void Show_Image_Group(bool _value)
+
+    public void Show_Group()
     {
-        if (_value)
+        Delete_All_Content();
+        foreach (var g in group_Images)
+        {
+            Create_Group_Image(g);
+        }
+    }
+
+    public void Random_Image(Group_Image _group_Image)
+    {
+        var sp = _group_Image.sprite_datas[UnityEngine.Random.Range(0, _group_Image.sprite_datas.Count)];
+
+        sprite_Data.Value = sp;
+    }
+
+    public void Show_Image_In_Group(Component _senser,object _data)
+    {
+        if (_data is Group_Image)
         {
             Delete_All_Content();
-            foreach (var g in group_Images)
+            var sp =  _data as Group_Image;
+            foreach (var g in sp.sprite_datas)
             {
-                Create_Group_Image(g);
+                Create_Image(g);
             }
         }
 
-    }
-
-
-    public void Show_Image_In_Group(Group_Image _group_Image)
-    {
-        Delete_All_Content();
-
-        foreach (var g in _group_Image.sprite_datas)
-        {
-            Create_Image(g);
-        }
 
 
 
