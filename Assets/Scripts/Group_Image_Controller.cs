@@ -61,7 +61,7 @@ public class Group_Image_Controller : MonoBehaviour
     {
         GameObject img = Instantiate(setting.image_prefap, score_sontent.transform);
         var img_a_image = img.GetComponent<Group_A_Image>();
-        img_a_image.Set_UP(_spriteData.image, _spriteData.name, null);
+        img_a_image.Set_UP(_spriteData.image, _spriteData.name, _spriteData);
         img_a_image.is_title = false;
     }
     private void Show_Image_Group() => Show_Image_Group(true);

@@ -13,6 +13,7 @@ public class Group_A_Image : MonoBehaviour, IPointerDownHandler
     [SerializeField] private Select_Group_Value select_Group_Value;
     [SerializeField] private Select_image_Value select_Image_Value;
     private Group_Image group_Image;
+    private SpriteData spriteData;
 
 
     public void Set_Image(Sprite _image)
@@ -34,12 +35,12 @@ public class Group_A_Image : MonoBehaviour, IPointerDownHandler
     }
 
 
-
-
-
-
-
-
+     public void Set_UP(Sprite _title_image, string _title_name,SpriteData _spriteData )
+    {
+        Set_Image(_title_image);
+        Set_Title_Name(_title_name);
+        spriteData = _spriteData;
+    }
 
 
     public void OnPointerDown(PointerEventData eventData)
