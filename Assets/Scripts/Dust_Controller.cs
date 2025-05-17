@@ -15,10 +15,6 @@ public class Dust_Controller : MonoBehaviour
     {
 
         rectTransform = GetComponent<RectTransform>();
-
-
-
-
     }
     void Start()
     {

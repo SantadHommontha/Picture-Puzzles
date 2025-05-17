@@ -4,10 +4,9 @@ using UnityEngine.EventSystems;
 
 public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    [SerializeField] private Sprite[] dust_image;
     [SerializeField] private Color[] colors;
     [SerializeField] private Dust_Setting setting;
-    
+
     private RectTransform rectTransform;
     private Image image;
 
@@ -29,13 +28,17 @@ public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler
 
     public void Random_Sprite()
     {
-        image.sprite = dust_image[UnityEngine.Random.Range(0, dust_image.Length)];
+        image.sprite = setting.dust_sprites[UnityEngine.Random.Range(0, setting.dust_sprites.Length)];
     }
     public void Random_Color()
     {
         image.color = colors[UnityEngine.Random.Range(0, colors.Length)];
     }
-
+    public void Random_Rotation()
+    {
+        var rt = new Vector3(0, 0, UnityEngine.Random.Range(0, 360));
+        rectTransform.rotation = Quaternion.Euler(rt);
+    }
 
     public void Set_Position(float _x, float _y)
     {
@@ -50,7 +53,7 @@ public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler
 
     public void Wipe()
     {
-        alpha -= setting.wipe_speed * Time.deltaTime ;
+        alpha -= setting.wipe_speed * Time.deltaTime;
 
         image.color = new Color(image.color.r, image.color.g, image.color.b, UnityEngine.Mathf.Clamp01((alpha / 255)));
         if (alpha <= 10)
@@ -59,16 +62,20 @@ public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler
         }
     }
 
-    void Start()
+
+    public void SetUp()
     {
         Random_Sprite();
         Random_Color();
+        Random_Rotation();
     }
 
-    void Update()
+    void Start()
     {
-
+        SetUp();
     }
+
+
 
     public void OnPointerDown(PointerEventData eventData)
     {

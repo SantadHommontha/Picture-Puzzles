@@ -4,4 +4,5 @@ using UnityEngine;
 public class Dust_Setting : ScriptableObject
 {
     public float wipe_speed = 10;
+    public Sprite[] dust_sprites;
 }
