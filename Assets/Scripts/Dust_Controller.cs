@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 public class Dust_Controller : MonoBehaviour
 {
- //   [SerializeField] private RectTransform target_image;
-  
+    //   [SerializeField] private RectTransform target_image;
+
     [SerializeField] private Dust_Controller_Setting setting;
     [SerializeField] private SpriteData_Value select_image;
 
@@ -17,14 +17,15 @@ public class Dust_Controller : MonoBehaviour
     void Awake()
     {
 
-      //  target_image = GetComponent<RectTransform>();
+        //  target_image = GetComponent<RectTransform>();
     }
     void Start()
     {
-        select_image.OnValueChange += Create;
+        // select_image.OnValueChange += Create;
     }
-    [ContextMenu("Create")]
-    public void Create(SpriteData _spriteData)
+
+    // Event Call
+    public void Create()
     {
         SpawnDusts();
     }
@@ -36,11 +37,11 @@ public class Dust_Controller : MonoBehaviour
         {
             Vector2 randomPos = GetValidPosition(bg_Rect);
 
-            
+
             var dust = Instantiate(setting.dust_prefap, target_image.Value);
             var dust_s = dust.GetComponent<Dust>();
             dust_s.Set_Position(randomPos);
-          
+
             dust_Positions.Add(randomPos);
         }
         dust_Positions.Clear();

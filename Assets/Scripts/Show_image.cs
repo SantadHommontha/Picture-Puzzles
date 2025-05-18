@@ -14,14 +14,14 @@ public class Show_image : MonoBehaviour
         select_image.OnValueChange += Show_Image;
     }
 
-    public void Show_Image(SpriteData _spriteData)
+    private void Show_Image(SpriteData _spriteData)
     {
 
         image.sprite = _spriteData.image;
 
     }
 
-
+    // Call With Event
     public void Show_Image()
     {
 
@@ -37,7 +37,7 @@ public class Show_image : MonoBehaviour
 
     void OnDestroy()
     {
-         select_image.OnValueChange -= Show_Image;
+        select_image.OnValueChange -= Show_Image;
     }
 
 

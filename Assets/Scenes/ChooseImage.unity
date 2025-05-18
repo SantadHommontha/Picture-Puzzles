@@ -355,6 +355,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1605995523}
+  - {fileID: 1933012163}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &204341042
@@ -615,6 +616,30 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 777597440}
+        m_TargetAssemblyTypeName: Dust_Controller, Assembly-CSharp
+        m_MethodName: Create
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1826899630}
+        m_TargetAssemblyTypeName: Show_image, Assembly-CSharp
+        m_MethodName: Show_Image
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1055,11 +1080,13 @@ MonoBehaviour:
   game_State: 0
   select_image: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}
   select_Group_Value: {fileID: 11400000, guid: 95ee83430922ede4fb977e9989bba949, type: 2}
+  random_btn_value: {fileID: 11400000, guid: a4383e50974c51c4c8bb735ccb828411, type: 2}
   event_canvas_choose_image: {fileID: 11400000, guid: 0178cbf9cdaee124eb87e0ced49271d3, type: 2}
   event_canvas_play: {fileID: 11400000, guid: 026e3168543f8c84e98939f3ac76630c, type: 2}
   event_spawn_dust: {fileID: 11400000, guid: 74a28cbb515a0fe4691362f25c2b51bb, type: 2}
   event_spawn_image_in_group: {fileID: 11400000, guid: 94d1d2b28761cc644a1351166739c779, type: 2}
   event_spawn_group: {fileID: 11400000, guid: a89fc47828be96743b229f9bffa32cb5, type: 2}
+  event_random_image: {fileID: 11400000, guid: 4a123e2088a19de4985986f1df38cb60, type: 2}
 --- !u!1 &542189877 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4508456470137156740, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
@@ -1075,6 +1102,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 332487731002544461, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
   m_PrefabInstance: {fileID: 6327862044095431611}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &777597440 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7820655592230052920, guid: 9d2c1e5a207ec5d43b0f93c3b62e2a6e, type: 3}
+  m_PrefabInstance: {fileID: 988203751}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 900604430207aad4aa3188ca8a6094dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &848728242 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5994458628461598203, guid: 3916107ae64668e47aa5394b2a77e7c4, type: 3}
@@ -1423,6 +1461,109 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5865209515097380857, guid: af2736c06ba0d904e92795c3e8bcc7e2, type: 3}
   m_PrefabInstance: {fileID: 4263707656390676384}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1826899630 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3717756564269556813, guid: c9b7b7778062b83428470dde08b481df, type: 3}
+  m_PrefabInstance: {fileID: 243819517368588935}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 834ee03cdcb3d574d9ac62871633ccfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1933012162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1933012163}
+  - component: {fileID: 1933012164}
+  m_Layer: 0
+  m_Name: Group Image Controller Event
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1933012163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933012162}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 204341041}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1933012164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933012162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9239407a7b4eb43a8513392a1f53b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Random Image
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 854661620}
+        m_TargetAssemblyTypeName: Group_Image_Controller, Assembly-CSharp
+        m_MethodName: Random_Image
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  gameEvent: {fileID: 11400000, guid: 4a123e2088a19de4985986f1df38cb60, type: 2}
+--- !u!1 &2130595924 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 369440776606338826, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
+  m_PrefabInstance: {fileID: 6327862044095431611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2130595926 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7178039515185075598, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
+  m_PrefabInstance: {fileID: 6327862044095431611}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130595924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2130595927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130595924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10f8db0868d7f242bd541993eca74de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  random_btn: {fileID: 11400000, guid: a4383e50974c51c4c8bb735ccb828411, type: 2}
+  toggle_btn: {fileID: 2130595926}
+  start_true: 1
 --- !u!1001 &243819517368588935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1437,7 +1578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4461490614619734262, guid: c9b7b7778062b83428470dde08b481df, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7463283294371437834, guid: c9b7b7778062b83428470dde08b481df, type: 3}
       propertyPath: m_Pivot.x
@@ -1938,7 +2079,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 369440776606338826, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2130595927}
   m_SourcePrefab: {fileID: 100100000, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
 --- !u!1001 &6613795141198056200
 PrefabInstance:
@@ -2005,6 +2149,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1059376878691582155, guid: f5166bd7011abf844b94bbebe89c062d, type: 3}
+      propertyPath: sprite_Data
+      value: 
+      objectReference: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}
     - target: {fileID: 1059376878691582155, guid: f5166bd7011abf844b94bbebe89c062d, type: 3}
       propertyPath: score_sontent
       value: 

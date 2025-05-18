@@ -75,9 +75,12 @@ public class Group_Image_Controller : MonoBehaviour
         }
     }
 
-    public void Random_Image(Group_Image _group_Image)
+
+    // Call With Event
+    public void Random_Image()
     {
-        var sp = _group_Image.sprite_datas[UnityEngine.Random.Range(0, _group_Image.sprite_datas.Count)];
+      
+        var sp =   select_Group_Value.Value.sprite_datas[UnityEngine.Random.Range(0,   select_Group_Value.Value.sprite_datas.Count)];
 
         sprite_Data.Value = sp;
     }
