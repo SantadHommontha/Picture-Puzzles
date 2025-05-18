@@ -547,6 +547,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1554099190}
+        m_TargetAssemblyTypeName: Show_image, Assembly-CSharp
+        m_MethodName: Show_Image
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   gameEvent: {fileID: 11400000, guid: 8b7f3ce1f42a97a44a4947f4e5fa0591, type: 2}
 --- !u!114 &204341044
 MonoBehaviour:
@@ -1318,6 +1330,36 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6690207066080501212, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
   m_PrefabInstance: {fileID: 2220191228432514897}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1554099186 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6519182248380134300, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
+  m_PrefabInstance: {fileID: 2220191228432514897}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1554099188 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2164284457480338164, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
+  m_PrefabInstance: {fileID: 2220191228432514897}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554099186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1554099190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554099186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 834ee03cdcb3d574d9ac62871633ccfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 1554099188}
+  select_image: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}
 --- !u!1 &1605995522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1619,6 +1661,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 348145794}
     m_Modifications:
+    - target: {fileID: 2164284457480338164, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2164284457480338164, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2164284457480338164, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6690207066080501212, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1703,10 +1757,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Over
       objectReference: {fileID: 0}
+    - target: {fileID: 8196687688088551127, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6519182248380134300, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1554099190}
   m_SourcePrefab: {fileID: 100100000, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
 --- !u!1001 &3801587329839392775
 PrefabInstance:
@@ -2081,7 +2142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 954567164093475833, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -1220.9174
       objectReference: {fileID: 0}
     - target: {fileID: 954567164093475833, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2093,15 +2154,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4508456470137156740, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5484913053464256918, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5484913053464256918, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7178039515185075598, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_Colors.m_ColorMultiplier
