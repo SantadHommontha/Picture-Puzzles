@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5551560942792746498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2557722684137663618}
+  - component: {fileID: 4629459063821705806}
+  m_Layer: 0
+  m_Name: GAME MANEGER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2557722684137663618
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5551560942792746498}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 383.6213, y: 1019.1117, z: -6.149585}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4629459063821705806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5551560942792746498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a33bb1088442f4f9fa404ce65dfbbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  game_State: 0
+  select_image: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}
+  select_Group_Value: {fileID: 11400000, guid: 95ee83430922ede4fb977e9989bba949, type: 2}
+  random_btn_value: {fileID: 11400000, guid: a4383e50974c51c4c8bb735ccb828411, type: 2}
+  event_canvas_choose_image: {fileID: 11400000, guid: 0178cbf9cdaee124eb87e0ced49271d3, type: 2}
+  event_canvas_play: {fileID: 11400000, guid: 026e3168543f8c84e98939f3ac76630c, type: 2}
+  event_spawn_dust: {fileID: 11400000, guid: 74a28cbb515a0fe4691362f25c2b51bb, type: 2}
+  event_spawn_image_in_group: {fileID: 11400000, guid: 94d1d2b28761cc644a1351166739c779, type: 2}
+  event_spawn_group: {fileID: 11400000, guid: a89fc47828be96743b229f9bffa32cb5, type: 2}
+  event_random_image: {fileID: 11400000, guid: 4a123e2088a19de4985986f1df38cb60, type: 2}

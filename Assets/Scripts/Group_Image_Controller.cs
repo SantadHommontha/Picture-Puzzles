@@ -24,7 +24,7 @@ public class Group_Image_Controller : MonoBehaviour
     {
        
 
-        Show_Group();
+        
 
     }
 
@@ -40,7 +40,7 @@ public class Group_Image_Controller : MonoBehaviour
     }
 
 
-    private void Delete_All_Content()
+    public void Delete_All_Content()
     {
         foreach (var content in Get_All_Children(score_sontent.transform))
         {

@@ -9,7 +9,7 @@ public class Random_Btn : MonoBehaviour
 
 
     [Space]
-    [SerializeField] private Toggle toggle_btn;
+    
     [SerializeField] private bool start_true = true;
     void Start()
     {
@@ -23,7 +23,7 @@ public class Random_Btn : MonoBehaviour
 
 
 
-    private void On_Toggle_Update(bool _bool)
+    public void On_Toggle_Update(bool _bool)
     {
         random_btn.Value = _bool;
     }
