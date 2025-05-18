@@ -2,7 +2,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
 {
     [SerializeField] private Color[] colors;
     [SerializeField] private Dust_Setting setting;
@@ -93,7 +93,27 @@ public class Dust : MonoBehaviour, IDust, IPointerDownHandler, IPointerUpHandler
         if (isDragging)
         {
 
+
+        }
+        Wipe();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+
+        if (Input.GetMouseButton(0))
+        {
             Wipe();
         }
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+            {
+                Wipe();
+            }
+        }
+
+
     }
 }

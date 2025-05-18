@@ -58,9 +58,9 @@ public class GameManager : MonoBehaviour
 
 
         //  event_spawn_group.Raise(this, -979);
+        Start_State(Game_State.Choose_Image);
 
-
-        StartCoroutine(Cool());
+       // StartCoroutine(Cool());
 
 
 
