@@ -1,7 +1,26 @@
 using UnityEngine;
 
+
+public enum Game_State
+{
+    Main_Menu,
+    Enter_Room,
+    Choose_Image, // MC
+    Wait_For_Play, // Play
+    Play,
+    Game_Over
+}
+
+
 public class GameManager : MonoBehaviour
 {
+
+    [SerializeField] private Game_State game_State;
+
+
+
+
+
     [Header("Value")]
     [SerializeField] private SpriteData_Value select_image;
     [SerializeField] private Select_Group_Value select_Group_Value;
@@ -29,9 +48,9 @@ public class GameManager : MonoBehaviour
 
 
 
-        event_spawn_group.Raise(this,-979);
+        event_spawn_group.Raise(this, -979);
 
-    
+
 
 
 
@@ -51,8 +70,73 @@ public class GameManager : MonoBehaviour
 
 
 
-    void Update()
+    private void Start_State(Game_State _new_State)
     {
 
+        End_State();
+        game_State = _new_State;
+        switch (game_State)
+        {
+            case Game_State.Main_Menu:
+                break;
+            case Game_State.Enter_Room:
+                break;
+            case Game_State.Choose_Image:
+                break;
+            case Game_State.Wait_For_Play:
+                break;
+            case Game_State.Play:
+                break;
+            case Game_State.Game_Over:
+                break;
+
+        }
+    }
+
+
+    private void End_State()
+    {
+        switch (game_State)
+        {
+            case Game_State.Main_Menu:
+                break;
+            case Game_State.Enter_Room:
+                break;
+            case Game_State.Choose_Image:
+                break;
+            case Game_State.Wait_For_Play:
+                break;
+            case Game_State.Play:
+                break;
+            case Game_State.Game_Over:
+                break;
+
+        }
+    }
+
+    public void Update_State()
+
+    {
+        switch (game_State)
+        {
+            case Game_State.Main_Menu:
+                break;
+            case Game_State.Enter_Room:
+                break;
+            case Game_State.Choose_Image:
+                break;
+            case Game_State.Wait_For_Play:
+                break;
+            case Game_State.Play:
+                break;
+            case Game_State.Game_Over:
+                break;
+
+        }
+    }
+
+    void Update()
+    {
+        Update_State();
     }
 }
