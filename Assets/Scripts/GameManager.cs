@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Game_State game_State;
 
-
+    private Timer timer;
 
 
 
@@ -41,11 +41,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameEvent event_canvas_wait_for_play;
     [SerializeField] private GameEvent event_canvas_play;
     [SerializeField] private GameEvent event_canvas_game_over;
+    [SerializeField] private GameEvent event_canvas_show_sclect_Group;
     [Space]
     [SerializeField] private GameEvent event_spawn_dust;
     [SerializeField] private GameEvent event_spawn_image_in_group;
     [SerializeField] private GameEvent event_spawn_group;
     [SerializeField] private GameEvent event_random_image;
+
+
+    void Awake()
+    {
+        timer = GetComponent<Timer>();
+    }
     void Start()
     {
         //event_canvas_choose_image.Raise(this, -979);
@@ -60,7 +67,7 @@ public class GameManager : MonoBehaviour
         //  event_spawn_group.Raise(this, -979);
         Start_State(Game_State.Choose_Image);
 
-       // StartCoroutine(Cool());
+        // StartCoroutine(Cool());
 
 
 
@@ -75,6 +82,7 @@ public class GameManager : MonoBehaviour
             if (random_btn_value.Value)
             {
                 event_random_image.Raise(this, -979);
+                event_canvas_show_sclect_Group.Raise(this, -979);
             }
             else
             {
@@ -86,12 +94,23 @@ public class GameManager : MonoBehaviour
     }
     private void On_Player_Select_Image(SpriteData _value)
     {
-        if (game_State_Value.Value == Game_State.Choose_Image)
-        {
-            event_canvas_play.Raise(this, _value);
-        }
+        // if (game_State_Value.Value == Game_State.Choose_Image)
+        // {
+        //     event_canvas_play.Raise(this, _value);
+        // }
     }
 
+    // Call With UI
+    public void Start_Game()
+
+    {
+        if (select_Group_Value.Value)
+            Start_State(Game_State.Play);
+    }
+    public void Clear_Select_Group()
+    {
+        select_Group_Value.SetValue(null);
+    }
 
 
     public void Start_State(Game_State _new_State)
@@ -117,6 +136,8 @@ public class GameManager : MonoBehaviour
                 break;
             case Game_State.Play:
                 event_canvas_play.Raise(this, -979);
+                Debug.Log("DLDLDL");
+                timer.Start_Time();
                 break;
             case Game_State.Game_Over:
                 event_canvas_game_over.Raise(this, -979);
@@ -146,7 +167,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Update_State()
+    private void Update_State()
 
     {
         switch (game_State)

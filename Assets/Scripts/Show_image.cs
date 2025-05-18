@@ -1,5 +1,6 @@
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class Show_image : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class Show_image : MonoBehaviour
 
     [SerializeField] private Image image;
     [SerializeField] private SpriteData_Value select_image;
-
+    [SerializeField] private TMP_Text name_text;
 
     void Start()
     {
@@ -16,7 +17,7 @@ public class Show_image : MonoBehaviour
 
     private void Show_Image(SpriteData _spriteData)
     {
-
+        if (name_text) name_text.text = _spriteData.name;
         image.sprite = _spriteData.image;
 
     }
@@ -24,8 +25,8 @@ public class Show_image : MonoBehaviour
     // Call With Event
     public void Show_Image()
     {
+        Show_Image(select_image.Value);
 
-        image.sprite = select_image.Value.image;
 
     }
 

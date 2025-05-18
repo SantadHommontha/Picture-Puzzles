@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5f5aac8e3abdeb40aae334bfc4b6df4, type: 3}
-  m_Name: Random_Btn_bool
+  m_Script: {fileID: 11500000, guid: a842e9804cc3e4640bc1c17eebd40054, type: 3}
+  m_Name: Game_Time
   m_EditorClassIdentifier: 
   description: 
-  value: 1
-  initialValue: 1
+  value: 100
+  initialValue: 0
