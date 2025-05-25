@@ -8,18 +8,12 @@ public class Show_image_Game_Over : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private TMP_Text name_text;
     [SerializeField] private TMP_Text text_btn;
-    [SerializeField] private bool start_hide;
+    
     [Header("Value")]
     [SerializeField] private SpriteData_Value select_image;
 
 
-    void Start()
-    {
-        if (start_hide)
-            Hide_Image();
-        else
-            Show_Image();
-    }
+   
     private bool toggle = false;
 
 

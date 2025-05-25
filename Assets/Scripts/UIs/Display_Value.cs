@@ -24,7 +24,7 @@ public class Display_Value : MonoBehaviour
 
 
     private void IntValue(int _int) => Show_UI(_int.ToString());
-    private void FloatValue(float _float) => Show_UI(_float.ToString("F0"));
+    private void FloatValue(float _float) => Show_UI(_float.ToString("F1"));
 
 
 }

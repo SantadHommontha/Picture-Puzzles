@@ -28,7 +28,7 @@ public class Timer : MonoBehaviour
         {
 
             timer.Value -= Time.deltaTime;
-            yield return new WaitForSeconds(Time.deltaTime);
+            yield return null;
         }
 
         yield return null;

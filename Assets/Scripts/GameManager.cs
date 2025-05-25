@@ -16,7 +16,7 @@ public enum Game_State
 
 public class GameManager : MonoBehaviour
 {
-
+    public static GameManager instance;
     [SerializeField] private Game_State game_State;
 
     // private Timer timer;
@@ -53,6 +53,10 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         // timer = GetComponent<Timer>();
+        if (instance != null && instance != this)
+            Destroy(gameObject);
+        else
+            instance = this;
     }
     void Start()
     {
@@ -108,6 +112,16 @@ public class GameManager : MonoBehaviour
         if (select_Group_Value.Value)
             Start_State(Game_State.Play);
     }
+
+     public void Select_Image()
+
+    {
+        if (select_Group_Value.Value)
+            Start_State(Game_State.Wait_For_Play);
+    }
+
+    public void Switch_To_Choose_State() => Start_State(Game_State.Choose_Image);
+
     public void Clear_Select_Group()
     {
         select_Group_Value.SetValue(null);

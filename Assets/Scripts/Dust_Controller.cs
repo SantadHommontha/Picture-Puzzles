@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Dust_Controller : MonoBehaviour
 {
     //   [SerializeField] private RectTransform target_image;
+    public static Dust_Controller instance;
 
     [SerializeField] private Dust_Controller_Setting setting;
     [SerializeField] private SpriteData_Value select_image;
@@ -13,7 +14,7 @@ public class Dust_Controller : MonoBehaviour
     [SerializeField] private RectTransformValue target_image;
 
     private List<Vector2> dust_Positions = new List<Vector2>();
-
+    private List<GameObject> dust_obj = new List<GameObject>();
     void Awake()
     {
 
@@ -29,8 +30,17 @@ public class Dust_Controller : MonoBehaviour
     {
         SpawnDusts();
     }
+    public void Clear_Dust()
+    {
+        foreach (var T in dust_obj)
+        {
+            Destroy(T);
+        }
+    }
     private void SpawnDusts()
     {
+        Clear_Dust();
+        dust_Positions.Clear();
         Rect bg_Rect = target_image.Value.rect;
 
         for (int i = 0; i < setting.number_Of_Dusts; i++)
@@ -41,10 +51,10 @@ public class Dust_Controller : MonoBehaviour
             var dust = Instantiate(setting.dust_prefap, target_image.Value);
             var dust_s = dust.GetComponent<Dust>();
             dust_s.Set_Position(randomPos);
-
+            dust_obj.Add(dust);
             dust_Positions.Add(randomPos);
         }
-        dust_Positions.Clear();
+
     }
     private Vector2 GetValidPosition(Rect bgRect)
     {

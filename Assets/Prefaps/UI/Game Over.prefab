@@ -120,7 +120,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6965650275055738398}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1510237045212275449}
+        m_TargetAssemblyTypeName: Show_image_Game_Over, Assembly-CSharp
+        m_MethodName: Toggle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3139162773052427709
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +265,7 @@ GameObject:
   - component: {fileID: 1829919455816176314}
   - component: {fileID: 679435199344137520}
   - component: {fileID: 8676351168983036126}
-  - component: {fileID: 7543137937838092889}
+  - component: {fileID: 1510237045212275449}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -322,7 +334,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7543137937838092889
+--- !u!114 &1510237045212275449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -331,12 +343,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4845367218491302856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 834ee03cdcb3d574d9ac62871633ccfb, type: 3}
+  m_Script: {fileID: 11500000, guid: 440d1fd42bee24e409dab72aef7186db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 2164284457480338164}
-  select_image: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}
   name_text: {fileID: 1460037698014642296}
+  text_btn: {fileID: 3420318568930252437}
+  start_hide: 0
+  select_image: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}
 --- !u!1 &5248429621929226216
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6690207066080501212
 RectTransform:
   m_ObjectHideFlags: 0
