@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Timer : MonoBehaviour
 {
@@ -8,10 +9,14 @@ public class Timer : MonoBehaviour
 
 
     private Coroutine timer_IE;
+
+    public float GetTimer()
+    {
+        return timer.Value;
+    }
     public void Start_Time()
     {
-        Debug.Log("RIRIRIRIIRIRIIRRIRIR");
-        if(timer_IE != null)
+        if (timer_IE != null)
             StopCoroutine(timer_IE);
         timer_IE = StartCoroutine(IE_Timer(game_time.Value));
     }

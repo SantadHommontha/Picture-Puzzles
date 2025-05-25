@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad19441f8f566bd44b74f4897e3cdb09, type: 3}
   m_Name: Dust_Setting_Dust_Controller_Setting
   m_EditorClassIdentifier: 
-  number_Of_Dusts: 15
-  min_Distance: 280
+  number_Of_Dusts: 100
+  min_Distance: 100
   dust_prefap: {fileID: 879904243090058512, guid: 9737da18be503604ab5dd922348eeb84, type: 3}

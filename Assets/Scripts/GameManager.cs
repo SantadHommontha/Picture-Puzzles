@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Game_State game_State;
 
-    private Timer timer;
+    // private Timer timer;
 
 
 
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [Space]
     [SerializeField] private BoolValue random_btn_value;
     [SerializeField] private Game_State_Value game_State_Value;
+    [SerializeField] private FloatValue timer;
 
 
 
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        timer = GetComponent<Timer>();
+        // timer = GetComponent<Timer>();
     }
     void Start()
     {
@@ -136,8 +137,8 @@ public class GameManager : MonoBehaviour
                 break;
             case Game_State.Play:
                 event_canvas_play.Raise(this, -979);
-                Debug.Log("DLDLDL");
-                timer.Start_Time();
+
+                // timer.Start_Time();
                 break;
             case Game_State.Game_Over:
                 event_canvas_game_over.Raise(this, -979);
@@ -181,6 +182,10 @@ public class GameManager : MonoBehaviour
             case Game_State.Wait_For_Play:
                 break;
             case Game_State.Play:
+                if (timer.Value <= 0)
+                {
+                    Start_State(Game_State.Game_Over);
+                }
                 break;
             case Game_State.Game_Over:
                 break;

@@ -14,6 +14,7 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     private float alpha = 255;
 
     private bool isDragging = false;
+    [SerializeField] private bool usefirstColor = false;
 
 
     void Awake()
@@ -32,7 +33,10 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     }
     public void Random_Color()
     {
-        image.color = colors[UnityEngine.Random.Range(0, colors.Length)];
+        if (usefirstColor)
+            image.color = colors[0];
+        else
+            image.color = colors[UnityEngine.Random.Range(0, colors.Length)];
     }
     public void Random_Rotation()
     {
@@ -92,8 +96,6 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         Debug.Log(name);
         if (isDragging)
         {
-
-
         }
         Wipe();
     }
