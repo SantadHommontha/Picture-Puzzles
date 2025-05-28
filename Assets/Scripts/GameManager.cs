@@ -1,4 +1,5 @@
 using System.Collections;
+using NUnit.Framework.Constraints;
 using Photon.Pun;
 using UnityEngine;
 
@@ -19,10 +20,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     [SerializeField] private Game_State game_State;
+    [SerializeField] private float time_to_update;
     private PhotonView photonView;
     // private Timer timer;
 
-
+    [SerializeField] private GameObject play_canvas_Btn;
+    [SerializeField] private GameObject gameOver_canvas_Btn;
+    [SerializeField] private GameObject waite_text_obj;
+    [SerializeField] private GameObject timer_ui_obj;
+    private Timer timer_script;
 
     [Header("Value")]
     [SerializeField] private SpriteData_Value select_image;
@@ -50,6 +56,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameEvent event_spawn_image_in_group;
     [SerializeField] private GameEvent event_spawn_group;
     [SerializeField] private GameEvent event_random_image;
+    [Space]
+    [SerializeField] private GameEvent event_update_data;
 
     public void SetUp()
     {
@@ -73,7 +81,8 @@ public class GameManager : MonoBehaviour
 
         if (photonView == null)
             photonView = GetComponent<PhotonView>();
-
+        if (!timer_script)
+            timer_script = GetComponent<Timer>();
 
         //  event_spawn_group.Raise(this, -979);
         Start_State(Game_State.Main_Menu);
@@ -83,7 +92,7 @@ public class GameManager : MonoBehaviour
 
 
         game_start.OnValueChange += SendGameStart;
-        timer.OnValueChange += SendGameTime;
+        //  timer.OnValueChange += SendGameTime;
 
     }
 
@@ -151,6 +160,7 @@ public class GameManager : MonoBehaviour
         End_State();
         game_State = _new_State;
         SendGameState();
+        Debug.Log(game_State);
         game_State_Value.Value = game_State;
         switch (game_State)
         {
@@ -162,10 +172,12 @@ public class GameManager : MonoBehaviour
                 event_canvas_enter_room.Raise(this, -979);
                 break;
             case Game_State.Choose_Image:
-                event_canvas_choose_image.Raise(this, -979);
+
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    event_canvas_choose_image.Raise(this, -979);
                     game_start.Value = false;
+                    gameOver_canvas_Btn.SetActive(false);
                 }
 
                 break;
@@ -174,12 +186,33 @@ public class GameManager : MonoBehaviour
                 if (PhotonNetwork.IsMasterClient)
                 {
                     Dust_Controller.Instance.Create();
+                    play_canvas_Btn.SetActive(true);
+                    gameOver_canvas_Btn.SetActive(false);
                 }
-
+                else
+                {
+                    waite_text_obj.SetActive(true);
+                }
+                timer_ui_obj.SetActive(true);
                 break;
             case Game_State.Play:
                 event_canvas_play.Raise(this, -979);
-                game_start.Value = true;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    game_start.Value = true;
+
+                    play_canvas_Btn.SetActive(false);
+                    gameOver_canvas_Btn.SetActive(false);
+                    timer_script.Start_Time();
+                    StartCoroutine(TimeToUpdate());
+                }
+                else
+                {
+                    play_canvas_Btn.SetActive(false);
+                    gameOver_canvas_Btn.SetActive(false);
+                    waite_text_obj.SetActive(false);
+                }
+
                 // timer.Start_Time();
                 break;
             case Game_State.Game_Over:
@@ -188,8 +221,15 @@ public class GameManager : MonoBehaviour
                 if (PhotonNetwork.IsMasterClient)
                 {
                     game_start.Value = false;
+                    play_canvas_Btn.SetActive(false);
+                    gameOver_canvas_Btn.SetActive(true);
                 }
-
+                else
+                {
+                    play_canvas_Btn.SetActive(false);
+                    gameOver_canvas_Btn.SetActive(false);
+                }
+                timer_ui_obj.SetActive(false);
                 break;
 
         }
@@ -253,18 +293,21 @@ public class GameManager : MonoBehaviour
     // Send
     private void SendGameStart(bool _data)
     {
+        if (!PhotonNetwork.IsMasterClient) return;
         photonView.RPC("ReceiveGameStart", RpcTarget.Others, _data);
     }
 
-    private void SendGameTime(float _timer)
+    public void SendGameTime()
     {
-        photonView.RPC("ReceiveGameTime", RpcTarget.Others, _timer);
+        if (!PhotonNetwork.IsMasterClient) return;
+        photonView.RPC("ReceiveGameTime", RpcTarget.Others, timer.Value);
     }
 
     private void SendGameState()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
         photonView.RPC("ReceiveGameState", RpcTarget.Others, game_State);
-        Debug.Log(game_State);
+
     }
 
     // Receive
@@ -279,15 +322,17 @@ public class GameManager : MonoBehaviour
     {
         if (!PhotonNetwork.IsMasterClient) return;
         timer.Value = _timer;
+        timer_script.Start_Time(timer.Value);
     }
     [PunRPC]
     private void ReceiveGameState(int _stateIndex)
     {
-
+        Debug.Log($"S: {_stateIndex}");
         switch (_stateIndex)
         {
             case 0:
                 Start_State(Game_State.None);
+
                 break;
             case 1:
                 Start_State(Game_State.Main_Menu);
@@ -296,7 +341,7 @@ public class GameManager : MonoBehaviour
                 Start_State(Game_State.Enter_Room);
                 break;
             case 3:
-                Start_State(Game_State.Choose_Image);
+                //   Start_State(Game_State.Choose_Image);
                 break;
             case 4:
                 Start_State(Game_State.Wait_For_Play);
@@ -310,8 +355,16 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
-
-
+   
+    private IEnumerator TimeToUpdate()
+    {
+        while (game_start.Value)
+        {
+            yield return new WaitForSeconds(time_to_update);
+            event_update_data.Raise(this, -979);
+            Debug.Log("Update Data");
+        }
+    }
     //Test
     private IEnumerator Cool()
     {

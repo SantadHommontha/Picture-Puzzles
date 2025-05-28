@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a842e9804cc3e4640bc1c17eebd40054, type: 3}
-  m_Name: Game_Time
+  m_Script: {fileID: 11500000, guid: e4b35934d41945748b97261ce0017020, type: 3}
+  m_Name: Event_Update_Game_Data
   m_EditorClassIdentifier: 
   description: 
-  value: 15
-  initialValue: 0
+  listeners: []

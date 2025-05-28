@@ -12,7 +12,8 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
 
     private Color start_color;
     private float alpha = 255;
-
+    public float Get_AlphaCount => 255 - alpha;
+    private float alphaCount = 0;
     private bool isDragging = false;
     [SerializeField] private bool usefirstColor = false;
 
@@ -61,11 +62,25 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     {
         rectTransform.anchoredPosition = _position;
     }
-
+    public void ResetAlphaCount()
+    {
+        alphaCount = 0;
+    }
+    public void SetDustAlpha(float _data)
+    {
+        alpha -= _data;
+        DecressDust();
+    }
     public void Wipe()
     {
-        alpha -= setting.wipe_speed * Time.deltaTime;
+        var t = setting.wipe_speed * Time.deltaTime;
+        alphaCount += t;
+        alpha -= t;
+        DecressDust();
 
+    }
+    private void DecressDust()
+    {
         image.color = new Color(image.color.r, image.color.g, image.color.b, UnityEngine.Mathf.Clamp01((alpha / 255)));
         if (alpha <= 10)
         {
@@ -104,7 +119,7 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         Debug.Log(name);
         if (isDragging)
         {
-            
+
         }
         Wipe();
     }
