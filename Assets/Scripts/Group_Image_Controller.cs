@@ -1,12 +1,13 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
+
+using Photon.Pun;
 using UnityEngine;
 
 //[CreateAssetMenu(fileName = "Group_Image_Controller", menuName = "Scriptable Objects/Group_Image_Controller")]
 public class Group_Image_Controller : MonoBehaviour
 {
-
-
+    public static Group_Image_Controller Instance;
+    private PhotonView photonView;
     [SerializeField] private Group_Image[] group_Images;
 
     [Header("Setting")]
@@ -20,14 +21,37 @@ public class Group_Image_Controller : MonoBehaviour
     [SerializeField] private BoolValue back_btn;
     [SerializeField] private SpriteData_Value sprite_Data;
 
-    void Start()
+    private Dictionary<string, SpriteData> allSpriteData = new Dictionary<string, SpriteData>();
+    
+
+    void Awake()
     {
-       
-
-        
-
+        if (Instance != null && Instance != this)
+            Destroy(this.gameObject);
+        else
+            Instance = this;
     }
 
+    void Start()
+    {
+        if (photonView == null)
+            photonView = GetComponent<PhotonView>();
+
+        LoadAllSpriteToDictionary();
+
+    }
+    private void LoadAllSpriteToDictionary()
+    {
+        allSpriteData.Clear();
+        foreach (var gi in group_Images)
+        {
+            foreach (var sd in gi.sprite_datas)
+            {
+                
+                allSpriteData.Add(sd.name, sd);
+            }
+        }
+    }
 
     private List<Transform> Get_All_Children(Transform _parent)
     {
@@ -79,18 +103,18 @@ public class Group_Image_Controller : MonoBehaviour
     // Call With Event
     public void Random_Image()
     {
-      
-        var sp =   select_Group_Value.Value.sprite_datas[UnityEngine.Random.Range(0,   select_Group_Value.Value.sprite_datas.Count)];
+
+        var sp = select_Group_Value.Value.sprite_datas[UnityEngine.Random.Range(0, select_Group_Value.Value.sprite_datas.Count)];
 
         sprite_Data.Value = sp;
     }
 
-    public void Show_Image_In_Group(Component _senser,object _data)
+    public void Show_Image_In_Group(Component _senser, object _data)
     {
         if (_data is Group_Image)
         {
             Delete_All_Content();
-            var sp =  _data as Group_Image;
+            var sp = _data as Group_Image;
             foreach (var g in sp.sprite_datas)
             {
                 Create_Image(g);
@@ -101,6 +125,14 @@ public class Group_Image_Controller : MonoBehaviour
 
 
     }
+    public void SendImageNameScele()
+    {
+        photonView.RPC("ReviceImageNameScele", RpcTarget.Others, sprite_Data.Value.name);
+    }
 
-
+    [PunRPC]
+    private void ReviceImageNameScele(string _imageName)
+    {
+        sprite_Data.Value = allSpriteData[_imageName];
+    }
 }

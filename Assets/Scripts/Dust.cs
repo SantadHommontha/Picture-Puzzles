@@ -16,6 +16,8 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     private bool isDragging = false;
     [SerializeField] private bool usefirstColor = false;
 
+    [Header("Value")]
+    [SerializeField] private BoolValue game_start;
 
     void Awake()
     {
@@ -38,12 +40,17 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         else
             image.color = colors[UnityEngine.Random.Range(0, colors.Length)];
     }
-    public void Random_Rotation()
+    public Vector3 Random_Rotation()
     {
         var rt = new Vector3(0, 0, UnityEngine.Random.Range(0, 360));
-        rectTransform.rotation = Quaternion.Euler(rt);
+        Set_Rotation(rt);
+        return rt;
     }
 
+    public void Set_Rotation(Vector3 _rotate)
+    {
+        rectTransform.rotation = Quaternion.Euler(_rotate);
+    }
     public void Set_Position(float _x, float _y)
     {
         Set_Position(new Vector2(_x, _y));
@@ -74,10 +81,10 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         Random_Rotation();
     }
 
-    void Start()
-    {
-        SetUp();
-    }
+    // void Start()
+    // {
+    //     SetUp();
+    // }
 
 
 
@@ -93,16 +100,18 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!game_start.Value) return;
         Debug.Log(name);
         if (isDragging)
         {
+            
         }
         Wipe();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-
+        if (!game_start.Value) return;
         if (Input.GetMouseButton(0))
         {
             Wipe();

@@ -1,4 +1,5 @@
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
 
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     [SerializeField] private Game_State game_State;
-
+    private PhotonView photonView;
     // private Timer timer;
 
 
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BoolValue random_btn_value;
     [SerializeField] private Game_State_Value game_State_Value;
     [SerializeField] private FloatValue timer;
+    [SerializeField] private BoolValue game_start;
 
 
 
@@ -49,7 +51,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameEvent event_spawn_group;
     [SerializeField] private GameEvent event_random_image;
 
-
+    public void SetUp()
+    {
+        timer.Value = 0;
+    }
     void Awake()
     {
         // timer = GetComponent<Timer>();
@@ -66,17 +71,19 @@ public class GameManager : MonoBehaviour
         select_image.OnValueChange += On_Player_Select_Image;
         select_Group_Value.OnValueChange += On_Player_Select_Group_Image;
 
-
+        if (photonView == null)
+            photonView = GetComponent<PhotonView>();
 
 
         //  event_spawn_group.Raise(this, -979);
-        Start_State(Game_State.Choose_Image);
+        Start_State(Game_State.Main_Menu);
 
         // StartCoroutine(Cool());
 
 
 
-
+        game_start.OnValueChange += SendGameStart;
+        timer.OnValueChange += SendGameTime;
 
     }
 
@@ -104,20 +111,30 @@ public class GameManager : MonoBehaviour
         //     event_canvas_play.Raise(this, _value);
         // }
     }
-
+    public void AfterJoinRoom()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            Start_State(Game_State.Choose_Image);
+        else
+            Start_State(Game_State.Wait_For_Play);
+    }
     // Call With UI
     public void Start_Game()
 
     {
         if (select_Group_Value.Value)
+
             Start_State(Game_State.Play);
     }
 
-     public void Select_Image()
+    public void Select_Image()
 
     {
         if (select_Group_Value.Value)
+        {
             Start_State(Game_State.Wait_For_Play);
+            Group_Image_Controller.Instance.SendImageNameScele();
+        }
     }
 
     public void Switch_To_Choose_State() => Start_State(Game_State.Choose_Image);
@@ -133,6 +150,7 @@ public class GameManager : MonoBehaviour
 
         End_State();
         game_State = _new_State;
+        SendGameState();
         game_State_Value.Value = game_State;
         switch (game_State)
         {
@@ -145,17 +163,33 @@ public class GameManager : MonoBehaviour
                 break;
             case Game_State.Choose_Image:
                 event_canvas_choose_image.Raise(this, -979);
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    game_start.Value = false;
+                }
+
                 break;
             case Game_State.Wait_For_Play:
                 event_canvas_wait_for_play.Raise(this, -979);
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    Dust_Controller.Instance.Create();
+                }
+
                 break;
             case Game_State.Play:
                 event_canvas_play.Raise(this, -979);
-
+                game_start.Value = true;
                 // timer.Start_Time();
                 break;
             case Game_State.Game_Over:
+
                 event_canvas_game_over.Raise(this, -979);
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    game_start.Value = false;
+                }
+
                 break;
 
         }
@@ -185,6 +219,8 @@ public class GameManager : MonoBehaviour
     private void Update_State()
 
     {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
         switch (game_State)
         {
             case Game_State.Main_Menu:
@@ -196,6 +232,7 @@ public class GameManager : MonoBehaviour
             case Game_State.Wait_For_Play:
                 break;
             case Game_State.Play:
+
                 if (timer.Value <= 0)
                 {
                     Start_State(Game_State.Game_Over);
@@ -212,6 +249,70 @@ public class GameManager : MonoBehaviour
         Update_State();
     }
 
+    #region Send Value To Other
+    // Send
+    private void SendGameStart(bool _data)
+    {
+        photonView.RPC("ReceiveGameStart", RpcTarget.Others, _data);
+    }
+
+    private void SendGameTime(float _timer)
+    {
+        photonView.RPC("ReceiveGameTime", RpcTarget.Others, _timer);
+    }
+
+    private void SendGameState()
+    {
+        photonView.RPC("ReceiveGameState", RpcTarget.Others, game_State);
+        Debug.Log(game_State);
+    }
+
+    // Receive
+    [PunRPC]
+    private void ReceiveGameStart(bool _gameStart)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        game_start.Value = _gameStart;
+    }
+    [PunRPC]
+    private void ReceiveGameTime(float _timer)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        timer.Value = _timer;
+    }
+    [PunRPC]
+    private void ReceiveGameState(int _stateIndex)
+    {
+
+        switch (_stateIndex)
+        {
+            case 0:
+                Start_State(Game_State.None);
+                break;
+            case 1:
+                Start_State(Game_State.Main_Menu);
+                break;
+            case 2:
+                Start_State(Game_State.Enter_Room);
+                break;
+            case 3:
+                Start_State(Game_State.Choose_Image);
+                break;
+            case 4:
+                Start_State(Game_State.Wait_For_Play);
+                break;
+            case 5:
+                Start_State(Game_State.Play);
+                break;
+            case 6:
+                Start_State(Game_State.Game_Over);
+                break;
+        }
+    }
+    #endregion
+
+
+    //Test
     private IEnumerator Cool()
     {
         Start_State(Game_State.Main_Menu);

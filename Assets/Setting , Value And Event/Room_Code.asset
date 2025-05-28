@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a842e9804cc3e4640bc1c17eebd40054, type: 3}
-  m_Name: Game_Time
+  m_Script: {fileID: 11500000, guid: 24926c7a90c3b1246b2a58e43893b439, type: 3}
+  m_Name: Room_Code
   m_EditorClassIdentifier: 
   description: 
-  value: 20
-  initialValue: 0
+  value: 
+  initialValue: 
