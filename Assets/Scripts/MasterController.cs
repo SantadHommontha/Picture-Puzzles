@@ -38,6 +38,7 @@ public class MasterController : MonoBehaviour
     void Start()
     {
         gameTime_input.text = gameTime_value.Value.ToString();
+        gameTime_input.onValueChanged.AddListener(SetGameTime);
     }
     void FixedUpdate()
     {
@@ -62,7 +63,7 @@ public class MasterController : MonoBehaviour
 
     #region Set Time
 
-    public void SetGameTime()
+    public void SetGameTime(string _text)
     {
         if (IsAllDigits(gameTime_input.text))
             gameTime_value.Value = int.Parse(gameTime_input.text);

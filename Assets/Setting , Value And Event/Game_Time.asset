@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Game_Time
   m_EditorClassIdentifier: 
   description: 
-  value: 15
+  value: 1000
   initialValue: 0

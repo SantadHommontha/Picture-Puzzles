@@ -52,7 +52,10 @@ public class Dust_Controller : MonoBehaviour
             photonView = GetComponent<PhotonView>();
         // select_image.OnValueChange += Create;
     }
-
+    public void RemoveDust(Dust dust)
+    {
+        dust_obj.Remove(dust);
+    }
     // Event Call
     public void Create()
     {
@@ -155,33 +158,104 @@ public class Dust_Controller : MonoBehaviour
         return false;
     }
 
+    public void RequitDustAlpha()
+    {
+        //  if (!PhotonNetwork.IsMasterClient) return;
 
+        Debug.Log("RequitDustAlpha");
+        photonView.RPC("SendDustAlpha", RpcTarget.Others);
+    }
+    DustAlphaWrapper dustAlphaWrapper = new DustAlphaWrapper();
+    private byte[] SerializeDustAlphaWrapper(DustAlphaWrapper _dustAlphaWrapper)
+    {
+        string jsonData = JsonUtility.ToJson(dustAlphaWrapper);
+        return System.Text.Encoding.UTF8.GetBytes(jsonData);
+    }
 
     public void SendDustAlpha()
     {
-        DustAlphaWrapper dustAlphaWrapper = new DustAlphaWrapper();
+
+
+        Debug.Log("SendDustAlpha");
+
+        dustAlphaWrapper.dust_alpha.Clear();
 
         foreach (var dust in dust_obj)
         {
+
             dustAlphaWrapper.dust_alpha.Add(dust.Get_AlphaCount);
-            Debug.Log(dust.Get_AlphaCount);
-            dust.ResetAlphaCount();
+
+
+
         }
 
-        string jsonData = JsonUtility.ToJson(dustAlphaWrapper);
-        photonView.RPC("ReceiveDustAlpha", RpcTarget.Others, jsonData);
+
+        photonView.RPC("ReceiveDustAlpha", RpcTarget.MasterClient, SerializeDustAlphaWrapper(dustAlphaWrapper));
     }
 
     [PunRPC]
-    private void ReceiveDustAlpha(string _jsonData)
+    private void ReceiveDustAlpha(byte[] _byteData, PhotonMessageInfo info)
+    {
+        //   if (!PhotonNetwork.IsMasterClient) return;
+        Debug.Log("ReceiveDustAlpha");
+
+        // DustAlphaWrapper dustAlphaWrapper = JsonUtility.FromJson<DustAlphaWrapper>(_jsonData);
+
+        // for (int i = 0; i < dustAlphaWrapper.dust_alpha.Count; i++)
+        // {
+        //     if (!dust_obj[i].is_dead)
+        //     {
+        //         dust_obj[i].SetDustAlpha(dustAlphaWrapper.dust_alpha[i]);
+        //         Debug.Log(dustAlphaWrapper.dust_alpha[i]);
+
+        //     }
+        // }
+
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.ActorNumber != info.Sender.ActorNumber)
+            {
+                photonView.RPC("UpdateDushAlpha", player, _byteData);
+            }
+        }
+
+
+        GGG(_byteData);
+    }
+
+    private void GGG(byte[] _byteData)
     {
 
-        DustAlphaWrapper dustAlphaWrapper = JsonUtility.FromJson<DustAlphaWrapper>(_jsonData);
+        Debug.Log("GGG");
 
+        dustAlphaWrapper.dust_alpha.Clear();
+        string json = System.Text.Encoding.UTF8.GetString(_byteData);
+        dustAlphaWrapper = JsonUtility.FromJson<DustAlphaWrapper>(json);
         for (int i = 0; i < dustAlphaWrapper.dust_alpha.Count; i++)
         {
-            dust_obj[i].SetDustAlpha(dustAlphaWrapper.dust_alpha[i]);
-            Debug.Log(dustAlphaWrapper.dust_alpha[i]);
+            if (!dust_obj[i].is_dead)
+            {
+                Debug.Log("---: " + dustAlphaWrapper.dust_alpha[i]);
+                dust_obj[i].SetDustAlpha(dustAlphaWrapper.dust_alpha[i]);
+                Debug.Log(dustAlphaWrapper.dust_alpha[i]);
+
+            }
+        }
+    }
+    [PunRPC]
+    private void UpdateDushAlpha(byte[] _byteData)
+    {
+        string _jsonData = System.Text.Encoding.UTF8.GetString(_byteData);
+        DustAlphaWrapper dustAlphaWrapper = JsonUtility.FromJson<DustAlphaWrapper>(_jsonData);
+        Debug.Log("UpdateDushAlpha");
+        for (int i = 0; i < dustAlphaWrapper.dust_alpha.Count; i++)
+        {
+            if (!dust_obj[i].is_dead)
+            {
+                dust_obj[i].SetDustAlpha(dustAlphaWrapper.dust_alpha[i]);
+                Debug.Log(dustAlphaWrapper.dust_alpha[i]);
+
+            }
         }
     }
 }

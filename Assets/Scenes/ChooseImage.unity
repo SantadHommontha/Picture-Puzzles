@@ -474,7 +474,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1495454912}
         m_TargetAssemblyTypeName: Dust_Controller, Assembly-CSharp
-        m_MethodName: SendDustAlpha
+        m_MethodName: RequitDustAlpha
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1777,7 +1777,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 433594169}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73465afaa07425e42942f7356509c031, type: 3}
   m_Name: 
@@ -2777,7 +2777,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 44.84967}
+  m_AnchoredPosition: {x: 0, y: 44.84961}
   m_SizeDelta: {x: 1080, y: 89.69934}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1304142330 stripped
@@ -4632,7 +4632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8196687688088551127, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8676351168983036126, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
       propertyPath: m_Enabled
@@ -4710,7 +4710,7 @@ PrefabInstance:
       objectReference: {fileID: 1511350356}
     - target: {fileID: 4629459063821705806, guid: dd7689940b6a1a147aa0d00874906a51, type: 3}
       propertyPath: time_to_update
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4629459063821705806, guid: dd7689940b6a1a147aa0d00874906a51, type: 3}
       propertyPath: waite_text_obj
@@ -4724,6 +4724,10 @@ PrefabInstance:
       propertyPath: game_State_Value
       value: 
       objectReference: {fileID: 11400000, guid: 79169be9fde364d49b3334fceabf5974, type: 2}
+    - target: {fileID: 4629459063821705806, guid: dd7689940b6a1a147aa0d00874906a51, type: 3}
+      propertyPath: game_timer_value
+      value: 
+      objectReference: {fileID: 11400000, guid: 70414fa64b49178479a540a61f9ce10c, type: 2}
     - target: {fileID: 4629459063821705806, guid: dd7689940b6a1a147aa0d00874906a51, type: 3}
       propertyPath: event_update_data
       value: 

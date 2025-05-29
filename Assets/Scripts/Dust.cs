@@ -12,13 +12,23 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
 
     private Color start_color;
     private float alpha = 255;
-    public float Get_AlphaCount => 255 - alpha;
+    public float Get_AlphaCount
+    {
+        get
+        {
+            float n = alphaCount;
+            alphaCount = 0;
+            return n;
+        }
+    }
     private float alphaCount = 0;
     private bool isDragging = false;
     [SerializeField] private bool usefirstColor = false;
 
     [Header("Value")]
     [SerializeField] private BoolValue game_start;
+    public Dust_Controller dust_Controller;
+    public bool is_dead = false;
 
     void Awake()
     {
@@ -65,10 +75,12 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     public void ResetAlphaCount()
     {
         alphaCount = 0;
+        Debug.Log("ResetAlphaCount: " + alphaCount);
     }
     public void SetDustAlpha(float _data)
     {
         alpha -= _data;
+        Debug.Log("SetDustAlpha: " + alphaCount);
         DecressDust();
     }
     public void Wipe()
@@ -84,7 +96,12 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         image.color = new Color(image.color.r, image.color.g, image.color.b, UnityEngine.Mathf.Clamp01((alpha / 255)));
         if (alpha <= 10)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
+            is_dead = true;
+            image.raycastTarget = false;
+            gameObject.SetActive(false);
+
         }
     }
 
