@@ -10,6 +10,7 @@ public enum Game_State
     None,
     Main_Menu,
     Enter_Room,
+    Enter_Name,
     Choose_Image, // MC
     Wait_For_Play, // Play
     Play,
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
     [Header("Event")]
     [SerializeField] private GameEvent event_canvas_main_menu;
     [SerializeField] private GameEvent event_canvas_enter_room;
+    [SerializeField] private GameEvent event_canvas_ener_name;
     [SerializeField] private GameEvent event_canvas_choose_image;
     [SerializeField] private GameEvent event_canvas_wait_for_play;
     [SerializeField] private GameEvent event_canvas_play;
@@ -173,6 +175,9 @@ public class GameManager : MonoBehaviour
             case Game_State.Enter_Room:
                 event_canvas_enter_room.Raise(this, -979);
                 break;
+            case Game_State.Enter_Name:
+                event_canvas_ener_name.Raise(this, -979);
+                break;
             case Game_State.Choose_Image:
 
                 if (PhotonNetwork.IsMasterClient)
@@ -251,6 +256,9 @@ public class GameManager : MonoBehaviour
                 break;
             case Game_State.Enter_Room:
                 break;
+            case Game_State.Enter_Name:
+
+                break;
             case Game_State.Choose_Image:
                 break;
             case Game_State.Wait_For_Play:
@@ -273,6 +281,9 @@ public class GameManager : MonoBehaviour
             case Game_State.Main_Menu:
                 break;
             case Game_State.Enter_Room:
+                break;
+            case Game_State.Enter_Name:
+
                 break;
             case Game_State.Choose_Image:
                 break;
