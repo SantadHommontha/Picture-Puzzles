@@ -52,7 +52,7 @@ public class Team
         if (playerdata.ContainsKey(_playerID))
         {
             var p = playerdata[_playerID];
-            Debug.Log($"Remove {p.playerName} Form {p.teamName} Team");
+            Debug.Log($"Remove {p.playerName}");
             playerdata.Remove(_playerID);
             OnPlayerTeamChange?.Invoke();
         }

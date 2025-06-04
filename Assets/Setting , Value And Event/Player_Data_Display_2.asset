@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24926c7a90c3b1246b2a58e43893b439, type: 3}
-  m_Name: Player_Name
+  m_Script: {fileID: 11500000, guid: 8e39eeb348d50b6469ec4c51d5cf8444, type: 3}
+  m_Name: Player_Data_Display_2
   m_EditorClassIdentifier: 
-  description: PLayer(My) Name
-  value: 
-  initialValue: 
+  description: 
+  value:
+    playerID: 
+    teamName: 
+    playerName: 
+    code: 

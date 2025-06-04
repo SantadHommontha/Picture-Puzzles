@@ -20,7 +20,7 @@ public  class ScriptableValue<T> : ScriptableValueBase
         }
     }
 
-    public void SetValue(T _value)
+    public virtual void SetValue(T _value)
     {
         value = _value;
     }

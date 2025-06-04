@@ -8,6 +8,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager Instance;
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
+    public List<RoomInfo> GGGG = new List<RoomInfo>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public Image load_fild;
 
@@ -55,7 +56,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
         GameManager.instance.AfterJoinRoom();
-         Debug.Log("Join a Room");
+        Debug.Log("Join a Room");
 
     }
     public void JoinRoom(string _roomName)
@@ -64,7 +65,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     public void CreateRoom(string _roomName)
     {
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 4;
         PhotonNetwork.CreateRoom(_roomName);
+    }
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        GameManager.instance.Start_State(Game_State.Main_Menu);
     }
     public bool RoomHasCreate(string _roomName)
     {
@@ -82,18 +90,30 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         // อัปเดตลิสต์ห้อง
+          Debug.Log(" Room Name");
         foreach (RoomInfo room in roomList)
         {
+              Debug.Log(" Room Name --" + room.Name);
             if (room.RemovedFromList)
             {
                 cachedRoomList.Remove(room.Name);
+                Debug.Log("Remove Room Name");
             }
             else
             {
                 cachedRoomList[room.Name] = room;
+                Debug.Log("Add Room Name");
             }
         }
 
+    }
+    [ContextMenu("Showe")]
+    public void Show()
+    {
+        foreach (var T in cachedRoomList)
+        {
+            Debug.Log($"FF: " + T.Value.Name);
+        }
     }
 
 

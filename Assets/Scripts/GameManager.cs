@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
         if (PhotonNetwork.IsMasterClient)
             Start_State(Game_State.Choose_Image);
         else
-            Start_State(Game_State.Wait_For_Play);
+            Start_State(Game_State.Enter_Name);
     }
     // Call With UI
     public void Start_Game()
