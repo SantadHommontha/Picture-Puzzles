@@ -77,6 +77,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public bool RoomHasCreate(string _roomName)
     {
         // เช็คว่ามีห้องที่ต้องการอยู่หรือไม่
+        Debug.Log("RoomManger: " + _roomName);
         if (cachedRoomList.ContainsKey(_roomName))
         {
             return true;
@@ -90,10 +91,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         // อัปเดตลิสต์ห้อง
-          Debug.Log(" Room Name");
+        Debug.Log(" Room Name");
         foreach (RoomInfo room in roomList)
         {
-              Debug.Log(" Room Name --" + room.Name);
+            Debug.Log(" Room Name --" + room.Name);
             if (room.RemovedFromList)
             {
                 cachedRoomList.Remove(room.Name);

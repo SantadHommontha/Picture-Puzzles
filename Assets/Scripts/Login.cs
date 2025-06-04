@@ -1,6 +1,7 @@
 using NUnit.Framework.Constraints;
 using Photon.Realtime;
 using TMPro;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class Login : MonoBehaviour
@@ -23,9 +24,12 @@ public class Login : MonoBehaviour
     public void Enter_Btn()
     {
         string _input = input.text.ToLower();
+        Debug.Log("Login: " + _input);
         if (_input == admin_name.ToLower())
         {
-            RoomManager.Instance.CreateRoom(MasterController.Instance.RandomRoomCode());
+            var rc = MasterController.Instance.RandomRoomCode();
+            Debug.Log("RC: " + rc);
+            RoomManager.Instance.CreateRoom(rc);
             massage.text = "Create Room";
             iamAdmin = true;
         }
