@@ -1,10 +1,9 @@
 using UnityEngine;
 using Photon.Pun;
-using ExitGames.Client.Photon;
 using System.Collections.Generic;
 using Photon.Realtime;
 using UnityEngine.UI;
-public class RoomManager : MonoBehaviourPunCallbacks
+public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
 {
     public static RoomManager Instance;
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
@@ -31,6 +30,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void ConnectToServer()
     {
         Debug.Log("Try Connect To Server");
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.EnableCloseConnection = false;
+        PhotonNetwork.NetworkingClient.LoadBalancingPeer.SerializationProtocolType = ExitGames.Client.Photon.SerializationProtocol.GpBinaryV16;
+        PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
         PhotonNetwork.ConnectUsingSettings();
         load_fild.fillAmount = 0;
     }
@@ -61,13 +64,22 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     public void JoinRoom(string _roomName)
     {
-        PhotonNetwork.JoinRoom(_roomName);
+        Debug.Log("JoinRoom: " + _roomName);
+        PhotonNetwork.JoinRoom(_roomName.ToLower());
     }
     public void CreateRoom(string _roomName)
     {
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 4;
-        PhotonNetwork.CreateRoom(_roomName);
+        // RoomOptions roomOptions = new RoomOptions();
+        // roomOptions.MaxPlayers = 4;
+        // roomOptions.IsVisible = true;
+        // roomOptions.IsOpen = true;
+        // PhotonNetwork.JoinOrCreateRoom(_roomName, roomOptions, null);
+       
+        RoomOptions options = new RoomOptions();
+        options.IsVisible = true;
+        options.IsOpen = true;
+        options.MaxPlayers = 4;
+        PhotonNetwork.CreateRoom(_roomName.ToLower(), options);
     }
     public void LeaveRoom()
     {
@@ -92,20 +104,27 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         // อัปเดตลิสต์ห้อง
         Debug.Log(" Room Name");
-        foreach (RoomInfo room in roomList)
+
+        for (int i = 0; i < roomList.Count; i++)
         {
-            Debug.Log(" Room Name --" + room.Name);
-            if (room.RemovedFromList)
-            {
-                cachedRoomList.Remove(room.Name);
-                Debug.Log("Remove Room Name");
-            }
-            else
-            {
-                cachedRoomList[room.Name] = room;
-                Debug.Log("Add Room Name");
-            }
+            Debug.Log(roomList[i].Name);
         }
+
+
+        // foreach (RoomInfo room in roomList)
+        // {
+        //     Debug.Log(" Room Name --" + room.Name);
+        //     if (room.RemovedFromList)
+        //     {
+        //         cachedRoomList.Remove(room.Name);
+        //         Debug.Log("Remove Room Name");
+        //     }
+        //     else
+        //     {
+        //         cachedRoomList[room.Name] = room;
+        //         Debug.Log("Add Room Name");
+        //     }
+        // }
 
     }
     [ContextMenu("Showe")]

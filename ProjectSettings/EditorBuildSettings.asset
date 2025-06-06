@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ChooseImage.unity
     guid: 81dcce62ce107e8429e9e6bba94931a5
+  - enabled: 0
+    path: Assets/Scenes/HHH.unity
+    guid: 16b6c8d87a3c7b24b9e00d4fb413c69c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

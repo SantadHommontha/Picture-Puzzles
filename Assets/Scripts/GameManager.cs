@@ -1,5 +1,5 @@
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 
 using UnityEngine;
@@ -63,6 +63,10 @@ public class GameManager : MonoBehaviour
     [Space]
     [SerializeField] private GameEvent event_update_data;
 
+
+    [Space]
+    [SerializeField] private string sceneName;
+
     public void SetUp()
     {
         timer.Value = 0;
@@ -89,14 +93,35 @@ public class GameManager : MonoBehaviour
             timer_script = GetComponent<Timer>();
 
         //  event_spawn_group.Raise(this, -979);
-        Start_State(Game_State.Main_Menu);
+
 
         // StartCoroutine(Cool());
+        //  StartCoroutine(LoadSceneAsync(sceneName));
 
-
-
+        Start_State(Game_State.Main_Menu);
         //game_start.OnValueChange += SendGameStart;
         //  timer.OnValueChange += SendGameTime;
+
+    }
+
+    IEnumerator LoadSceneAsync(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        while (!asyncLoad.isDone)
+        {
+            Debug.Log($"Loading Progress: {asyncLoad.progress}");
+
+            // เมื่อ asyncLoad.progress >= 0.9 หมายถึงโหลดเสร็จแล้ว รอการ activate
+            if (asyncLoad.progress >= 0.9f)
+            {
+                Debug.Log("Almost done loading...");
+            }
+
+            yield return null;
+        }
+
+        Debug.Log("Scene Loaded Completely");
 
     }
 
@@ -164,13 +189,14 @@ public class GameManager : MonoBehaviour
         End_State();
         game_State = _new_State;
 
-        Debug.Log(game_State);
+        Debug.Log($"Game State:" + game_State);
         game_State_Value.Value = game_State;
         switch (game_State)
         {
             case Game_State.Main_Menu:
 
                 event_canvas_main_menu.Raise(this, -979);
+                RoomManager.Instance.ConnectToServer();
                 break;
             case Game_State.Enter_Room:
                 event_canvas_enter_room.Raise(this, -979);

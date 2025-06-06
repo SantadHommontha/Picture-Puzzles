@@ -35,15 +35,24 @@ public class Login : MonoBehaviour
         }
         else
         {
-            if (RoomManager.Instance.RoomHasCreate(_input))
+            try
             {
+                massage.text = "Join Room";
                 RoomManager.Instance.JoinRoom(_input);
-                massage.text = "Have Room";
             }
-            else
+            catch
             {
                 massage.text = "No Room";
             }
+            // if (RoomManager.Instance.RoomHasCreate(_input))
+            // {
+
+            //     massage.text = "Have Room";
+            // }
+            // else
+            // {
+            //     massage.text = "No Room";
+            // }
         }
     }
 }

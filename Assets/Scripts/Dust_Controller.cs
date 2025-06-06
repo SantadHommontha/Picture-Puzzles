@@ -2,18 +2,22 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Photon.Pun;
-using Unity.VisualScripting;
 
 
+[System.Serializable]
 public class DustAlphaWrapper
 {
     public List<float> dust_alpha = new List<float>();
+    public List<string> dust_name = new List<string>();
+    public string send_playerID;
+    public Dictionary<string, float> alpha = new Dictionary<string, float>();
 }
 [System.Serializable]
 public class DustDataWrapper
 {
     public List<Vector2> dust_Positions = new List<Vector2>();
     public List<Vector3> dust_Rotation = new List<Vector3>();
+    public List<string> dust_DustName = new List<string>();
 }
 public class Dust_Controller : MonoBehaviour
 {
@@ -27,8 +31,9 @@ public class Dust_Controller : MonoBehaviour
 
     private List<Vector2> dust_Positions = new List<Vector2>();
     private List<Vector3> dust_Rotation = new List<Vector3>();
-    private List<Dust> dust_obj = new List<Dust>();
-
+    public List<string> dust_Name = new List<string>();
+   private List<Dust> dust_obj = new List<Dust>();
+   // private Dictionary<string, Dust> dust_obj = new Dictionary<string, Dust>();
 
     private PhotonView photonView;
 
@@ -76,6 +81,7 @@ public class Dust_Controller : MonoBehaviour
         Clear_Dust();
         dust_Positions.Clear();
         dust_Rotation.Clear();
+        dust_Name.Clear();
         Rect bg_Rect = target_image.Value.rect;
 
         for (int i = 0; i < setting.number_Of_Dusts; i++)
@@ -86,19 +92,22 @@ public class Dust_Controller : MonoBehaviour
             var dust = Instantiate(setting.dust_prefap, target_image.Value);
             var dust_s = dust.GetComponent<Dust>();
             dust_s.Set_Position(randomPos);
+            dust_s.Random_NameID();
             var rotate = dust_s.Random_Rotation();
             dust_obj.Add(dust_s);
             dust_Positions.Add(randomPos);
             dust_Rotation.Add(rotate);
+
         }
         DustDataWrapper dustDataWrapper = new DustDataWrapper();
         dustDataWrapper.dust_Positions = dust_Positions;
         dustDataWrapper.dust_Rotation = dust_Rotation;
+        dustDataWrapper.dust_DustName = dust_Name;
         string dustDataJson = JsonUtility.ToJson(dustDataWrapper);
         photonView.RPC("SpawnDustOther", RpcTarget.Others, dustDataJson);
     }
 
-    private void SpawnDusts_FormData(Vector2[] _dustPosition, Vector3[] _dustRotation)
+    private void SpawnDusts_FormData(Vector2[] _dustPosition, Vector3[] _dustRotation, string[] _dustName)
 
     {
         Clear_Dust();
@@ -111,6 +120,7 @@ public class Dust_Controller : MonoBehaviour
             var dust_s = dust.GetComponent<Dust>();
             dust_s.Set_Position(_dustPosition[i]);
             dust_s.Set_Rotation(_dustRotation[i]);
+            dust_s.Set_Name(_dustName[i]);
             dust_obj.Add(dust_s);
 
         }
@@ -121,7 +131,7 @@ public class Dust_Controller : MonoBehaviour
         DustDataWrapper dustDataWrapper = JsonUtility.FromJson<DustDataWrapper>(_jsonData);
         dust_Positions = dustDataWrapper.dust_Positions;
         dust_Rotation = dustDataWrapper.dust_Rotation;
-        SpawnDusts_FormData(dust_Positions.ToArray(), dust_Rotation.ToArray());
+        SpawnDusts_FormData(dust_Positions.ToArray(), dust_Rotation.ToArray(), dust_Name.ToArray());
 
     }
     private Vector2 GetValidPosition(Rect bgRect)
@@ -182,10 +192,13 @@ public class Dust_Controller : MonoBehaviour
 
         foreach (var dust in dust_obj)
         {
+            if (dust.Get_AlphaCount > 0)
+            {
 
-            dustAlphaWrapper.dust_alpha.Add(dust.Get_AlphaCount);
-
-
+                dustAlphaWrapper.alpha.Add(dust.dustName, dust.Get_AlphaCount);
+                //   dustAlphaWrapper.dust_alpha.Add(dust.Get_AlphaCount);
+                //  dustAlphaWrapper.dust_name.Add(dust.dustName);
+            }
 
         }
 
@@ -196,7 +209,7 @@ public class Dust_Controller : MonoBehaviour
     [PunRPC]
     private void ReceiveDustAlpha(byte[] _byteData, PhotonMessageInfo info)
     {
-        //   if (!PhotonNetwork.IsMasterClient) return;
+        if (!PhotonNetwork.IsMasterClient) return;
         Debug.Log("ReceiveDustAlpha");
 
         // DustAlphaWrapper dustAlphaWrapper = JsonUtility.FromJson<DustAlphaWrapper>(_jsonData);
@@ -220,12 +233,13 @@ public class Dust_Controller : MonoBehaviour
         }
 
 
+
         GGG(_byteData);
     }
 
     private void GGG(byte[] _byteData)
     {
-
+        if (!PhotonNetwork.IsMasterClient) return;
         Debug.Log("GGG");
 
         dustAlphaWrapper.dust_alpha.Clear();
@@ -241,6 +255,11 @@ public class Dust_Controller : MonoBehaviour
 
             }
         }
+
+        // for (int i = 0; i < dustAlphaWrapper.alpha.Count; i++)
+        // {
+        //     dust_obj
+        // }
     }
     [PunRPC]
     private void UpdateDushAlpha(byte[] _byteData)

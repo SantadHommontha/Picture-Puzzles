@@ -1290,18 +1290,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1560328995}
-        m_TargetAssemblyTypeName: RoomManager, Assembly-CSharp
-        m_MethodName: ConnectToServer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   gameEvent: {fileID: 11400000, guid: 6b907f27a10a8a54f891b4edd6ba7dea, type: 2}
 --- !u!114 &204341048
 MonoBehaviour:
@@ -5621,6 +5609,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c971703a6deb34542bfb6044fae64b9c, type: 2}
     - target: {fileID: 4629459063821705806, guid: dd7689940b6a1a147aa0d00874906a51, type: 3}
+      propertyPath: sceneName
+      value: ChooseImage
+      objectReference: {fileID: 0}
+    - target: {fileID: 4629459063821705806, guid: dd7689940b6a1a147aa0d00874906a51, type: 3}
       propertyPath: game_start
       value: 
       objectReference: {fileID: 11400000, guid: df7b9135787ba094ba73321cc263cb63, type: 2}
@@ -6103,7 +6095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619564336682516812, guid: 24a1f1ce6422e3243882bc85c7b6d402, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3940098701438961916, guid: 24a1f1ce6422e3243882bc85c7b6d402, type: 3}
       propertyPath: m_SizeDelta.x
@@ -6465,7 +6457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4508456470137156740, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5133964453856319306, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

@@ -9,7 +9,7 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
 
     private RectTransform rectTransform;
     private Image image;
-
+    public string dustName;
     private Color start_color;
     private float alpha = 255;
     public float Get_AlphaCount
@@ -29,6 +29,24 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     [SerializeField] private BoolValue game_start;
     public Dust_Controller dust_Controller;
     public bool is_dead = false;
+
+
+
+    private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    public string GenerateRandomString(int length = 10)
+    {
+        System.Random random = new System.Random();
+        char[] result = new char[length];
+        for (int i = 0; i < length; i++)
+        {
+            result[i] = chars[random.Next(chars.Length)];
+        }
+        return new string(result);
+    }
+
+
+
 
     void Awake()
     {
@@ -58,6 +76,11 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         return rt;
     }
 
+     public void Random_NameID()
+    {
+        dustName = GenerateRandomString();
+    }
+
     public void Set_Rotation(Vector3 _rotate)
     {
         rectTransform.rotation = Quaternion.Euler(_rotate);
@@ -65,6 +88,11 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     public void Set_Position(float _x, float _y)
     {
         Set_Position(new Vector2(_x, _y));
+    }
+
+     public void Set_Name(string _name)
+    {
+       dustName = _name;
     }
 
 
@@ -111,6 +139,7 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         Random_Sprite();
         Random_Color();
         Random_Rotation();
+        dustName = GenerateRandomString();
     }
 
     // void Start()
