@@ -103,28 +103,28 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         // อัปเดตลิสต์ห้อง
-        Debug.Log(" Room Name");
+        // Debug.Log(" Room Name");
 
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            Debug.Log(roomList[i].Name);
-        }
-
-
-        // foreach (RoomInfo room in roomList)
+        // for (int i = 0; i < roomList.Count; i++)
         // {
-        //     Debug.Log(" Room Name --" + room.Name);
-        //     if (room.RemovedFromList)
-        //     {
-        //         cachedRoomList.Remove(room.Name);
-        //         Debug.Log("Remove Room Name");
-        //     }
-        //     else
-        //     {
-        //         cachedRoomList[room.Name] = room;
-        //         Debug.Log("Add Room Name");
-        //     }
+        //     Debug.Log(roomList[i].Name);
         // }
+
+
+        foreach (RoomInfo room in roomList)
+        {
+            Debug.Log(" Room Name --" + room.Name);
+            if (room.RemovedFromList)
+            {
+                cachedRoomList.Remove(room.Name);
+                Debug.Log("Remove Room Name");
+            }
+            else
+            {
+                cachedRoomList[room.Name] = room;
+                Debug.Log("Add Room Name");
+            }
+        }
 
     }
     [ContextMenu("Showe")]

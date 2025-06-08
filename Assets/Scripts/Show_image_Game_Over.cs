@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using NUnit.Framework.Constraints;
 
 public class Show_image_Game_Over : MonoBehaviour
 {
@@ -9,7 +8,7 @@ public class Show_image_Game_Over : MonoBehaviour
     [SerializeField] private GameObject image_with_dust;
     [SerializeField] private TMP_Text name_text;
     [SerializeField] private TMP_Text text_btn;
-    
+
 
     [Header("Value")]
     [SerializeField] private SpriteData_Value select_image;
@@ -30,6 +29,7 @@ public class Show_image_Game_Over : MonoBehaviour
         image_with_dust.SetActive(false);
         toggle = true;
         text_btn.text = "Hide";
+        GameManager.instance.Show_Hide_Image(toggle);
     }
 
     public void Hide_Image()
@@ -39,6 +39,7 @@ public class Show_image_Game_Over : MonoBehaviour
         image_with_dust.SetActive(true);
         toggle = false;
         text_btn.text = "Show";
+        GameManager.instance.Show_Hide_Image(toggle);
     }
 
     // Call With Event
@@ -52,8 +53,13 @@ public class Show_image_Game_Over : MonoBehaviour
 
     }
 
-
-
+    public void Set_Toggle(bool _toggle)
+    {
+        if (!_toggle)
+            Hide_Image();
+        else
+            Show_Image();
+    }
 
 
 }

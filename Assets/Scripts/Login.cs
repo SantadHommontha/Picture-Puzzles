@@ -1,10 +1,10 @@
 using NUnit.Framework.Constraints;
+using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
-public class Login : MonoBehaviour
+public class Login : MonoBehaviourPunCallbacks
 {
     public static Login Instance;
     [SerializeField] private TMP_InputField input;
@@ -54,5 +54,9 @@ public class Login : MonoBehaviour
             //     massage.text = "No Room";
             // }
         }
+    }
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRoomFailed(returnCode, message);
     }
 }

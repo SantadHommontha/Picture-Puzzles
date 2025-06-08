@@ -2797,6 +2797,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7820655592230052920, guid: 9d2c1e5a207ec5d43b0f93c3b62e2a6e, type: 3}
+      propertyPath: player_name
+      value: 
+      objectReference: {fileID: 11400000, guid: bbf7e63153ad7ea408da61e746e5c7f8, type: 2}
+    - target: {fileID: 7820655592230052920, guid: 9d2c1e5a207ec5d43b0f93c3b62e2a6e, type: 3}
       propertyPath: select_image
       value: 
       objectReference: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}
@@ -4868,7 +4872,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4461490614619734262, guid: c9b7b7778062b83428470dde08b481df, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7463283294371437834, guid: c9b7b7778062b83428470dde08b481df, type: 3}
       propertyPath: m_Pivot.x
@@ -5270,7 +5274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8196687688088551127, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8676351168983036126, guid: 74a8f5a94ca24d945956a189aa43e0ad, type: 3}
       propertyPath: m_Enabled
@@ -5617,6 +5621,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: df7b9135787ba094ba73321cc263cb63, type: 2}
     - target: {fileID: 4629459063821705806, guid: dd7689940b6a1a147aa0d00874906a51, type: 3}
+      propertyPath: image_sprite
+      value: 
+      objectReference: {fileID: 11400000, guid: ae2ed107ca4c5ea49bee68b6043bd032, type: 2}
+    - target: {fileID: 4629459063821705806, guid: dd7689940b6a1a147aa0d00874906a51, type: 3}
       propertyPath: timer_ui_obj
       value: 
       objectReference: {fileID: 1511350356}
@@ -5648,6 +5656,10 @@ PrefabInstance:
       propertyPath: gameOver_canvas_Btn
       value: 
       objectReference: {fileID: 2220191228432514898}
+    - target: {fileID: 4629459063821705806, guid: dd7689940b6a1a147aa0d00874906a51, type: 3}
+      propertyPath: show_Image_Game_Over
+      value: 
+      objectReference: {fileID: 335543242}
     - target: {fileID: 4629459063821705806, guid: dd7689940b6a1a147aa0d00874906a51, type: 3}
       propertyPath: evet_canvas_game_over
       value: 
@@ -6994,7 +7006,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5994458628461598203, guid: 3916107ae64668e47aa5394b2a77e7c4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

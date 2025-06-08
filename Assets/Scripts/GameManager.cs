@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameOver_canvas_Btn;
     [SerializeField] private GameObject waite_text_obj;
     [SerializeField] private GameObject timer_ui_obj;
+    [SerializeField] private Show_image_Game_Over show_Image_Game_Over;
     private Timer timer_script;
 
     [Header("Value")]
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private FloatValue timer;
     [SerializeField] private FloatValue game_timer_value;
     [SerializeField] private BoolValue game_start;
+    [SerializeField] private SpriteData_Value image_sprite;
 
 
 
@@ -175,7 +177,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Switch_To_Choose_State() => Start_State(Game_State.Choose_Image);
+    public void Switch_To_Choose_State()
+    {
+        photonView.RPC("RPC_ClearDust", RpcTarget.Others);
+        Start_State(Game_State.Choose_Image);
+
+    }
 
     public void Clear_Select_Group()
     {
@@ -221,6 +228,7 @@ public class GameManager : MonoBehaviour
                     Dust_Controller.Instance.Create();
                     play_canvas_Btn.SetActive(true);
                     gameOver_canvas_Btn.SetActive(false);
+                    waite_text_obj.SetActive(true);
                 }
                 else
                 {
@@ -233,10 +241,10 @@ public class GameManager : MonoBehaviour
                 if (PhotonNetwork.IsMasterClient)
                 {
                     game_start.Value = true;
-
                     play_canvas_Btn.SetActive(false);
                     gameOver_canvas_Btn.SetActive(false);
                     timer_script.Start_Time();
+                    waite_text_obj.SetActive(false);
                     // StartCoroutine(TimeToUpdate());
                     SendOtherToStart();
                 }
@@ -248,7 +256,6 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(TimeToUpdate());
                     timer_script.Start_Time();
                 }
-
                 // timer.Start_Time();
                 break;
             case Game_State.Game_Over:
@@ -269,10 +276,8 @@ public class GameManager : MonoBehaviour
                 }
                 timer_ui_obj.SetActive(false);
                 break;
-
         }
     }
-
 
     private void End_State()
     {
@@ -293,7 +298,6 @@ public class GameManager : MonoBehaviour
                 break;
             case Game_State.Game_Over:
                 break;
-
         }
     }
 
@@ -316,7 +320,6 @@ public class GameManager : MonoBehaviour
             case Game_State.Wait_For_Play:
                 break;
             case Game_State.Play:
-
                 if (timer.Value <= 0)
                 {
                     Start_State(Game_State.Game_Over);
@@ -332,7 +335,12 @@ public class GameManager : MonoBehaviour
     {
         Update_State();
     }
-
+    [PunRPC]
+    private void RPC_ClearDust()
+    {
+        image_sprite.Value = null;
+        Dust_Controller.Instance.Clear_Dust();
+    }
     #region Send Value To Other
     // Send
 
@@ -468,6 +476,19 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
     }
 
+    public void Show_Hide_Image(bool _isShow)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("RPC_Show_Hide_Image", RpcTarget.Others, _isShow);
+        }
+    }
 
+
+    [PunRPC]
+    private void RPC_Show_Hide_Image(bool _isShow)
+    {
+        show_Image_Game_Over.Set_Toggle(_isShow);
+    }
 
 }

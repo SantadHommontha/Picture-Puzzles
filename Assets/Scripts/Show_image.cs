@@ -17,8 +17,12 @@ public class Show_image : MonoBehaviour
 
     private void Show_Image(SpriteData _spriteData)
     {
+
         if (name_text) name_text.text = _spriteData.name;
-        image.sprite = _spriteData.image;
+        if (_spriteData != null)
+            image.sprite = _spriteData.image;
+        else
+            image.sprite = null;
 
     }
 
@@ -26,8 +30,6 @@ public class Show_image : MonoBehaviour
     public void Show_Image()
     {
         Show_Image(select_image.Value);
-
-
     }
 
     void OnEnable()

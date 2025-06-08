@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
 {
-    [SerializeField] private Color[] colors;
+    // [SerializeField] private Color[] colors;
     [SerializeField] private Dust_Setting setting;
 
     private RectTransform rectTransform;
@@ -12,16 +12,15 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     public string dustName;
     private Color start_color;
     private float alpha = 255;
-    public float Get_AlphaCount
+    public float Get_AlphaCount()
     {
-        get
-        {
-            float n = alphaCount;
-            alphaCount = 0;
-            return n;
-        }
+
+        float n = alphaCount;
+        alphaCount = 0;
+        return n;
     }
-    private float alphaCount = 0;
+    public float alphaCount { get; private set; } = 0;
+
     private bool isDragging = false;
     [SerializeField] private bool usefirstColor = false;
 
@@ -30,7 +29,8 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     public Dust_Controller dust_Controller;
     public bool is_dead = false;
 
-
+    public int color_index { get; private set; } = 0;
+    public int sprite_index { get; private set; } = 0;
 
     private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -56,18 +56,26 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         start_color = image.color;
     }
 
-
-
     public void Random_Sprite()
     {
-        image.sprite = setting.dust_sprites[UnityEngine.Random.Range(0, setting.dust_sprites.Length)];
+        Set_Sprite_By_Index(UnityEngine.Random.Range(0, setting.dust_sprites.Length));
+    }
+    public void Set_Sprite_By_Index(int _index)
+    {
+        sprite_index = _index;
+        image.sprite = setting.dust_sprites[sprite_index];
     }
     public void Random_Color()
     {
         if (usefirstColor)
-            image.color = colors[0];
+            Set_Color_By_Index(0);
         else
-            image.color = colors[UnityEngine.Random.Range(0, colors.Length)];
+            Set_Color_By_Index(UnityEngine.Random.Range(0, setting.dust_colors.Length));
+    }
+    public void Set_Color_By_Index(int _index)
+    {
+        color_index = _index;
+        image.color = setting.dust_colors[color_index];
     }
     public Vector3 Random_Rotation()
     {
@@ -76,10 +84,12 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         return rt;
     }
 
-     public void Random_NameID()
+    public void Random_NameID()
     {
         dustName = GenerateRandomString();
     }
+
+
 
     public void Set_Rotation(Vector3 _rotate)
     {
@@ -90,9 +100,9 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         Set_Position(new Vector2(_x, _y));
     }
 
-     public void Set_Name(string _name)
+    public void Set_Name(string _name)
     {
-       dustName = _name;
+        dustName = _name;
     }
 
 
@@ -100,6 +110,7 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     {
         rectTransform.anchoredPosition = _position;
     }
+
     public void ResetAlphaCount()
     {
         alphaCount = 0;
@@ -108,7 +119,7 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     public void SetDustAlpha(float _data)
     {
         alpha -= _data;
-        Debug.Log("SetDustAlpha: " + alphaCount);
+        Debug.Log($"SetDustAlpha : {dustName} : {alphaCount}");
         DecressDust();
     }
     public void Wipe()

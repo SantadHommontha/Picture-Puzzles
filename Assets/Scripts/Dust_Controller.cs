@@ -9,14 +9,17 @@ public class DustAlphaWrapper
 {
     public List<string> dust_name = new List<string>();
     public List<float> dust_valu = new List<float>();
-    public string send_playerID;
-    // public Dictionary<string, float> alpha = new Dictionary<string, float>();
+    public string playerID;
+    public string player_name;
+
 }
 [System.Serializable]
 public class DustDataWrapper
 {
     public List<Vector2> dust_Positions = new List<Vector2>();
     public List<Vector3> dust_Rotation = new List<Vector3>();
+    public List<int> dust_color_index = new List<int>();
+    public List<int> dust_sprite_index = new List<int>();
     public List<string> dust_DustName = new List<string>();
 }
 public class Dust_Controller : MonoBehaviour
@@ -32,11 +35,14 @@ public class Dust_Controller : MonoBehaviour
     public List<Vector2> dust_Positions = new List<Vector2>();
     public List<Vector3> dust_Rotation = new List<Vector3>();
     public List<string> dust_Name = new List<string>();
-    // private List<Dust> dust_obj = new List<Dust>();
+    public List<int> dust_color_index = new List<int>();
+    public List<int> dust_sprite_index = new List<int>();
     private Dictionary<string, Dust> dust_obj = new Dictionary<string, Dust>();
 
     private PhotonView photonView;
-
+    [Space]
+    [Header("Value")]
+    [SerializeField] private StringValue player_name;
 
     public void SetUp()
     {
@@ -75,6 +81,8 @@ public class Dust_Controller : MonoBehaviour
         dust_obj.Clear();
         dust_Positions.Clear();
         dust_Rotation.Clear();
+        dust_color_index.Clear();
+        dust_sprite_index.Clear();
     }
     private void SpawnDusts()
     {
@@ -94,20 +102,27 @@ public class Dust_Controller : MonoBehaviour
             dust_s.Set_Position(randomPos);
             dust_s.Random_NameID();
             var rotate = dust_s.Random_Rotation();
-            dust_obj.Add(dust_s.dustName, dust_s);
+            dust_s.Random_Color();
+            dust_s.Random_Sprite();
+
             dust_Positions.Add(randomPos);
             dust_Rotation.Add(rotate);
             dust_Name.Add(dust_s.dustName);
+            dust_color_index.Add(dust_s.color_index);
+            dust_sprite_index.Add(dust_s.sprite_index);
+            dust_obj.Add(dust_s.dustName, dust_s);
         }
         DustDataWrapper dustDataWrapper = new DustDataWrapper();
         dustDataWrapper.dust_Positions = dust_Positions;
         dustDataWrapper.dust_Rotation = dust_Rotation;
         dustDataWrapper.dust_DustName = dust_Name;
+        dustDataWrapper.dust_color_index = dust_color_index;
+        dustDataWrapper.dust_sprite_index = dust_sprite_index;
         string dustDataJson = JsonUtility.ToJson(dustDataWrapper);
         photonView.RPC("SpawnDustOther", RpcTarget.Others, dustDataJson);
     }
 
-    private void SpawnDusts_FormData(Vector2[] _dustPosition, Vector3[] _dustRotation, string[] _dustName)
+    private void SpawnDusts_FormData(Vector2[] _dustPosition, Vector3[] _dustRotation, string[] _dustName, int[] _color_index, int[] _sprite_index)
 
     {
         Clear_Dust();
@@ -115,12 +130,14 @@ public class Dust_Controller : MonoBehaviour
 
         for (int i = 0; i < setting.number_Of_Dusts; i++)
         {
-            Debug.Log($"Dust ID: " + _dustName);
+          //  Debug.Log($"Dust ID: " + _dustName);
             var dust = Instantiate(setting.dust_prefap, target_image.Value);
             var dust_s = dust.GetComponent<Dust>();
             dust_s.Set_Position(_dustPosition[i]);
             dust_s.Set_Rotation(_dustRotation[i]);
             dust_s.Set_Name(_dustName[i]);
+            dust_s.Set_Color_By_Index(_color_index[i]);
+            dust_s.Set_Sprite_By_Index(_sprite_index[i]);
             dust_obj.Add(dust_s.dustName, dust_s);
 
         }
@@ -132,7 +149,9 @@ public class Dust_Controller : MonoBehaviour
         dust_Positions = dustDataWrapper.dust_Positions;
         dust_Rotation = dustDataWrapper.dust_Rotation;
         dust_Name = dustDataWrapper.dust_DustName;
-        SpawnDusts_FormData(dust_Positions.ToArray(), dust_Rotation.ToArray(), dust_Name.ToArray());
+        dust_color_index = dustDataWrapper.dust_color_index;
+        dust_sprite_index = dustDataWrapper.dust_sprite_index;
+        SpawnDusts_FormData(dust_Positions.ToArray(), dust_Rotation.ToArray(), dust_Name.ToArray(), dust_color_index.ToArray(), dust_sprite_index.ToArray());
 
     }
     private Vector2 GetValidPosition(Rect bgRect)
@@ -185,28 +204,21 @@ public class Dust_Controller : MonoBehaviour
 
     public void SendDustAlpha()
     {
-
-
-        Debug.Log("SendDustAlpha");
-
-        //  dustAlphaWrapper.dust_alpha.Clear();
         dustAlphaWrapper.dust_valu.Clear();
         dustAlphaWrapper.dust_name.Clear();
+
         foreach (var dust in dust_obj)
         {
-            if (dust.Value.Get_AlphaCount > 0)
+            if (dust.Value.alphaCount > 0)
             {
-                dustAlphaWrapper.dust_name.Add(dust.Value.name);
-                dustAlphaWrapper.dust_valu.Add(dust.Value.Get_AlphaCount);
-                // dustAlphaWrapper.alpha.Add(dust.Key, dust.Value.Get_AlphaCount);
-                //   dustAlphaWrapper.dust_alpha.Add(dust.Get_AlphaCount);
-                //  dustAlphaWrapper.dust_name.Add(dust.dustName);
+                dustAlphaWrapper.dust_name.Add(dust.Value.dustName);
+                dustAlphaWrapper.dust_valu.Add(dust.Value.Get_AlphaCount());
+                dustAlphaWrapper.playerID = PhotonNetwork.LocalPlayer.UserId;
+                dustAlphaWrapper.player_name = player_name.Value;
             }
-
         }
-
-
-        photonView.RPC("ReceiveDustAlpha", RpcTarget.MasterClient, SerializeDustAlphaWrapper(dustAlphaWrapper));
+        if (dustAlphaWrapper.dust_name.Count > 0)
+            photonView.RPC("ReceiveDustAlpha", RpcTarget.MasterClient, SerializeDustAlphaWrapper(dustAlphaWrapper));
     }
 
     [PunRPC]
@@ -214,20 +226,6 @@ public class Dust_Controller : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("ReceiveDustAlpha");
-
-            // DustAlphaWrapper dustAlphaWrapper = JsonUtility.FromJson<DustAlphaWrapper>(_jsonData);
-
-            // for (int i = 0; i < dustAlphaWrapper.dust_alpha.Count; i++)
-            // {
-            //     if (!dust_obj[i].is_dead)
-            //     {
-            //         dust_obj[i].SetDustAlpha(dustAlphaWrapper.dust_alpha[i]);
-            //         Debug.Log(dustAlphaWrapper.dust_alpha[i]);
-
-            //     }
-            // }
-
             foreach (var player in PhotonNetwork.PlayerList)
             {
                 if (player.ActorNumber != info.Sender.ActorNumber)
@@ -235,51 +233,32 @@ public class Dust_Controller : MonoBehaviour
                     photonView.RPC("UpdateDushAlpha", player, _byteData);
                 }
             }
-
-
-
-            GGG(_byteData);
+            // UpdateDushAlpha(_byteData);
         }
 
     }
 
     private void GGG(byte[] _byteData)
     {
-
-        Debug.Log("GGG");
-
-        //   dustAlphaWrapper.dust_alpha.Clear();
         string json = System.Text.Encoding.UTF8.GetString(_byteData);
         Debug.Log(json);
         dustAlphaWrapper = JsonUtility.FromJson<DustAlphaWrapper>(json);
-        // for (int i = 0; i < dustAlphaWrapper.dust_alpha.Count; i++)
-        // {
-        //     if (!dust_obj[i].is_dead)
-        //     {
-        //         Debug.Log("---: " + dustAlphaWrapper.dust_alpha[i]);
-        //         dust_obj[i].SetDustAlpha(dustAlphaWrapper.dust_alpha[i]);
-        //         Debug.Log(dustAlphaWrapper.dust_alpha[i]);
+        for (int i = 0; i < dustAlphaWrapper.dust_name.Count; i++)
+        {
+            Debug.Log($"Set Dust {dustAlphaWrapper.dust_name[i]} : {dustAlphaWrapper.dust_valu[i]}");
+            dust_obj[dustAlphaWrapper.dust_name[i]].SetDustAlpha(dustAlphaWrapper.dust_valu[i]);
+        }
 
-        //     }
-        // }
-        
     }
     [PunRPC]
     private void UpdateDushAlpha(byte[] _byteData)
     {
         string _jsonData = System.Text.Encoding.UTF8.GetString(_byteData);
         DustAlphaWrapper dustAlphaWrapper = JsonUtility.FromJson<DustAlphaWrapper>(_jsonData);
-        Debug.Log("UpdateDushAlpha");
-        // for (int i = 0; i < dustAlphaWrapper.dust_alpha.Count; i++)
-        // {
-        //     if (!dust_obj[i].is_dead)
-        //     {
-        //         dust_obj[i].SetDustAlpha(dustAlphaWrapper.dust_alpha[i]);
-        //         Debug.Log(dustAlphaWrapper.dust_alpha[i]);
-
-        //     }
-        // }
-
-      
+        for (int i = 0; i < dustAlphaWrapper.dust_name.Count; i++)
+        {
+            Debug.Log($"Set Dust {dustAlphaWrapper.dust_name[i]} : {dustAlphaWrapper.dust_valu[i]}");
+            dust_obj[dustAlphaWrapper.dust_name[i]].SetDustAlpha(dustAlphaWrapper.dust_valu[i]);
+        }
     }
 }
