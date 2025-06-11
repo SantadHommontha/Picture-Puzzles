@@ -14,6 +14,7 @@ public class MasterController : MonoBehaviour
     [Header("Value")]
     [SerializeField] private StringValue roomCode;
     [SerializeField] private FloatValue gameTime_value;
+    [SerializeField] private FloatValue dust_wipe;
     public string GenerateRandomCode(int length = 4)
     {
         string result = "";

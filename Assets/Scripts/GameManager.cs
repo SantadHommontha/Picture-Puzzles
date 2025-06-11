@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BoolValue game_start;
     [SerializeField] private SpriteData_Value image_sprite;
 
-
+    [SerializeField] private Dust_Setting dust_Setting;
 
 
 
@@ -246,6 +246,7 @@ public class GameManager : MonoBehaviour
                     timer_script.Start_Time();
                     waite_text_obj.SetActive(false);
                     // StartCoroutine(TimeToUpdate());
+                    SendDustWipe(dust_Setting.wipe_speed);
                     SendOtherToStart();
                 }
                 else
@@ -343,7 +344,15 @@ public class GameManager : MonoBehaviour
     }
     #region Send Value To Other
     // Send
-
+    private void SendDustWipe(float _wiprSpeed)
+    {
+        photonView.RPC("RPC_ReciveDustWipe",RpcTarget.Others,_wiprSpeed);
+    }
+    [PunRPC]
+    private void RPC_ReciveDustWipe(float _wipeSpeed)
+    {
+        dust_Setting.wipe_speed = _wipeSpeed;
+    }
     private void SendOtherToStart()
     {
         float[] n = new float[2];

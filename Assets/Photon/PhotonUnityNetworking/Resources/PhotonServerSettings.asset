@@ -53,6 +53,7 @@ MonoBehaviour:
   - TryJoinTeam
   - RPC_ClearDust
   - RPC_Show_Hide_Image
+  - RPC_ReciveDustWipe
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
