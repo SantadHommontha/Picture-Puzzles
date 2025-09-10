@@ -69,9 +69,16 @@ public class GameManager : MonoBehaviour
     [Space]
     [SerializeField] private string sceneName;
 
+
+
+    [SerializeField] private SpriteData_Value select_;
+
     public void SetUp()
     {
         timer.Value = 0;
+
+
+       
     }
     void Awake()
     {
@@ -166,7 +173,7 @@ public class GameManager : MonoBehaviour
 
             Start_State(Game_State.Play);
     }
-
+    #region Image
     public void Select_Image()
 
     {
@@ -188,8 +195,8 @@ public class GameManager : MonoBehaviour
     {
         select_Group_Value.SetValue(null);
     }
-
-
+    #endregion
+    #region Game State
     public void Start_State(Game_State _new_State)
     {
 
@@ -207,6 +214,7 @@ public class GameManager : MonoBehaviour
                 break;
             case Game_State.Enter_Room:
                 event_canvas_enter_room.Raise(this, -979);
+                Debug.Log("FFF");
                 break;
             case Game_State.Enter_Name:
                 event_canvas_ener_name.Raise(this, -979);
@@ -331,7 +339,7 @@ public class GameManager : MonoBehaviour
 
         }
     }
-
+    #endregion
     void Update()
     {
         Update_State();
@@ -346,7 +354,7 @@ public class GameManager : MonoBehaviour
     // Send
     private void SendDustWipe(float _wiprSpeed)
     {
-        photonView.RPC("RPC_ReciveDustWipe",RpcTarget.Others,_wiprSpeed);
+        photonView.RPC("RPC_ReciveDustWipe", RpcTarget.Others, _wiprSpeed);
     }
     [PunRPC]
     private void RPC_ReciveDustWipe(float _wipeSpeed)

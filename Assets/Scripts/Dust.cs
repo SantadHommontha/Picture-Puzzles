@@ -47,15 +47,8 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
 
 
 
-
-    void Awake()
-    {
-        rectTransform = GetComponent<RectTransform>();
-        image = GetComponent<Image>();
-
-        start_color = image.color;
-    }
-
+#region SetUp
+   
     public void Random_Sprite()
     {
         Set_Sprite_By_Index(UnityEngine.Random.Range(0, setting.dust_sprites.Length));
@@ -88,9 +81,9 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
     {
         dustName = GenerateRandomString();
     }
+#endregion
 
-
-
+    #region  Set Value
     public void Set_Rotation(Vector3 _rotate)
     {
         rectTransform.rotation = Quaternion.Euler(_rotate);
@@ -122,6 +115,9 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         Debug.Log($"SetDustAlpha : {dustName} : {alphaCount}");
         DecressDust();
     }
+    #endregion
+
+    #region Wipe
     public void Wipe()
     {
         var t = setting.wipe_speed * Time.deltaTime;
@@ -143,7 +139,7 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
 
         }
     }
-
+    #endregion
 
     public void SetUp()
     {
@@ -153,13 +149,22 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
         dustName = GenerateRandomString();
     }
 
-    // void Start()
-    // {
-    //     SetUp();
-    // }
+#region  Unity Function
+    void Start()
+    {
+        SetUp();
+    }
 
+    void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        image = GetComponent<Image>();
 
+        start_color = image.color;
+    }
+    #endregion
 
+    #region  PointTer
     public void OnPointerDown(PointerEventData eventData)
     {
         isDragging = true;
@@ -199,4 +204,5 @@ public class Dust : MonoBehaviour, IDust, IPointerEnterHandler
 
 
     }
+    #endregion
 }

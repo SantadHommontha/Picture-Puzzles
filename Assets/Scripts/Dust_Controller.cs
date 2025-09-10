@@ -94,7 +94,7 @@ public class Dust_Controller : MonoBehaviour
 
         for (int i = 0; i < setting.number_Of_Dusts; i++)
         {
-            Vector2 randomPos = GetValidPosition(bg_Rect);
+            Vector2 randomPos = RamdonPositionInRect(bg_Rect);
 
 
             var dust = Instantiate(setting.dust_prefap, target_image.Value);
@@ -154,7 +154,7 @@ public class Dust_Controller : MonoBehaviour
         SpawnDusts_FormData(dust_Positions.ToArray(), dust_Rotation.ToArray(), dust_Name.ToArray(), dust_color_index.ToArray(), dust_sprite_index.ToArray());
 
     }
-    private Vector2 GetValidPosition(Rect bgRect)
+    private Vector2 RamdonPositionInRect(Rect bgRect)
     {
         Vector2 randomPos;
         int count = 0;

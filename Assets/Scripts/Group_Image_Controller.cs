@@ -19,7 +19,7 @@ public class Group_Image_Controller : MonoBehaviour
     [Header("Value")]
     [SerializeField] private Select_Group_Value select_Group_Value;
     [SerializeField] private BoolValue back_btn;
-    [SerializeField] private SpriteData_Value sprite_Data;
+    [SerializeField] private SpriteData_Value sprite_image;
 
     private Dictionary<string, SpriteData> allSpriteData = new Dictionary<string, SpriteData>();
     
@@ -106,7 +106,7 @@ public class Group_Image_Controller : MonoBehaviour
 
         var sp = select_Group_Value.Value.sprite_datas[UnityEngine.Random.Range(0, select_Group_Value.Value.sprite_datas.Count)];
 
-        sprite_Data.Value = sp;
+        sprite_image.Value = sp;
     }
 
     public void Show_Image_In_Group(Component _senser, object _data)
@@ -127,12 +127,12 @@ public class Group_Image_Controller : MonoBehaviour
     }
     public void SendImageNameScele()
     {
-        photonView.RPC("ReviceImageNameScele", RpcTarget.Others, sprite_Data.Value.name);
+        photonView.RPC("ReviceImageNameScele", RpcTarget.Others, sprite_image.Value.name);
     }
 
     [PunRPC]
     private void ReviceImageNameScele(string _imageName)
     {
-        sprite_Data.Value = allSpriteData[_imageName];
+        sprite_image.Value = allSpriteData[_imageName];
     }
 }

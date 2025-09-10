@@ -34,6 +34,7 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
         PhotonNetwork.EnableCloseConnection = false;
         PhotonNetwork.NetworkingClient.LoadBalancingPeer.SerializationProtocolType = ExitGames.Client.Photon.SerializationProtocol.GpBinaryV16;
         PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
+
         PhotonNetwork.ConnectUsingSettings();
         load_fild.fillAmount = 0;
     }
@@ -60,6 +61,8 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
         base.OnJoinedRoom();
         GameManager.instance.AfterJoinRoom();
         Debug.Log("Join a Room");
+
+        
 
     }
     public void JoinRoom(string _roomName)

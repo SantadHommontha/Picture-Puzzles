@@ -96,8 +96,6 @@ public class TeamManager : MonoBehaviourPunCallbacks
             team.AddPlayer(playerData);
             SetPlayerDataToScript();
 
-
-
         }
 
         var jsonData = JsonUtility.ToJson(joinTeamResult);
@@ -120,7 +118,7 @@ public class TeamManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            //   report.text = joinTeamResult.report;
+               report.text = joinTeamResult.report;
         }
 
     }
