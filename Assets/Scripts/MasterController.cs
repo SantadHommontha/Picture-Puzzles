@@ -4,7 +4,7 @@ using UnityEngine;
 public class MasterController : MonoBehaviour
 {
     public static MasterController Instance;
-    [SerializeField] private string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+     private string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     [Header("UI")]
     [SerializeField] private TMP_InputField gameTime_input;
