@@ -2531,7 +2531,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0122267605204bb459becad9c7377e5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chars: ABCDEFGHIJKLMNOPQRSTUVWXYZ
   gameTime_input: {fileID: 892185100}
   roomCode_text: {fileID: 706136306}
   roomCode: {fileID: 11400000, guid: 017b37af7604eb048bc4e67998d10f93, type: 2}
