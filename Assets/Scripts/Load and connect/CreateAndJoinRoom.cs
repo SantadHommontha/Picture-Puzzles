@@ -20,7 +20,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         // PhotonNetwork.NetworkingClient.LoadBalancingPeer.SerializationProtocolType = ExitGames.Client.Photon.SerializationProtocol.GpBinaryV16;
         // PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
         // PhotonNetwork.ConnectUsingSettings();
-        if (PhotonNetwork.IsConnected)
+        if (!PhotonNetwork.IsConnected)
         {
             ChangeMassage("Your Not Connect The Server", false);
         }
@@ -58,11 +58,14 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         options.IsVisible = true;
         options.IsOpen = true;
         options.MaxPlayers = 5;
-        PhotonNetwork.CreateRoom(roomInput.text.ToLower(), options);
+        RoomData.isAdmin = true;
+        RoomData.roomCode = GenerateCode.GenerateRandomCode();
+        PhotonNetwork.CreateRoom(RoomData.roomCode.ToLower(), options);
     }
 
     public void JoinRoom()
     {
+        RoomData.isPlayer = true;
         PhotonNetwork.JoinRoom(roomInput.text.ToLower());
     }
 
@@ -102,7 +105,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     private IEnumerator CountDownToLoadScene(string _scenename)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         SceneManager.LoadScene(_scenename);
     }
 }
