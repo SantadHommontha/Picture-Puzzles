@@ -20,7 +20,7 @@ public class TeamJoinHandler : MonoBehaviour
         playerData.playerName = myName.Value;
         playerData.playerID = PhotonNetwork.LocalPlayer.UserId;
 
-        TeamManager.instance.JoinTeam(playerData);
+        TeamManager.Instance.JoinTeam(playerData);
     }
 }
 

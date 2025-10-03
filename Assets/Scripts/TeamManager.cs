@@ -14,10 +14,29 @@ public class JoinTeamResult
 }
 public class TeamManager : MonoBehaviourPunCallbacks
 {
-    public static TeamManager instance;
-    [SerializeField] private int maxTeamCount = 3;
+    private static TeamManager _instance;
+    public static TeamManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<TeamManager>();
+
+                if (_instance == null)
+                {
+                    _instance = new GameObject("TeamManager", typeof(TeamManager)).GetComponent<TeamManager>();
+
+                }
+            }
+            return _instance;
+        }
+    }
+
+    private static bool applicationIsQuitting = false;
+    //[SerializeField] private int maxTeamCount = 3;
     [SerializeField] private TMP_Text report;
-    [SerializeField] private StringValue code;
+  //  [SerializeField] private StringValue code;
     private Team team = new Team();
 
 
@@ -29,10 +48,9 @@ public class TeamManager : MonoBehaviourPunCallbacks
     public Team Team_Script => team;
     void Awake()
     {
-        if (instance != null && instance != this)
-            Destroy(this.gameObject);
-        else
-            instance = this;
+        if (_instance != null && _instance != this) Destroy(this.gameObject);
+        else _instance = this;
+
     }
     void Start()
     {
@@ -40,6 +58,14 @@ public class TeamManager : MonoBehaviourPunCallbacks
         //  team.OnPlayerTeamChange += UpdateTeamToOther;
 
 
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this)
+        {
+            _instance = null;
+        }
     }
     public void JoinTeam(PlayerData _playerData)
     {
@@ -79,9 +105,9 @@ public class TeamManager : MonoBehaviourPunCallbacks
     private void TryJoinTeam(string _playerData, PhotonMessageInfo _info)
     {
         //    Debug.Log(_playerData);
-        PlayerData playerData = JsonUtility.FromJson<PlayerData>(_playerData);
+        PlayerData playerData = JsonUtility.FromJson<PlayerData>(_playerData); //แปลงกลัย
         playerData.info = _info;
-        JoinTeamResult joinTeamResult = new JoinTeamResult();
+        JoinTeamResult joinTeamResult = new JoinTeamResult(); // สร้างตัวตอบส่งคำตอบ
 
         var player = team.GetPlayerByID(playerData.playerID);
         if (player != null)
@@ -94,10 +120,10 @@ public class TeamManager : MonoBehaviourPunCallbacks
             joinTeamResult.report = "Add Player";
             joinTeamResult.status = true;
             team.AddPlayer(playerData);
-            SetPlayerDataToScript();
+        //    SetPlayerDataToScript();
 
         }
-
+        RoomData.Instance.playerDatas = team.GetAllPlayer().ToArray();
         var jsonData = JsonUtility.ToJson(joinTeamResult);
         photonView.RPC("JoinTeamResult", _info.Sender, jsonData);
 
@@ -106,19 +132,15 @@ public class TeamManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void JoinTeamResult(string _result)
     {
-
         JoinTeamResult joinTeamResult = JsonUtility.FromJson<JoinTeamResult>(_result);
         report.text = joinTeamResult.report;
         if (joinTeamResult.status)
         {
-            GameManager.instance.Start_State(Game_State.Wait_For_Play);
-
-
-
+            GameManager.Instance.StartState(Game_State.Wait_For_Play);
         }
         else
         {
-               report.text = joinTeamResult.report;
+            report.text = joinTeamResult.report;
         }
 
     }
@@ -144,7 +166,7 @@ public class TeamManager : MonoBehaviourPunCallbacks
     {
         var data = team.GetPlayerByID(_playerID);
         team.RemovePlayer(_playerID);
-        
+
         SetPlayerDataToScript();
         photonView.RPC("Leave", data.info.Sender);
 

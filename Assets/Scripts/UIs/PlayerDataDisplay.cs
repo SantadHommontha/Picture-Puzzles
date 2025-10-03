@@ -4,30 +4,40 @@ using UnityEngine;
 
 public class PlayerDataDisplay : MonoBehaviour
 {
-    [SerializeField] private PlayerDataValue playerDataValue;
+
     [SerializeField] private TMP_Text name_text;
+    [SerializeField] private int displayIndex;
+    [SerializeField] private string playerID;
     void Start()
     {
-        playerDataValue.OnValueChange += UpdateText;
+        // playerDataValue.OnValueChange += UpdateText;
     }
 
     void OnEnable()
     {
-        UpdateText(playerDataValue.Value);
+
+
+        var ap = TeamManager.Instance.Team_Script.GetAllPlayer();
+        if (displayIndex < ap.Count || ap != null)
+        {
+            playerID = ap[displayIndex].playerID;
+            UpdateText(ap[displayIndex].playerName);
+        }
     }
 
 
-    public void UpdateText(playerDataDisplay _playerData)
+    public void UpdateText(string _playerName)
     {
-        name_text.text = _playerData.player_name;
+        name_text.text = _playerName;
+
         //  Debug.Log($"PlayerName: " + _playerData.playerName);
     }
 
     public void Kick()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            TeamManager.instance.Kick(playerDataValue.Value.player_id);
-        }
+        // if (PhotonNetwork.IsMasterClient)
+        // {
+        //     TeamManager.Instance.Kick(playerDataValue.Value.player_id);
+        // }
     }
 }

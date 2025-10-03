@@ -20,9 +20,9 @@ public class DebugRoomData : MonoBehaviour
 
     private void SetValue()
     {
-        roomCode = RoomData.roomCode;
-        isAdmin = RoomData.isAdmin;
-        isPlayer = RoomData.isPlayer;
-        PlayerData[] playerDatas = RoomData.playerDatas;
+        roomCode = RoomData.Instance.roomCode;
+        isAdmin = RoomData.Instance.isAdmin;
+        isPlayer = RoomData.Instance.isPlayer;
+        PlayerData[] playerDatas = RoomData.Instance.playerDatas;
     }
 }

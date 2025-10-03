@@ -29,7 +29,7 @@ public class Show_image_Game_Over : MonoBehaviour
         image_with_dust.SetActive(false);
         toggle = true;
         text_btn.text = "Hide";
-        GameManager.instance.Show_Hide_Image(toggle);
+      //  GameManager.Instance.Show_Hide_Image(toggle);
     }
 
     public void Hide_Image()
@@ -39,7 +39,7 @@ public class Show_image_Game_Over : MonoBehaviour
         image_with_dust.SetActive(true);
         toggle = false;
         text_btn.text = "Show";
-        GameManager.instance.Show_Hide_Image(toggle);
+      //  GameManager.instance.Show_Hide_Image(toggle);
     }
 
     // Call With Event

@@ -1,20 +1,54 @@
 
 using UnityEngine;
 
-public static class RoomData
+public class RoomData : MonoBehaviour
 {
-    public static string roomCode;
-    public static bool isAdmin;
-    public static bool isPlayer;
-    public static PlayerData[] playerDatas;
+
+    private static RoomData _instance;
+    public static RoomData Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<RoomData>();
+
+                if (_instance == null)
+                {
+                    _instance = new GameObject("RoomData", typeof(RoomData)).GetComponent<RoomData>();
+                }
+            }
+            return _instance;
+        }
+    }
+    private  bool applicationIsQuitting = false;
+    public  string roomCode;
+    public  bool isAdmin;
+    public  bool isPlayer;
+    public  PlayerData[] playerDatas;
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this) Destroy(this.gameObject);
+        else _instance = this;
 
 
-    public static void Reset()
+        DontDestroyOnLoad(this.gameObject);
+    }
+    private void OnDestroy()
+    {
+        if (_instance == this)
+        {
+            _instance = null;
+        }
+    }
+
+    public  void Reset()
     {
         roomCode = "";
         isAdmin = false;
         isPlayer = false;
         playerDatas = null;
     }
-  
+
 }

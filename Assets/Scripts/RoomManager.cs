@@ -52,14 +52,14 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
         Debug.Log("Join a Lobby");
         load_fild.fillAmount = 1f;
 
-        GameManager.instance.Start_State(Game_State.Enter_Room);
+        GameManager.Instance.StartState(Game_State.Enter_Room);
 
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        GameManager.instance.AfterJoinRoom();
+    //    GameManager.Instance.AfterJoinRoom();
         Debug.Log("Join a Room");
 
         
@@ -87,7 +87,7 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        GameManager.instance.Start_State(Game_State.Main_Menu);
+     //   GameManager.instance.Start_State(Game_State.Main_Menu);
     }
     public bool RoomHasCreate(string _roomName)
     {

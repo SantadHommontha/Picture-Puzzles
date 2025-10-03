@@ -58,14 +58,14 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         options.IsVisible = true;
         options.IsOpen = true;
         options.MaxPlayers = 5;
-        RoomData.isAdmin = true;
-        RoomData.roomCode = GenerateCode.GenerateRandomCode();
-        PhotonNetwork.CreateRoom(RoomData.roomCode.ToLower(), options);
+        RoomData.Instance.isAdmin = true;
+        RoomData.Instance.roomCode = GenerateCode.GenerateRandomCode();
+        PhotonNetwork.CreateRoom(RoomData.Instance.roomCode.ToLower(), options);
     }
 
     public void JoinRoom()
     {
-        RoomData.isPlayer = true;
+        RoomData.Instance.isPlayer = true;
         PhotonNetwork.JoinRoom(roomInput.text.ToLower());
     }
 

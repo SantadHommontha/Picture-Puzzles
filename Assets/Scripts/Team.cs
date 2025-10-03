@@ -20,7 +20,7 @@ public class Team
 
     // จะถูก Invoke ตอนที่ค่า playerdata มีการเปลี่ยนแปลง
     public Action OnPlayerTeamChange;
-
+    public int PlayerCount => playerdata.Count;
 
 
     // ลองเพิ่มข้อมูลลงใน playerdata ถ้าเพื่มสำเร็จจะ return ค่า True ถ้าเพื่มไม่ได้จะ return false
@@ -78,18 +78,18 @@ public class Team
         OnPlayerTeamChange?.Invoke();
     }
     // นับจำนวนผู้เล่น
-    public int PlayerCount(string _team)
-    {
-        int count = 0;
-        foreach (var player in playerdata)
-        {
-            if (player.Value.teamName == _team)
-            {
-                count++;
-            }
-        }
-        return count;
-    }
+    // public int PlayerCount(string _team)
+    // {
+    //     int count = 0;
+    //     foreach (var player in playerdata)
+    //     {
+    //         if (player.Value.teamName == _team)
+    //         {
+    //             count++;
+    //         }
+    //     }
+    //     return count;
+    // }
 
 
     public List<PlayerData> GetPlayerByTeam(string _teamName)
@@ -114,6 +114,11 @@ public class Team
         }
         return null;
     }
+    // public PlayerData GetPlayerByIndex(int _index)
+    // {
+    //     if (_index >= playerdata.Count) return null;
+      
+    // }
     public void LogShow()
     {
         foreach (var player in playerdata)
