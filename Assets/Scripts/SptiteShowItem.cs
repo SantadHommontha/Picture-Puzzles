@@ -1,16 +1,11 @@
+using UnityEngine.UI;
 using UnityEngine;
 
 public class SptiteShowItem : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Image image;
+    public void Show(int _index)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        image.sprite = SpriteShow.currentSpriteSelete[_index];
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 
 using System;
+using UnityEngine.UIElements;
 
 [Serializable]
 public class ColorGridData
@@ -13,7 +14,7 @@ public class ColorGridData
 }
 
 [Serializable]
-public class Texture2dData :ColorGridData
+public class Texture2dData : ColorGridData
 {
     public string textureName;
 }
@@ -185,6 +186,27 @@ public class GlitchPixelated : MonoBehaviour
         spriteRenderer.sprite = Sprite.Create(texture,
             new Rect(0, 0, texture.width, texture.height),
             new Vector2(0.5f, 0.5f));
+    }
+    public void SetColor(int _px, int _py, Color _color, bool _onlySet = false)
+    {
+        Vector2Int pxIndex = new Vector2Int(_px, _py);
+
+        var startX = pxIndex.x * dividePixels;
+        var startY = pxIndex.y * dividePixels;
+        //  Debug.Log($"{gameObject.name} = {_fadeValue}");
+        int blockwidth = startX + dividePixels >= originalTexture.width ? originalTexture.width - startX : dividePixels;
+        int blockHigth = startY + dividePixels >= originalTexture.height ? originalTexture.height - startY : dividePixels;
+
+        var originalColors = originalTexture.GetPixels(startX, startY, blockwidth, blockHigth);
+        Color[] newColor = new Color[originalColors.Length];
+        for (int i = 0; i < originalColors.Length; i++)
+        {
+            newColor[i] = _color;
+        }
+
+        SetColor(startX, startY, blockwidth, blockHigth, newColor, _onlySet);
+
+
     }
     #region FadePixel
     //ทำการ lerp px ตามตำแหน่งที่กำหนด
@@ -547,6 +569,30 @@ public class GlitchPixelated : MonoBehaviour
         UpdateSprite();
         SetBoxColliderSize();
     }
+
+ public void ReciveSetUp(int _dividePixels, float _mouseDragRadius, float _fadeSpeed, Color[,] _pixelatePatturn, Texture2D _originalTextuen)
+    {
+
+        dividePixels = _dividePixels;
+        mouseDragRadius = _mouseDragRadius;
+        fadeSpeed = _fadeSpeed;
+        originalTexture = _originalTextuen;
+        SetUp();
+        pixelPattern = _pixelatePatturn;
+
+
+        for (int by = 0; by < sizeY; by++)
+        {
+            for (int bx = 0; bx < sizeX; bx++)
+            {
+                FadePixel(bx, by, 0, true);
+            }
+        }
+        copyTexture.Apply();
+        UpdateSprite();
+        SetBoxColliderSize();
+    }
+    
     #endregion
 
     #region Utility
@@ -668,7 +714,64 @@ public class GlitchPixelated : MonoBehaviour
         return colorArray;
     }
 
+    public string ConvertTextureToJson(Texture2D sourceTexture)
+    {
+        if (sourceTexture == null)
+        {
+            Debug.LogError("Source Texture2D is null.");
+            return string.Empty;
+        }
 
+        // **สำคัญ:** Texture ต้องตั้งค่า 'Read/Write Enabled' ใน Inspector
+        try
+        {
+            // 1. ดึงข้อมูลสีทั้งหมดในรูปแบบ Color[] (อาร์เรย์หนึ่งมิติ)
+            Color[] pixelColors = sourceTexture.GetPixels();
+
+            // 2. สร้าง Object สำหรับ Serialize
+            Texture2dData data = new Texture2dData
+            {
+                textureName = sourceTexture.name,
+                width = sourceTexture.width,
+                height = sourceTexture.height,
+                colors = pixelColors
+            };
+
+            // 3. Serialize Object เป็น JSON String
+            string jsonOutput = JsonUtility.ToJson(data);
+
+            return jsonOutput;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to get pixels. Make sure 'Read/Write Enabled' is checked. Error: {e.Message}");
+            return string.Empty;
+        }
+    }
+
+    public Texture2D ConvertJsonToTexture(string jsonInput)
+    {
+        if (string.IsNullOrEmpty(jsonInput))
+        {
+            return null;
+        }
+
+        // 1. Deserialize JSON String กลับเป็น Object
+        Texture2dData loadedData = JsonUtility.FromJson<Texture2dData>(jsonInput);
+
+        // 2. สร้าง Texture2D ใหม่
+        Texture2D newTexture = new Texture2D(loadedData.width, loadedData.height);
+
+        // 3. ใส่ข้อมูลสีกลับเข้าไปใน Texture2D
+        // SetPixels จะทำงานร่วมกับ Color[] ได้โดยตรง
+        newTexture.SetPixels(loadedData.colors);
+
+        // 4. อัปโหลดข้อมูลพิกเซลเข้าสู่ GPU
+        newTexture.Apply();
+
+        newTexture.name = loadedData.textureName + "_Loaded";
+        return newTexture;
+    }
 
     #endregion
     private void SetBoxColliderSize()

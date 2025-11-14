@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     private EvenCollect evenCollect;
     private static GameManager _instance;
     public static GameManager Instance => _instance;
-
+    public SpriteShow[] spriteShows;
     private static bool applicationIsQuitting = false;
 
 
@@ -136,15 +136,15 @@ public class GameManager : MonoBehaviour
 
 
     }
-
+    public Sprite[] sss;
     public void Pixlatale()
     {
         var rdn = RNG.Instance.GetRandomNumber();
         var pxe = PixelatedHandle.Instance;
         var sc = SpriteShow.currentSpriteSelete;
-
+        sss = sc;
         pxe.SetOriginalTexturn(sc[rdn].texture);
-        pxe.Pixelate();
+        pxe.Pixelate(SpriteShow.currentIndex, rdn);
     }
 
 

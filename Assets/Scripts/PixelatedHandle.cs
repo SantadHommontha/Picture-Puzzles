@@ -11,8 +11,10 @@ public class SetUpWapper
     public float mouseDragRadius;
     public float fadeSpeed;
     public string pixelatePatturn_String;
-    public Color[] allColors;
-    public Texture2dData originalTextuen;
+    public string allColors_string;
+    //  
+    public int a;
+    public int b;
 }
 public class PixelatedHandle : MonoBehaviourPunCallbacks
 {
@@ -29,6 +31,8 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     private Vector3 lastMousePosition;
 
     [SerializeField] private Image image;
+    private int a;
+    private int b;
 
     public float movementThreshold = 0.1f;
     void OnEnable()
@@ -51,9 +55,11 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         texture2D = _originalTexturn;
     }
     [ContextMenu("Pixelate")]
-    public void Pixelate()
+    public void Pixelate(int _a, int _b)
     {
         mainGiltch.PixelatedMethod();
+        a = _a;
+        b = _b;
     }
     [ContextMenu("SendSetUp")]
     public void SendSetUp()
@@ -71,14 +77,16 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
             colors = _originalTextuen.GetPixels()
         };
         var pix = mainGiltch.ConvertColorArrayToJson(_pixelatePatturn);
+        var al = mainGiltch.ConvertTextureToJson(_originalTextuen);
         SetUpWapper setUpWapper = new SetUpWapper()
         {
             dividePixels = _dividePixels,
             mouseDragRadius = _mouseDragRadius,
             fadeSpeed = _fadeSpeed,
             pixelatePatturn_String = pix,
-            allColors = _allColors,
-            originalTextuen = texture2DData
+            allColors_string = "al",
+            a = this.a,
+            b = this.b
         };
 
         var setUpWapperJson = JsonUtility.ToJson(setUpWapper);
@@ -94,14 +102,30 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         float mouseDragRadius = setUpWapper.mouseDragRadius;
         float fadeSpeed = setUpWapper.fadeSpeed;
         Color[,] pixelatePatturn = mainGiltch.ConvertJsonToColorArray(setUpWapper.pixelatePatturn_String);
-        Color[] allColors = setUpWapper.allColors;
+        string allColorsSTR = setUpWapper.allColors_string;
+        //  Color[] allColors = mainGiltch.ConvertJsonToTexture(allColorsSTR);
+        int a = setUpWapper.a;
+        int b = setUpWapper.b;
 
-        Texture2D originalTextuen = new Texture2D(setUpWapper.originalTextuen.width, setUpWapper.originalTextuen.height);
-        originalTextuen.SetPixels(setUpWapper.originalTextuen.colors);
-        originalTextuen.Apply();
-        originalImage.name = setUpWapper.originalTextuen.textureName;
+        SpriteShow spriteShow = null;
+        foreach (var T in SpriteShow.allSpriteShow)
+        {
+            if (T.index == a)
+            {
+                spriteShow = T;
+                break;
+            }
+        }
 
-        mainGiltch.ReciveSetUp(dividePixels, mouseDragRadius, fadeSpeed, pixelatePatturn, allColors, originalTextuen);
+
+        Texture2D originalTextuen = GameManager.Instance.spriteShows[a].sprites[b].texture;
+
+        // Texture2D originalTextuen = new Texture2D(setUpWapper.originalTextuen.width, setUpWapper.originalTextuen.height);
+        // originalTextuen.SetPixels(setUpWapper.originalTextuen.colors);
+        // originalTextuen.Apply();
+        // originalImage.name = setUpWapper.originalTextuen.textureName;
+
+        mainGiltch.ReciveSetUp(dividePixels, mouseDragRadius, fadeSpeed, pixelatePatturn, originalTextuen);
 
 
     }
