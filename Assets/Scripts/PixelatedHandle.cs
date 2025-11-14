@@ -35,6 +35,8 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     private int b;
 
     public float movementThreshold = 0.1f;
+
+    public GameEvent finushSetUp;
     void OnEnable()
     {
         _instance = this;
@@ -127,7 +129,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
 
         mainGiltch.ReciveSetUp(dividePixels, mouseDragRadius, fadeSpeed, pixelatePatturn, originalTextuen);
 
-
+        finushSetUp.Raise(this, -999);
     }
 
 
