@@ -54,6 +54,7 @@ MonoBehaviour:
   - RPC_ClearDust
   - RPC_Show_Hide_Image
   - RPC_ReciveDustWipe
+  - RPC_ReciveSetUp
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

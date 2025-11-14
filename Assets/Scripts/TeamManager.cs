@@ -36,7 +36,7 @@ public class TeamManager : MonoBehaviourPunCallbacks
     private static bool applicationIsQuitting = false;
     //[SerializeField] private int maxTeamCount = 3;
     [SerializeField] private TMP_Text report;
-  //  [SerializeField] private StringValue code;
+    //  [SerializeField] private StringValue code;
     private Team team = new Team();
 
 
@@ -67,12 +67,7 @@ public class TeamManager : MonoBehaviourPunCallbacks
             _instance = null;
         }
     }
-    public void JoinTeam(PlayerData _playerData)
-    {
-        string josnData = JsonUtility.ToJson(_playerData);
 
-        photonView.RPC("TryJoinTeam", RpcTarget.MasterClient, josnData);
-    }
     private void SetPlayerDataToScript()
     {
         var allplayer = team.GetAllPlayer();
@@ -101,17 +96,29 @@ public class TeamManager : MonoBehaviourPunCallbacks
             num++;
         }
     }
+    #region Join Team
+    public void JoinTeam(PlayerData _playerData)
+    {
+        string josnData = JsonUtility.ToJson(_playerData);
+
+        photonView.RPC("TryJoinTeam", RpcTarget.MasterClient, josnData);
+    }
     [PunRPC]
     private void TryJoinTeam(string _playerData, PhotonMessageInfo _info)
     {
-        //    Debug.Log(_playerData);
-        PlayerData playerData = JsonUtility.FromJson<PlayerData>(_playerData); //แปลงกลัย
-        playerData.info = _info;
-        JoinTeamResult joinTeamResult = new JoinTeamResult(); // สร้างตัวตอบส่งคำตอบ
+        Debug.Log($"Recive data : {_playerData}");
 
+        //แปลงกลับ
+        PlayerData playerData = JsonUtility.FromJson<PlayerData>(_playerData);
+        //เซ็คตำแนห่งคนส่ง
+        playerData.info = _info;
+        // สร้างตัวตอบส่งคำตอบ
+        JoinTeamResult joinTeamResult = new JoinTeamResult();
+        // หาไว่ว่ามีคนที่อยู่ในห้องมี id ที่เข้ามาใหม่มัย
         var player = team.GetPlayerByID(playerData.playerID);
         if (player != null)
         {
+            //ถ้ามี แปลว่าเป็นคนเดิมที่เข้ามา
             joinTeamResult.report = "Have Player ID In Game";
             joinTeamResult.status = false;
         }
@@ -120,11 +127,12 @@ public class TeamManager : MonoBehaviourPunCallbacks
             joinTeamResult.report = "Add Player";
             joinTeamResult.status = true;
             team.AddPlayer(playerData);
-        //    SetPlayerDataToScript();
+            //    SetPlayerDataToScript();
 
         }
         RoomData.Instance.playerDatas = team.GetAllPlayer().ToArray();
         var jsonData = JsonUtility.ToJson(joinTeamResult);
+        // ส่งผลลัพท์กลับไป
         photonView.RPC("JoinTeamResult", _info.Sender, jsonData);
 
 
@@ -144,7 +152,9 @@ public class TeamManager : MonoBehaviourPunCallbacks
         }
 
     }
+    #endregion
 
+    #region Leave And Kick
     private void LeaveAll()
     {
         foreach (var T in team.GetAllPlayer())
@@ -177,7 +187,7 @@ public class TeamManager : MonoBehaviourPunCallbacks
         RoomManager.Instance.LeaveRoom();
     }
 
-
+    #endregion
     // [PunRPC]
     // private void GoToChooseTeam()
     // {
