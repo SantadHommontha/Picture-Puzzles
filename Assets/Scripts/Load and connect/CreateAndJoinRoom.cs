@@ -9,7 +9,8 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     //  [SerializeField] private TMP_InputField createInput;
     [SerializeField] private TMP_InputField roomInput;
     [SerializeField] private TMP_Text massage;
-    [SerializeField] private string adminCode = "onion";
+    [SerializeField] private string adminCode = "mine";
+    [SerializeField] private BoolValue isAdmin;
     // [SerializeField] GameObject red;
     // [SerializeField] private GameObject green;
 
@@ -54,6 +55,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
+         Debug.Log("CreateRoom F");
         RoomOptions options = new RoomOptions();
         options.IsVisible = true;
         options.IsOpen = true;
@@ -65,6 +67,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
+        Debug.Log("JoinRoom F");
         RoomData.Instance.isPlayer = true;
         PhotonNetwork.JoinRoom(roomInput.text.ToLower());
     }
@@ -72,6 +75,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     public void EnterRoomBTN()
     {
+        RoomData.Instance.Reset();
         if (roomInput.text.ToLower() == adminCode)
         {
             CreateRoom();

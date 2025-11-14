@@ -21,13 +21,13 @@ public class RoomData : MonoBehaviour
             return _instance;
         }
     }
-    private  bool applicationIsQuitting = false;
-    public  string roomCode;
-    public  bool isAdmin;
-    public  bool isPlayer;
-    public  PlayerData[] playerDatas;
+    private bool applicationIsQuitting = false;
+    public string roomCode;
+    public bool isAdmin;
+    public bool isPlayer;
+    public PlayerData[] playerDatas;
 
-    private void Awake()
+       private void Awake()
     {
         if (_instance != null && _instance != this) Destroy(this.gameObject);
         else _instance = this;
@@ -43,7 +43,7 @@ public class RoomData : MonoBehaviour
         }
     }
 
-    public  void Reset()
+    public void Reset()
     {
         roomCode = "";
         isAdmin = false;
