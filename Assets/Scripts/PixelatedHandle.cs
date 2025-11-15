@@ -12,9 +12,25 @@ public class SetUpWapper
     public float fadeSpeed;
     public string pixelatePatturn_String;
     public string allColors_string;
-    //  
+
     public int a;
     public int b;
+}
+
+[System.Serializable]
+public class ChangePixelsWapper
+{
+
+
+
+
+
+
+
+
+
+
+
 }
 public class PixelatedHandle : MonoBehaviourPunCallbacks
 {
@@ -35,6 +51,37 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     private int b;
 
     public float movementThreshold = 0.1f;
+
+    public int[,] num =
+    {
+        {1,2,3,4,5},
+        {6,7,8,9,10}
+    };
+    public int[,] num2;
+    public int[] nt;
+    public int w;
+    public int h;
+
+    [ContextMenu("TestConvertArray")]
+    public void TestConvertArray()
+    {
+        nt = mainGiltch.ConverArray2DTo1D<int>(num, out var _width, out var _height);
+        w = _width;
+        h = _height;
+
+    }
+
+    [ContextMenu("DebugArray2d")]
+    public void DebugArray2d()
+    {
+        for (int i = 0; i < w; i++)
+        {
+            for (int j = 0; j < w; j++)
+            {
+                Debug.Log($" {i} {j} {num2[i, j]}");
+            }
+        }
+    }
 
     public GameEvent finushSetUp;
     void OnEnable()
@@ -98,7 +145,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPC_ReciveSetUp(string _json)
     {
-        Debug.Log($"R {_json}");
+        //     Debug.Log($"R {_json}");
         SetUpWapper setUpWapper = JsonUtility.FromJson<SetUpWapper>(_json);
         int dividePixels = setUpWapper.dividePixels;
         float mouseDragRadius = setUpWapper.mouseDragRadius;

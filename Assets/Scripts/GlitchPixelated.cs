@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 
 using System;
-using UnityEngine.UIElements;
+
 
 [Serializable]
 public class ColorGridData
@@ -12,6 +12,15 @@ public class ColorGridData
     public int height;
     public Color[] colors;
 }
+
+[Serializable]
+public class Array2dData<T>
+{
+    public int width;
+    public int height;
+    public T[] array;
+}
+
 
 [Serializable]
 public class Texture2dData : ColorGridData
@@ -36,7 +45,7 @@ public class GlitchPixelated : MonoBehaviour
     private Texture2D copyTexture;
     private Camera cameraMain;
     // Track which pixels were changed or restored
-    private HashSet<Vector2Int> changedPixels = new HashSet<Vector2Int>();
+    private List<Vector2Int> changedPixels = new List<Vector2Int>();
     //  private HashSet<Vector2Int> restoredPixels = new HashSet<Vector2Int>();
     // Shared random pattern for consistent pixelation between images
     private Color[,] pixelPattern; //สีในแต่ะ px
@@ -246,10 +255,10 @@ public class GlitchPixelated : MonoBehaviour
         currentColorFadeAdded[fps.x, fps.y] += fadeSpeed * Time.deltaTime;
         FadePixel(fps.x, fps.y, currentFadeValue);
 
-        // var changeIndex = new Vector2Int(fps.x, fps.y);
-        //    if (!changedPixelsData.Contains(changeIndex))
+        var changeIndex = new Vector2Int(fps.x, fps.y);
         //      changedPixelsData.Add(changeIndex);
-        changedPixels.Add(new Vector2Int(fps.x, fps.y));
+        if (!changedPixels.Contains(changeIndex))
+            changedPixels.Add(changeIndex);
         /**
                 // var ogIndex = FindPixelSeclcet();
                 // var pxIndex = ogIndex;
@@ -348,8 +357,10 @@ public class GlitchPixelated : MonoBehaviour
                 coloraFade[gx, gy] = Mathf.Clamp01(coloraFade[gx, gy] + fadeSpeed);
                 FadePixel(gx, gy, coloraFade[gx, gy], true);
                 currentColorFadeAdded[gx, gy] += fadeSpeed;
-                changedPixels.Add(new Vector2Int(gx, gy));
-                Debug.Log($"gg");
+                var cp = new Vector2Int(gx, gy);
+                if (changedPixels.Contains(cp))
+                    changedPixels.Add(cp);
+                // Debug.Log($"gg");
             }
         }
 
@@ -509,7 +520,7 @@ public class GlitchPixelated : MonoBehaviour
         }
         canFade = true;
     }
-    public void GetFadeData(out float[,] _colorFadeValue, out HashSet<Vector2Int> _changedPixels)
+    public void GetFadeData(out float[,] _colorFadeValue, out List<Vector2Int> _changedPixels)
     {
         _colorFadeValue = currentColorFadeAdded;
         //   _changedPixelsData = changedPixelsData;
@@ -570,7 +581,7 @@ public class GlitchPixelated : MonoBehaviour
         SetBoxColliderSize();
     }
 
- public void ReciveSetUp(int _dividePixels, float _mouseDragRadius, float _fadeSpeed, Color[,] _pixelatePatturn, Texture2D _originalTextuen)
+    public void ReciveSetUp(int _dividePixels, float _mouseDragRadius, float _fadeSpeed, Color[,] _pixelatePatturn, Texture2D _originalTextuen)
     {
 
         dividePixels = _dividePixels;
@@ -592,7 +603,7 @@ public class GlitchPixelated : MonoBehaviour
         UpdateSprite();
         SetBoxColliderSize();
     }
-    
+
     #endregion
 
     #region Utility
@@ -773,6 +784,62 @@ public class GlitchPixelated : MonoBehaviour
         return newTexture;
     }
 
+
+    public T[] ConverArray2DTo1D<T>(T[,] array2d,out int _width,out int _height)
+    {
+        // if (array2d == null)
+        // {
+        //     return null;
+        // }
+
+        // อ่านค่ามิติของ Array 2D
+        int width = array2d.GetLength(0);  // มิติแรก (X)
+        int height = array2d.GetLength(1); // มิติที่สอง (Y)
+        int totalSize = width * height;
+
+        T[] array1d = new T[totalSize];
+        int index = 0;
+
+        // วนลูปเพื่อคัดลอกข้อมูลจาก 2D ไป 1D
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                // การจัดเก็บแบบ Row-Major (Y ก่อน X) เป็นเรื่องปกติสำหรับการเก็บข้อมูลภาพ
+                // หรือตามลำดับใน GetLength(0) และ GetLength(1)
+                array1d[index++] = array2d[x, y];
+            }
+        }
+
+        _width = width;
+        _height = height;
+        return array1d;
+    }
+
+    public T[,] ConvertArray1DTo2D<T>(T[] _array1d,int _width,int _height)
+    {
+        // ตรวจสอบความถูกต้องของข้อมูล
+        // if ( _width <= 0 || _height <= 0 || (_width * _height != _array1d.Length -1 ))
+        // {
+        //     Debug.LogError("Invalid Array2dData: dimensions do not match the 1D array size.");
+        //     return null;
+        // }
+
+        T[,] array2d = new T[_width, _height];
+        int index = 0;
+
+        // วนลูปเพื่อคัดลอกข้อมูลจาก 1D กลับไป 2D
+        for (int y = 0; y < _height; y++)
+        {
+            for (int x = 0; x < _width; x++)
+            {
+                // ต้องใช้ลำดับการเข้าถึง (x, y) เหมือนเดิมกับตอนที่แปลงเป็น 1D
+                array2d[x, y] = _array1d[index++];
+            }
+        }
+
+        return array2d;
+    }
     #endregion
     private void SetBoxColliderSize()
     {
