@@ -256,7 +256,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     {
         Debug.Log($"RPC_ReciveFadeDataFormMaster {_jsonData}");
         FadeDataWapper fadeDataWapper = JsonUtility.FromJson<FadeDataWapper>(_jsonData);
-        if (fadeDataWapper.indexNotRevice == myIndex) return;
+     //   if (fadeDataWapper.indexNotRevice == myIndex) return;
 
         var array2d = mainGiltch.ConvertArray1DTo2D<float>(fadeDataWapper.colorFadeValue, fadeDataWapper.width, fadeDataWapper.height);
         mainGiltch.ReciveData(array2d, fadeDataWapper.changedPixels);
