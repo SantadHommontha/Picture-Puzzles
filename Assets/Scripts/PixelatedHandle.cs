@@ -50,14 +50,16 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     private int a;
     private int b;
 
+    public int myIndex;
     public float movementThreshold = 0.1f;
-
+    private Coroutine IE_SendFadeData;
     public int[,] num =
     {
         {1,2,3,4,5},
         {6,7,8,9,10}
     };
-    // public int[,] num2;
+
+    public float timeToSendFadeDataToMaster = 0.5f;     // public int[,] num2;
     // public int[] nt;
     // public int w;
     // public int h;
@@ -110,6 +112,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         a = _a;
         b = _b;
     }
+    #region SendAndRecive Setup
     [ContextMenu("SendSetUp")]
     public void SendSetUp()
     {
@@ -178,6 +181,109 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
 
         finushSetUp.Raise(this, -999);
     }
+    #endregion
+
+
+
+    #region SendAndRecive FadeData
+
+    public void StartSendFadeData()
+    {
+        Debug.Log("StartSendFadeData ");
+        StopAllCoroutines();
+        StartCoroutine(SendFaerDataToMaster());
+
+    }
+    public void StopSendFadeData()
+    {
+          Debug.Log("StopSendFadeData ");
+        StopAllCoroutines();
+    }
+    IEnumerator SendFaerDataToMaster()
+    {
+        while (RoomData.Instance.gameStart)
+        {
+                   Debug.Log("SendFaerDataToMaster ");
+            yield return new WaitForSeconds(timeToSendFadeDataToMaster);
+            RequateFadeData();
+        }
+    }
+
+    public void RequateFadeData()
+    {
+        Debug.Log("RequateFadeData ");
+        photonView.RPC("RPC_SendFadeData", RpcTarget.Others);
+    }
+
+    [PunRPC]
+
+    public void RPC_SendFadeData()
+    {
+        FadeDataWapper fadeDataWapper = new FadeDataWapper();
+        mainGiltch.GetFadeData(out var _colorFadeValue, out var _changedPixels);
+        var array1d = mainGiltch.ConverArray2DTo1D<float>(_colorFadeValue, out var _width, out var _height);
+
+        fadeDataWapper.width = _width;
+        fadeDataWapper.height = _height;
+        fadeDataWapper.colorFadeValue = array1d;
+        fadeDataWapper.changedPixels = _changedPixels;
+        fadeDataWapper.indexNotRevice = myIndex;
+
+        var jsonData = JsonUtility.ToJson(fadeDataWapper);
+        Debug.Log($"RPC_SendFadeData {jsonData}");
+        photonView.RPC("RPC_ReciveFadeData", RpcTarget.MasterClient, jsonData);
+        mainGiltch.ClearFadeData();
+
+    }
+
+    [PunRPC]
+    private void RPC_ReciveFadeData(string _jsonData)
+    {
+        Debug.Log($"RPC_ReciveFadeData {_jsonData}");
+        FadeDataWapper fadeDataWapper = JsonUtility.FromJson<FadeDataWapper>(_jsonData);
+
+        var array2d = mainGiltch.ConvertArray1DTo2D<float>(fadeDataWapper.colorFadeValue, fadeDataWapper.width, fadeDataWapper.height);
+
+
+        mainGiltch.ReciveData(array2d, fadeDataWapper.changedPixels);
+
+        photonView.RPC("RPC_ReciveFadeDataFormMaster", RpcTarget.Others, _jsonData);
+    }
+
+
+    [PunRPC]
+    private void RPC_ReciveFadeDataFormMaster(string _jsonData)
+    {
+        Debug.Log($"RPC_ReciveFadeDataFormMaster {_jsonData}");
+        FadeDataWapper fadeDataWapper = JsonUtility.FromJson<FadeDataWapper>(_jsonData);
+        if (fadeDataWapper.indexNotRevice == myIndex) return;
+
+        var array2d = mainGiltch.ConvertArray1DTo2D<float>(fadeDataWapper.colorFadeValue, fadeDataWapper.width, fadeDataWapper.height);
+        mainGiltch.ReciveData(array2d, fadeDataWapper.changedPixels);
+    }
+
+    #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     [ContextMenu("Start Loop")]
@@ -211,6 +317,23 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         }
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     void OnMouseDrag()
     {

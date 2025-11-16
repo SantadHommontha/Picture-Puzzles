@@ -72,7 +72,7 @@ public class TeamManager : MonoBehaviourPunCallbacks
     {
         var allplayer = team.GetAllPlayer();
         int num = 0;
-        Debug.Log("--------------------------------");
+     //   Debug.Log("--------------------------------");
         ClearPlayerDataScript();
         foreach (var T in allplayer)
         {

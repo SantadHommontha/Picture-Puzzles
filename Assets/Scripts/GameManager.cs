@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
     //     }
     // }
 
-    [SerializeField] private Game_State game_State = Game_State.None;
+    public Game_State game_State = Game_State.None;
     public void StartState(Game_State _new_State)
     {
         EndState();
@@ -75,8 +76,18 @@ public class GameManager : MonoBehaviour
                 break;
             case Game_State.Play:
                 evenCollect.play.Raise(this, -999);
+                RoomData.Instance.gameStart = true;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PixelatedHandle.Instance.StartSendFadeData();
+                }
+                else
+                {
+
+                }
                 break;
             case Game_State.Game_Over:
+                PixelatedHandle.Instance.StopSendFadeData();
                 evenCollect.gameover.Raise(this, -999);
                 break;
         }
@@ -146,6 +157,17 @@ public class GameManager : MonoBehaviour
         pxe.SetOriginalTexturn(sc[rdn].texture);
         pxe.Pixelate(SpriteShow.currentIndex, rdn);
     }
+
+    public void GameStart()
+    {
+        StartState(Game_State.Play);
+    }
+
+
+
+
+
+
 
 
 }

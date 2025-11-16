@@ -26,6 +26,7 @@ public class RoomData : MonoBehaviour
     public bool isAdmin;
     public bool isPlayer;
     public PlayerData[] playerDatas;
+    public bool gameStart;
 
        private void Awake()
     {
@@ -49,6 +50,7 @@ public class RoomData : MonoBehaviour
         isAdmin = false;
         isPlayer = false;
         playerDatas = null;
+        gameStart = false;
     }
 
 }

@@ -55,6 +55,10 @@ MonoBehaviour:
   - RPC_Show_Hide_Image
   - RPC_ReciveDustWipe
   - RPC_ReciveSetUp
+  - RPC_ReciveFadeData
+  - RPC_SendFadeData
+  - RPC_ReciveFadeDataFormMaster
+  - RPC_ReciveGameStartFormMaster
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

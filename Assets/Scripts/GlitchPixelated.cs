@@ -1,8 +1,9 @@
 using System.Collections.Generic;
-using UnityEngine.UI;
+
 using UnityEngine;
 
 using System;
+
 
 
 [Serializable]
@@ -21,7 +22,15 @@ public class Array2dData<T>
     public T[] array;
 }
 
-
+[Serializable]
+public class FadeDataWapper
+{
+    public int width;
+    public int height;
+    public float[] colorFadeValue;
+    public List<Vector2Int> changedPixels;
+    public int indexNotRevice;
+}
 [Serializable]
 public class Texture2dData : ColorGridData
 {
@@ -257,6 +266,7 @@ public class GlitchPixelated : MonoBehaviour
 
         var changeIndex = new Vector2Int(fps.x, fps.y);
         //      changedPixelsData.Add(changeIndex);
+        
         if (!changedPixels.Contains(changeIndex))
             changedPixels.Add(changeIndex);
         /**
@@ -358,7 +368,8 @@ public class GlitchPixelated : MonoBehaviour
                 FadePixel(gx, gy, coloraFade[gx, gy], true);
                 currentColorFadeAdded[gx, gy] += fadeSpeed;
                 var cp = new Vector2Int(gx, gy);
-                if (changedPixels.Contains(cp))
+               // Debug.Log(cp);
+                if (!changedPixels.Contains(cp))
                     changedPixels.Add(cp);
                 // Debug.Log($"gg");
             }
@@ -785,7 +796,7 @@ public class GlitchPixelated : MonoBehaviour
     }
 
 
-    public T[] ConverArray2DTo1D<T>(T[,] array2d,out int _width,out int _height)
+    public T[] ConverArray2DTo1D<T>(T[,] array2d, out int _width, out int _height)
     {
         // if (array2d == null)
         // {
@@ -816,7 +827,7 @@ public class GlitchPixelated : MonoBehaviour
         return array1d;
     }
 
-    public T[,] ConvertArray1DTo2D<T>(T[] _array1d,int _width,int _height)
+    public T[,] ConvertArray1DTo2D<T>(T[] _array1d, int _width, int _height)
     {
         // ตรวจสอบความถูกต้องของข้อมูล
         // if ( _width <= 0 || _height <= 0 || (_width * _height != _array1d.Length -1 ))

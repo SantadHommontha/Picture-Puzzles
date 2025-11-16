@@ -3,6 +3,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using Photon.Realtime;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
 {
     public static RoomManager Instance;
@@ -36,21 +37,21 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
         PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
 
         PhotonNetwork.ConnectUsingSettings();
-        load_fild.fillAmount = 0;
+    //    load_fild.fillAmount = 0;
     }
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
         PhotonNetwork.JoinLobby();
         Debug.Log("Connect To Server");
-        load_fild.fillAmount = 0.4f;
+    //    load_fild.fillAmount = 0.4f;
     }
 
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
         Debug.Log("Join a Lobby");
-        load_fild.fillAmount = 1f;
+    //    load_fild.fillAmount = 1f;
 
         GameManager.Instance.StartState(Game_State.Enter_Room);
 
@@ -87,6 +88,7 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("Enter Room");
      //   GameManager.instance.Start_State(Game_State.Main_Menu);
     }
     public bool RoomHasCreate(string _roomName)
