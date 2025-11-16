@@ -57,31 +57,31 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         {1,2,3,4,5},
         {6,7,8,9,10}
     };
-    public int[,] num2;
-    public int[] nt;
-    public int w;
-    public int h;
+    // public int[,] num2;
+    // public int[] nt;
+    // public int w;
+    // public int h;
 
-    [ContextMenu("TestConvertArray")]
-    public void TestConvertArray()
-    {
-        nt = mainGiltch.ConverArray2DTo1D<int>(num, out var _width, out var _height);
-        w = _width;
-        h = _height;
+    // [ContextMenu("TestConvertArray")]
+    // public void TestConvertArray()
+    // {
+    //     nt = mainGiltch.ConverArray2DTo1D<int>(num, out var _width, out var _height);
+    //     w = _width;
+    //     h = _height;
 
-    }
+    // }
 
-    [ContextMenu("DebugArray2d")]
-    public void DebugArray2d()
-    {
-        for (int i = 0; i < w; i++)
-        {
-            for (int j = 0; j < w; j++)
-            {
-                Debug.Log($" {i} {j} {num2[i, j]}");
-            }
-        }
-    }
+    // [ContextMenu("DebugArray2d")]
+    // public void DebugArray2d()
+    // {
+    //     for (int i = 0; i < w; i++)
+    //     {
+    //         for (int j = 0; j < w; j++)
+    //         {
+    //             Debug.Log($" {i} {j} {num2[i, j]}");
+    //         }
+    //     }
+    // }
 
     public GameEvent finushSetUp;
     void OnEnable()
