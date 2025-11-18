@@ -1,3 +1,4 @@
+using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 
@@ -10,7 +11,8 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     private Game_State currentState;
     private bool aswer = false;
 
-
+    [SerializeField] private GameObject diconnectPalnet;
+    private Coroutine co_KeepIm;
     void Awake()
     {
         gameManager = GetComponent<GameManager>();
@@ -21,8 +23,9 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
         Debug.Log(RoomData.Instance.isAdmin);
         if (RoomData.Instance.isAdmin)
         {
-            gameManager.StartState(Game_State.Choose_Image);
             gameManager.changeState += StartState;
+            gameManager.StartState(Game_State.Choose_Image);
+
         }
         else
         {
@@ -30,7 +33,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
         }
 
 
-
+        diconnectPalnet.SetActive(false);
     }
 
 
@@ -38,6 +41,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     {
         EndState();
         currentState = _new_State;
+        Debug.Log(_new_State);
         switch (_new_State)
         {
             case Game_State.Enter_Name:
@@ -46,7 +50,11 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
             case Game_State.Choose_Image:
                 if (PhotonNetwork.IsMasterClient)
                 {
+
                     timerValue.OnValueChange += GameTimerUpdate;
+                    if (co_KeepIm != null)
+                        StopCoroutine(co_KeepIm);
+                    co_KeepIm = StartCoroutine(KeepIn());
                 }
                 else
                 {
@@ -173,10 +181,12 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
 
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
+                    Correct();
                     ShowImageAswer(true);
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
+                    InCorrect();
                     ShowImageAswer(false);
                 }
                 break;
@@ -184,10 +194,12 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
 
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
+                    Correct();
                     ShowImageAswer(true);
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
+                    InCorrect();
                     ShowImageAswer(false);
                 }
                 break;
@@ -197,8 +209,17 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     void Update()
     {
         UpdateState();
+        IfDisconnect();
     }
 
+
+    private void IfDisconnect()
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
+            diconnectPalnet.SetActive(true);
+        }
+    }
     public void ShowImageAswer(bool _bool)
     {
         RoomData.Instance.aswer = _bool ? "Correct" : "InCorrect";
@@ -233,15 +254,18 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient) return;
         var roomData = JsonUtility.FromJson<RoomDataWapper>(_json);
         RoomData.Instance.gameStart = roomData.gameStart;
+        gameManager.StartState(Game_State.GameStart);
     }
 
     private void GameTimerUpdate(float _timer)
     {
+
         if (!PhotonNetwork.IsMasterClient) return;
         RoomData.Instance.timer = _timer;
         if (_timer <= 0)
         {
             gameManager.StartState(Game_State.Game_Over);
+            Debug.Log("Game OVer");
         }
 
         photonView.RPC("RPC_ReciveTimer", RpcTarget.Others, _timer);
@@ -275,5 +299,29 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     {
         aswer = false;
         gameManager.StartState(Game_State.ShowImage);
+    }
+
+
+    IEnumerator KeepIn()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(10f);
+            photonView.RPC("RPC_KeepIn", RpcTarget.MasterClient);
+        }
+    }
+    [PunRPC]
+    private void RPC_KeepIn()
+    {
+        Debug.Log("HI");
+    }
+
+    public override void OnLeftRoom()
+    {
+        if (co_KeepIm != null)
+        {
+            StopCoroutine(co_KeepIm);
+            co_KeepIm = null;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine.UI;
 using System.Collections;
 public class ConnectToLobby : MonoBehaviourPunCallbacks
@@ -10,14 +11,17 @@ public class ConnectToLobby : MonoBehaviourPunCallbacks
     private void Start()
     {
         loadBar.fillAmount = 0;
-         PhotonNetwork.IsMessageQueueRunning = true;
+        PhotonNetwork.IsMessageQueueRunning = true;
         if (PhotonNetwork.IsConnected)
         {
             StartCoroutine(CountDownToloadScene());
         }
         else
         {
-
+            PhotonNetwork.NetworkingClient.LoadBalancingPeer.DisconnectTimeout = 60000;
+            PhotonNetwork.KeepAliveInBackground = 50f;
+            // PhotonNetwork.NetworkingClient.LoadBalancingPeer.defaulr
+            //  PhotonNetwork.SendTimeout = 5000;
             PhotonNetwork.ConnectUsingSettings();
 
         }

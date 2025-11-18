@@ -64,6 +64,7 @@ MonoBehaviour:
   - RPC_LeaveAllPlayer
   - RPC_ReciveAswer
   - RPC_ReciveTimer
+  - RPC_KeepIn
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
