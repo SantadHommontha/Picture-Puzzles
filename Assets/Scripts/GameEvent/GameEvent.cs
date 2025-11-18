@@ -16,7 +16,7 @@ public class GameEvent : ScriptableObject
     {
         if (GameEventSettng.showEventDebug)
         {
-            Debug.Log($"Raise Event {name} at Gameobj {_sender.name} ");
+//            Debug.Log($"Raise Event {name} at Gameobj {_sender.name} ");
         }
         foreach (var t in listeners)
         {

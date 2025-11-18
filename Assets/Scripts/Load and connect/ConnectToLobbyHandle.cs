@@ -14,7 +14,7 @@ public class ConnectToLobbyHandle : MonoBehaviour
     void Start()
     {
 
-        connectToLobby.ConnectToMaster();
+     //   connectToLobby.ConnectToMaster();
 
     }
 }

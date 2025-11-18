@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using Photon.Pun;
+using Unity.Mathematics;
 
 [System.Serializable]
 public class SetUpWapper
@@ -93,6 +94,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     void Start()
     {
         //SetOriginalTexturn();
+        myIndex = UnityEngine.Random.Range(0, 1000);
 
     }
     [ContextMenu("SetOriginalTexturn")]
@@ -183,27 +185,29 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     }
     #endregion
 
-
-
+    public void ShowOriginalImage()
+    {
+        mainGiltch.ShowOriginalImage();
+    }
     #region SendAndRecive FadeData
 
     public void StartSendFadeData()
     {
-        Debug.Log("StartSendFadeData ");
+     //   Debug.Log("StartSendFadeData ");
         StopAllCoroutines();
         StartCoroutine(SendFaerDataToMaster());
 
     }
     public void StopSendFadeData()
     {
-          Debug.Log("StopSendFadeData ");
+     //   Debug.Log("StopSendFadeData ");
         StopAllCoroutines();
     }
     IEnumerator SendFaerDataToMaster()
     {
         while (RoomData.Instance.gameStart)
         {
-                   Debug.Log("SendFaerDataToMaster ");
+         //   Debug.Log("SendFaerDataToMaster ");
             yield return new WaitForSeconds(timeToSendFadeDataToMaster);
             RequateFadeData();
         }
@@ -211,7 +215,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
 
     public void RequateFadeData()
     {
-        Debug.Log("RequateFadeData ");
+       // Debug.Log("RequateFadeData ");
         photonView.RPC("RPC_SendFadeData", RpcTarget.Others);
     }
 
@@ -219,6 +223,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
 
     public void RPC_SendFadeData()
     {
+        mainGiltch.canFade = false;
         FadeDataWapper fadeDataWapper = new FadeDataWapper();
         mainGiltch.GetFadeData(out var _colorFadeValue, out var _changedPixels);
         var array1d = mainGiltch.ConverArray2DTo1D<float>(_colorFadeValue, out var _width, out var _height);
@@ -230,16 +235,16 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         fadeDataWapper.indexNotRevice = myIndex;
 
         var jsonData = JsonUtility.ToJson(fadeDataWapper);
-        Debug.Log($"RPC_SendFadeData {jsonData}");
+      //  Debug.Log($"RPC_SendFadeData {jsonData}");
         photonView.RPC("RPC_ReciveFadeData", RpcTarget.MasterClient, jsonData);
         mainGiltch.ClearFadeData();
-
+        mainGiltch.canFade = true;
     }
 
     [PunRPC]
     private void RPC_ReciveFadeData(string _jsonData)
     {
-        Debug.Log($"RPC_ReciveFadeData {_jsonData}");
+//        Debug.Log($"RPC_ReciveFadeData {_jsonData}");
         FadeDataWapper fadeDataWapper = JsonUtility.FromJson<FadeDataWapper>(_jsonData);
 
         var array2d = mainGiltch.ConvertArray1DTo2D<float>(fadeDataWapper.colorFadeValue, fadeDataWapper.width, fadeDataWapper.height);
@@ -254,9 +259,9 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_ReciveFadeDataFormMaster(string _jsonData)
     {
-        Debug.Log($"RPC_ReciveFadeDataFormMaster {_jsonData}");
+      //  Debug.Log($"RPC_ReciveFadeDataFormMaster {_jsonData}");
         FadeDataWapper fadeDataWapper = JsonUtility.FromJson<FadeDataWapper>(_jsonData);
-     //   if (fadeDataWapper.indexNotRevice == myIndex) return;
+        if (fadeDataWapper.indexNotRevice == myIndex) return;
 
         var array2d = mainGiltch.ConvertArray1DTo2D<float>(fadeDataWapper.colorFadeValue, fadeDataWapper.width, fadeDataWapper.height);
         mainGiltch.ReciveData(array2d, fadeDataWapper.changedPixels);
@@ -337,14 +342,14 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
 
     void OnMouseDrag()
     {
-        if (CheckForMouseMovement())
+        if (CheckForMouseMovement() && RoomData.Instance.gameStart)
         {
             mainGiltch.MouseDrag();
         }
     }
     public void OnMouseDragForOther()
     {
-        if (CheckForMouseMovement())
+        if (CheckForMouseMovement() && RoomData.Instance.gameStart)
         {
             mainGiltch.MouseDrag();
         }

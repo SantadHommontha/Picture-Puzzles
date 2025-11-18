@@ -10,9 +10,9 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
     public List<RoomInfo> GGGG = new List<RoomInfo>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public Image load_fild;
+    //  public Image load_fild;
 
-
+    [SerializeField] private CreateAndJoinRoom createAndJoinRoom;
 
 
     void Awake()
@@ -37,21 +37,22 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
         PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
 
         PhotonNetwork.ConnectUsingSettings();
-    //    load_fild.fillAmount = 0;
+        //    load_fild.fillAmount = 0;
     }
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
-        PhotonNetwork.JoinLobby();
+        if (!PhotonNetwork.InLobby)
+            PhotonNetwork.JoinLobby();
         Debug.Log("Connect To Server");
-    //    load_fild.fillAmount = 0.4f;
+        //    load_fild.fillAmount = 0.4f;
     }
 
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
         Debug.Log("Join a Lobby");
-    //    load_fild.fillAmount = 1f;
+        //    load_fild.fillAmount = 1f;
 
         GameManager.Instance.StartState(Game_State.Enter_Room);
 
@@ -60,10 +61,10 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-    //    GameManager.Instance.AfterJoinRoom();
+        //    GameManager.Instance.AfterJoinRoom();
         Debug.Log("Join a Room");
 
-        
+
 
     }
     public void JoinRoom(string _roomName)
@@ -78,7 +79,7 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
         // roomOptions.IsVisible = true;
         // roomOptions.IsOpen = true;
         // PhotonNetwork.JoinOrCreateRoom(_roomName, roomOptions, null);
-       
+
         RoomOptions options = new RoomOptions();
         options.IsVisible = true;
         options.IsOpen = true;
@@ -88,9 +89,25 @@ public class RoomManager : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene("Enter Room");
-     //   GameManager.instance.Start_State(Game_State.Main_Menu);
+
+        //   GameManager.instance.Start_State(Game_State.Main_Menu);
     }
+    public void LeaveAllPlayer()
+    {
+        photonView.RPC("RPC_LeaveAllPlayer", RpcTarget.Others);
+    }
+    [PunRPC]
+    private void RPC_LeaveAllPlayer()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+    public override void OnLeftRoom()
+    {
+        if (createAndJoinRoom)
+            if (createAndJoinRoom.createNewRoom) return;
+        SceneManager.LoadScene("Enter Room");
+    }
+
     public bool RoomHasCreate(string _roomName)
     {
         // เช็คว่ามีห้องที่ต้องการอยู่หรือไม่

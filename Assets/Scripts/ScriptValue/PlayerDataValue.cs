@@ -24,6 +24,6 @@ public class PlayerDataValue : ScriptableValue<playerDataDisplay>
     public override void SetValue(playerDataDisplay _value)
     {
         base.SetValue(_value);
-        OnValueChange.Invoke(value);
+        OnValueChange?.Invoke(value);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Photon.Pun;
 using UnityEngine;
 
@@ -12,7 +13,9 @@ public enum Game_State
     Wait_For_Play, // Play
     SetUPImage,
     Play,
-    Game_Over
+    GameStart,
+    Game_Over,
+    ShowImage
 }
 
 
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour
     public SpriteShow[] spriteShows;
     private static bool applicationIsQuitting = false;
 
+    public Action<Game_State> changeState;
 
     private void Awake()
     {
@@ -76,21 +80,24 @@ public class GameManager : MonoBehaviour
                 break;
             case Game_State.Play:
                 evenCollect.play.Raise(this, -999);
-                RoomData.Instance.gameStart = true;
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    PixelatedHandle.Instance.StartSendFadeData();
-                }
-                else
-                {
 
-                }
+
+                break;
+            case Game_State.GameStart:
+                evenCollect.gameStart.Raise(this, -999);
+                RoomData.Instance.gameStart = true;
                 break;
             case Game_State.Game_Over:
-                PixelatedHandle.Instance.StopSendFadeData();
+
+                RoomData.Instance.gameStart = false;
                 evenCollect.gameover.Raise(this, -999);
                 break;
+            case Game_State.ShowImage:
+                evenCollect.showImage.Raise(this, -999);
+
+                break;
         }
+        changeState?.Invoke(_new_State);
     }
 
     public void EndState()
@@ -140,6 +147,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     //Call with btn
     public void ConfirmBTN()
     {
@@ -160,10 +169,24 @@ public class GameManager : MonoBehaviour
 
     public void GameStart()
     {
-        StartState(Game_State.Play);
+        StartState(Game_State.GameStart);
     }
 
 
+
+    public void ResetRoom()
+    {
+        StartState(Game_State.Choose_Image);
+        TeamManager.Instance.ClearPlayer();
+        RoomData.Instance.Defualt();
+        RoomManager.Instance.LeaveAllPlayer();
+    }
+
+
+    public void BackToChooseImage()
+    {
+        StartState(Game_State.Choose_Image);
+    }
 
 
 

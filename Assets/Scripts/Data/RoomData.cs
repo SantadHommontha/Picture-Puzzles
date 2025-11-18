@@ -1,6 +1,14 @@
 
 using UnityEngine;
 
+[System.Serializable]
+public class RoomDataWapper
+{
+    public bool gameStart;
+    public float gameTime = 5f;
+    public float timer;
+    public string aswer;
+}
 public class RoomData : MonoBehaviour
 {
 
@@ -27,8 +35,11 @@ public class RoomData : MonoBehaviour
     public bool isPlayer;
     public PlayerData[] playerDatas;
     public bool gameStart;
+    public float gameTime = 5f;
+    public float timer;
+    public string aswer;
 
-       private void Awake()
+    private void Awake()
     {
         if (_instance != null && _instance != this) Destroy(this.gameObject);
         else _instance = this;
@@ -43,7 +54,11 @@ public class RoomData : MonoBehaviour
             _instance = null;
         }
     }
-
+    public void Defualt()
+    {
+        timer = 0f;
+        gameStart = false;
+    }
     public void Reset()
     {
         roomCode = "";
@@ -51,6 +66,9 @@ public class RoomData : MonoBehaviour
         isPlayer = false;
         playerDatas = null;
         gameStart = false;
+        // gameTime = 0f;
+        aswer = "";
+        timer = 0f;
     }
 
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class GenerateCode
 {
-    private static string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public static string GenerateRandomCode(int length = 4)
     {
         string result = "";

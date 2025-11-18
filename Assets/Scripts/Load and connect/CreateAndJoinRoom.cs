@@ -13,7 +13,8 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     [SerializeField] private BoolValue isAdmin;
     // [SerializeField] GameObject red;
     // [SerializeField] private GameObject green;
-
+    public bool useToCrateRoom;
+    [HideInInspector] public bool createNewRoom = false;
     void Start()
     {
         // PhotonNetwork.AutomaticallySyncScene = true;
@@ -21,9 +22,17 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         // PhotonNetwork.NetworkingClient.LoadBalancingPeer.SerializationProtocolType = ExitGames.Client.Photon.SerializationProtocol.GpBinaryV16;
         // PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "asia";
         // PhotonNetwork.ConnectUsingSettings();
+        if (useToCrateRoom) return;
+        PhotonNetwork.IsMessageQueueRunning = true;
         if (!PhotonNetwork.IsConnected)
         {
             ChangeMassage("Your Not Connect The Server", false);
+            PhotonNetwork.IsMessageQueueRunning = false;
+            SceneManager.LoadScene("Loading");
+        }
+        else
+        {
+
         }
     }
 
@@ -45,17 +54,31 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Master Server");
-        PhotonNetwork.JoinLobby();
+        if (!PhotonNetwork.InLobby)
+            PhotonNetwork.JoinLobby();
+
     }
 
     public override void OnJoinedLobby()
     {
         Debug.Log("Joined Lobby");
+        if (createNewRoom)
+        {
+            createNewRoom = false;
+            Debug.Log("CreateNewRoom");
+            RoomOptions options = new RoomOptions();
+            options.IsVisible = true;
+            options.IsOpen = true;
+            options.MaxPlayers = 5;
+            RoomData.Instance.isAdmin = true;
+            RoomData.Instance.roomCode = GenerateCode.GenerateRandomCode();
+            PhotonNetwork.CreateRoom(RoomData.Instance.roomCode.ToLower(), options);
+        }
     }
 
     public void CreateRoom()
     {
-         Debug.Log("CreateRoom F");
+        Debug.Log("CreateRoom F");
         RoomOptions options = new RoomOptions();
         options.IsVisible = true;
         options.IsOpen = true;
@@ -64,7 +87,16 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         RoomData.Instance.roomCode = GenerateCode.GenerateRandomCode();
         PhotonNetwork.CreateRoom(RoomData.Instance.roomCode.ToLower(), options);
     }
+    public void CreateNewRoom()
+    {
+        createNewRoom = true;
+        PhotonNetwork.LeaveRoom();
+    }
+    public override void OnLeftRoom()
+    {
 
+
+    }
     public void JoinRoom()
     {
         Debug.Log("JoinRoom F");
@@ -109,6 +141,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     private IEnumerator CountDownToLoadScene(string _scenename)
     {
+        PhotonNetwork.IsMessageQueueRunning = false;
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(_scenename);
     }

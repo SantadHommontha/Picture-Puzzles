@@ -33,7 +33,7 @@ public class TeamManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private static bool applicationIsQuitting = false;
+   // private static bool applicationIsQuitting = false;
     //[SerializeField] private int maxTeamCount = 3;
     [SerializeField] private TMP_Text report;
     //  [SerializeField] private StringValue code;
@@ -43,7 +43,7 @@ public class TeamManager : MonoBehaviourPunCallbacks
     [Header("Value")]
     [SerializeField] private List<PlayerDataValue> playerDataDisplay = new List<PlayerDataValue>();
 
-    [SerializeField] private BoolValue enterGame;
+   // [SerializeField] private BoolValue enterGame;
 
     public Team Team_Script => team;
     void Awake()
@@ -60,6 +60,10 @@ public class TeamManager : MonoBehaviourPunCallbacks
 
     }
 
+    public void ClearPlayer()
+    {
+        team.ClearAll();
+    }
     private void OnDestroy()
     {
         if (_instance == this)

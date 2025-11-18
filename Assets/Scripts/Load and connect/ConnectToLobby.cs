@@ -10,6 +10,7 @@ public class ConnectToLobby : MonoBehaviourPunCallbacks
     private void Start()
     {
         loadBar.fillAmount = 0;
+         PhotonNetwork.IsMessageQueueRunning = true;
         if (PhotonNetwork.IsConnected)
         {
             StartCoroutine(CountDownToloadScene());

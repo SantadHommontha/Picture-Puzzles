@@ -59,6 +59,11 @@ MonoBehaviour:
   - RPC_SendFadeData
   - RPC_ReciveFadeDataFormMaster
   - RPC_ReciveGameStartFormMaster
+  - RPC_ReiveGameDataForMaster
+  - RPC_ReciveGameOver
+  - RPC_LeaveAllPlayer
+  - RPC_ReciveAswer
+  - RPC_ReciveTimer
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

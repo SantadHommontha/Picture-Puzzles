@@ -20,6 +20,12 @@ public class Timer : MonoBehaviour
             StopCoroutine(timer_IE);
         timer_IE = StartCoroutine(IE_Timer(game_time.Value));
     }
+    public void StopTimer()
+    {
+        if (timer_IE != null)
+            StopCoroutine(timer_IE);
+        timer_IE = null;
+    }
     public void Start_Time(float _time)
     {
         if (timer_IE != null)
@@ -28,6 +34,7 @@ public class Timer : MonoBehaviour
     }
     private IEnumerator IE_Timer(float _time)
     {
+        Debug.Log("IE_Timer");
         timer.Value = _time;
 
         while (timer.Value >= 0)
@@ -36,8 +43,8 @@ public class Timer : MonoBehaviour
             timer.Value -= Time.deltaTime;
             yield return null;
         }
-
-        yield return null;
+        timer_IE = null;
+       
     }
 
 

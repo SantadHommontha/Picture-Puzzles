@@ -10,5 +10,7 @@ public class EvenCollect : MonoBehaviour
     public GameEvent setUpImage;
     public GameEvent waitForPlay;
     public GameEvent play;
+    public GameEvent gameStart;
+      public GameEvent showImage;
 
 }

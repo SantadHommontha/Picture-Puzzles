@@ -11,7 +11,7 @@ public class PlayerDataDisplay : MonoBehaviour
 
     [SerializeField] private StringValue playerName;
     [SerializeField] private StringValue playerId;
-    
+
     void Start()
     {
         // playerDataValue.OnValueChange += UpdateText;
@@ -34,7 +34,8 @@ public class PlayerDataDisplay : MonoBehaviour
 
     public void UpdateText(string _playerName)
     {
-        name_text.text = _playerName;
+        if (name_text.text != _playerName)
+            name_text.text = _playerName;
     }
 
     public void Kick()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System;
+using UnityEngine.InputSystem;
 
 
 
@@ -66,6 +67,11 @@ public class GlitchPixelated : MonoBehaviour
     [SerializeField] BoxCollider2D collider;
     private int sizeX, sizeY;
 
+    [SerializeField] private IntValue v_dividePixels;
+    [SerializeField] private FloatValue v_mouseDragRadius;
+    [SerializeField] private FloatValue v_fadeSpeed;
+
+
     #endregion
     void Start()
     {
@@ -79,7 +85,39 @@ public class GlitchPixelated : MonoBehaviour
 
     }
 
+    public void ShowOriginalImage()
+    {
 
+        spriteRenderer.sprite = ConvertTextureToSprite(originalTexture);
+    }
+    public Sprite ConvertTextureToSprite(Texture2D texture)
+    {
+       
+        Rect rect = new Rect(0, 0, texture.width, texture.height);
+
+     
+        Vector2 pivot = new Vector2(0.5f, 0.5f);
+
+     
+        float pixelsPerUnit = 100f;
+
+      
+        Sprite newSprite = Sprite.Create(
+            texture,
+            rect,
+            pivot,
+            pixelsPerUnit
+        );
+
+        return newSprite;
+    }
+
+    public void SetSetting()
+    {
+        dividePixels = v_dividePixels.Value;
+        mouseDragRadius = v_mouseDragRadius.Value;
+        fadeSpeed = v_fadeSpeed.Value;
+    }
     // เซ็คค่าพื้นฐานต่างๆ
     public void SetUp()
     {
@@ -266,7 +304,7 @@ public class GlitchPixelated : MonoBehaviour
 
         var changeIndex = new Vector2Int(fps.x, fps.y);
         //      changedPixelsData.Add(changeIndex);
-        
+
         if (!changedPixels.Contains(changeIndex))
             changedPixels.Add(changeIndex);
         /**
@@ -368,7 +406,7 @@ public class GlitchPixelated : MonoBehaviour
                 FadePixel(gx, gy, coloraFade[gx, gy], true);
                 currentColorFadeAdded[gx, gy] += fadeSpeed;
                 var cp = new Vector2Int(gx, gy);
-               // Debug.Log(cp);
+                // Debug.Log(cp);
                 if (!changedPixels.Contains(cp))
                     changedPixels.Add(cp);
                 // Debug.Log($"gg");

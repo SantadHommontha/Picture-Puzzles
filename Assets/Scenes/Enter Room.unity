@@ -151,7 +151,8 @@ MonoBehaviour:
   roomInput: {fileID: 1063808281}
   massage: {fileID: 1317629627}
   adminCode: mine
-  isAdmin: {fileID: 0}
+  isAdmin: {fileID: 11400000, guid: f12a839045355d24ca16b3e9b455ef8d, type: 2}
+  useToCrateRoom: 0
 --- !u!4 &200263441
 Transform:
   m_ObjectHideFlags: 0
@@ -273,8 +274,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41d093b7269663845a3adaf5f20a89b3, type: 2}
-  m_sharedMaterial: {fileID: 3913419364001827219, guid: 41d093b7269663845a3adaf5f20a89b3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 16f2fcb68e6b6884fa0a1b3c882aee94, type: 2}
+  m_sharedMaterial: {fileID: 9049722958277292865, guid: 16f2fcb68e6b6884fa0a1b3c882aee94, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -551,8 +552,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ENTER ROOM CODE
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41d093b7269663845a3adaf5f20a89b3, type: 2}
-  m_sharedMaterial: {fileID: 3913419364001827219, guid: 41d093b7269663845a3adaf5f20a89b3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 16f2fcb68e6b6884fa0a1b3c882aee94, type: 2}
+  m_sharedMaterial: {fileID: 9049722958277292865, guid: 16f2fcb68e6b6884fa0a1b3c882aee94, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1177,6 +1178,9 @@ MonoBehaviour:
   isAdmin: 0
   isPlayer: 0
   playerDatas: []
+  gameStart: 0
+  gameTime: 5
+  timer: 0
 --- !u!4 &1073709485
 Transform:
   m_ObjectHideFlags: 0
