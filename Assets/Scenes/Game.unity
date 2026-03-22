@@ -2100,6 +2100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 128878229}
+  - component: {fileID: 128878230}
   m_Layer: 5
   m_Name: Canvas Icon
   m_TagString: Untagged
@@ -2127,6 +2128,19 @@ RectTransform:
   m_AnchoredPosition: {x: 540, y: 960}
   m_SizeDelta: {x: 1080, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &128878230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128878225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 086ec4862028d8247b53abea85b46149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1503556481}
 --- !u!1 &168650960
 GameObject:
   m_ObjectHideFlags: 0
@@ -4163,7 +4177,7 @@ GameObject:
   - component: {fileID: 342205532}
   - component: {fileID: 342205533}
   m_Layer: 5
-  m_Name: 'Aniamtion Toggle '
+  m_Name: 'Songkran Toggle '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4274,12 +4288,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: 5d60cc06f9598f14a9da249b69c6aa07, type: 3}
-  - {fileID: 21300000, guid: cd4efb0b70987814ebe8136e26e38023, type: 3}
-  - {fileID: 21300000, guid: f49e7033260be9244927db743b1507e9, type: 3}
-  - {fileID: 21300000, guid: 91adb4b36f4606a4ea54e7d99e2860c8, type: 3}
-  - {fileID: 21300000, guid: 221bc3c68c33e1d488eeb17d0e162f17, type: 3}
-  - {fileID: 21300000, guid: 6f4b1475384d77e45918f66fec6c07ac, type: 3}
+  - {fileID: 21300000, guid: 8c769a21a70b9e347a5282de087695a8, type: 3}
+  - {fileID: 21300000, guid: 2b81f5ec446b90f469fe1006fdbe0e64, type: 3}
+  - {fileID: 21300000, guid: c9a9c36b7f7f2724db48fac2aae0dd0b, type: 3}
+  - {fileID: 21300000, guid: dfa212a19a0fdcb40af7750abe1bcbde, type: 3}
+  - {fileID: 21300000, guid: 9a17fb8c24b552f4392188a522520209, type: 3}
+  - {fileID: 21300000, guid: 92cb2dbe80acc7842bd02ca8b5fb9340, type: 3}
   sptiteShowItem:
   - {fileID: 671633914}
   - {fileID: 2015024085}
@@ -9221,7 +9235,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ANIMATION
+  m_text: Songkran
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a2c19cf91ffd48c4e888d72f4cc7ce1d, type: 2}
   m_sharedMaterial: {fileID: 6166558249363209319, guid: a2c19cf91ffd48c4e888d72f4cc7ce1d, type: 2}

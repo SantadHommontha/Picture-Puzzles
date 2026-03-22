@@ -300,7 +300,10 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
         aswer = false;
         gameManager.StartState(Game_State.ShowImage);
     }
-
+    public void SHoww()
+    {
+        gameManager.StartState(Game_State.ShowImage);
+    }
 
     IEnumerator KeepIn()
     {
