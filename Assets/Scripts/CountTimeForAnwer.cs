@@ -41,6 +41,7 @@ public class CountTimeForAnwer : MonoBehaviour
             yield return new WaitForSeconds(Time.deltaTime);
         }
         afterCountTimeEvent?.Raise(this,-979);
+        ct = null;
     }
 }
 
