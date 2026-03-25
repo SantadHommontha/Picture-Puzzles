@@ -181,27 +181,34 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
 
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                    Correct();
-                    ShowImageAswer(true);
+                    // Correct();
+                    //   ShowImageAswer(true);
+
+                    //  StartState(Game_State.ShowImage);
+                    gameManager.StartState(Game_State.ShowImage);
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
-                    InCorrect();
-                    ShowImageAswer(false);
+                    //  InCorrect();
+                    //   ShowImageAswer(false);
+                    //   StartState(Game_State.ShowImage);
+                    gameManager.StartState(Game_State.ShowImage);
                 }
+                Debug.Log("111111");
                 break;
             case Game_State.ShowImage:
 
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                    Correct();
+                   // Correct();
                     ShowImageAswer(true);
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
-                    InCorrect();
+                  //  InCorrect();
                     ShowImageAswer(false);
                 }
+                Debug.Log("2222222");
                 break;
         }
     }
