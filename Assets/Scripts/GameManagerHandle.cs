@@ -1,5 +1,6 @@
-using System.Collections;
 using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(GameManager))]
@@ -32,7 +33,9 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
             gameManager.StartState(Game_State.Enter_Name);
         }
 
-
+        if (co_KeepIm != null)
+            StopCoroutine(co_KeepIm);
+        co_KeepIm = StartCoroutine(KeepIn());
         diconnectPalnet.SetActive(false);
     }
 
@@ -52,9 +55,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 {
 
                     timerValue.OnValueChange += GameTimerUpdate;
-                    if (co_KeepIm != null)
-                        StopCoroutine(co_KeepIm);
-                    co_KeepIm = StartCoroutine(KeepIn());
+                   
                 }
                 else
                 {
@@ -317,13 +318,13 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
         while (true)
         {
             yield return new WaitForSeconds(10f);
-            photonView.RPC("RPC_KeepIn", RpcTarget.MasterClient);
+            photonView.RPC("RPC_KeepIn", RpcTarget.All);
         }
     }
     [PunRPC]
     private void RPC_KeepIn()
     {
-        Debug.Log("HI");
+        Debug.Log("KeepIn");
     }
 
     public override void OnLeftRoom()
@@ -332,6 +333,42 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
         {
             StopCoroutine(co_KeepIm);
             co_KeepIm = null;
+        }
+        wasInRoom = false;
+    }
+
+
+
+    private bool wasInRoom = false;
+
+    public override void OnJoinedRoom()
+    {
+        // ???????????????????????????????
+        wasInRoom = true;
+        Debug.Log("Joined Room Successfully!");
+    }
+
+    //public override void OnLeftRoom()
+    //{
+    //    // ????????????????????????????????? ???????????????
+    //    wasInRoom = false;
+    //}
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.LogWarning($"Disconnected from Photon. Cause: {cause}");
+
+        // ?????????????????? Disconnect ??? ???????????????????
+        if (cause != DisconnectCause.DisconnectByClientLogic && wasInRoom)
+        {
+            Debug.Log("Attempting to Reconnect and Rejoin the room...");
+            // ????????????: ???????????????????????????????????????????
+            bool isReconnecting = PhotonNetwork.ReconnectAndRejoin();
+
+            if (!isReconnecting)
+            {
+                Debug.LogError("Failed to initiate ReconnectAndRejoin.");
+            }
         }
     }
 }
