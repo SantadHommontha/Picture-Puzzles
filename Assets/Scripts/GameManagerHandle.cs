@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 ﻿using Photon.Pun;
 using Photon.Realtime;
+=======
+>>>>>>> parent of 18c8e95 (fix game time out)
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
 [RequireComponent(typeof(GameManager))]
@@ -33,9 +37,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
             gameManager.StartState(Game_State.Enter_Name);
         }
 
-        if (co_KeepIm != null)
-            StopCoroutine(co_KeepIm);
-        co_KeepIm = StartCoroutine(KeepIn());
+
         diconnectPalnet.SetActive(false);
     }
 
@@ -55,7 +57,9 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 {
 
                     timerValue.OnValueChange += GameTimerUpdate;
-                   
+                    if (co_KeepIm != null)
+                        StopCoroutine(co_KeepIm);
+                    co_KeepIm = StartCoroutine(KeepIn());
                 }
                 else
                 {
@@ -318,13 +322,13 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
         while (true)
         {
             yield return new WaitForSeconds(10f);
-            photonView.RPC("RPC_KeepIn", RpcTarget.All);
+            photonView.RPC("RPC_KeepIn", RpcTarget.MasterClient);
         }
     }
     [PunRPC]
     private void RPC_KeepIn()
     {
-        Debug.Log("KeepIn");
+        Debug.Log("HI");
     }
 
     public override void OnLeftRoom()
@@ -334,6 +338,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
             StopCoroutine(co_KeepIm);
             co_KeepIm = null;
         }
+<<<<<<< HEAD
         wasInRoom = false;
     }
 
@@ -371,5 +376,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 PhotonNetwork.ConnectUsingSettings();
             }
         }
+=======
+>>>>>>> parent of 18c8e95 (fix game time out)
     }
 }
