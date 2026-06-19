@@ -11,6 +11,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text massage;
     [SerializeField] private string adminCode = "mine";
     [SerializeField] private BoolValue isAdmin;
+    private Coroutine ie_keep;
     // [SerializeField] GameObject red;
     // [SerializeField] private GameObject green;
     public bool useToCrateRoom;
@@ -24,6 +25,10 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         // PhotonNetwork.ConnectUsingSettings();
         if (useToCrateRoom) return;
         PhotonNetwork.IsMessageQueueRunning = true;
+
+        if (ie_keep != null)
+            StopCoroutine(ie_keep);
+        ie_keep = StartCoroutine(KeepIn());
         if (!PhotonNetwork.IsConnected)
         {
             ChangeMassage("Your Not Connect The Server", false);
@@ -145,4 +150,24 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(_scenename);
     }
+
+
+   
+
+    private IEnumerator KeepIn()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(10);
+            photonView.RPC("Keep", RpcTarget.MasterClient);
+        }
+    }
+
+    [PunRPC]
+    private void Keep()
+    {
+        Debug.Log("Keep In");
+    }
+
+
 }
