@@ -1,6 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ﻿using Photon.Pun;
 using Photon.Realtime;
+=======
+>>>>>>> parent of 18c8e95 (fix game time out)
 =======
 >>>>>>> parent of 18c8e95 (fix game time out)
 using System.Collections;
@@ -339,6 +342,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
             co_KeepIm = null;
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         wasInRoom = false;
     }
 
@@ -376,6 +380,8 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 PhotonNetwork.ConnectUsingSettings();
             }
         }
+=======
+>>>>>>> parent of 18c8e95 (fix game time out)
 =======
 >>>>>>> parent of 18c8e95 (fix game time out)
     }

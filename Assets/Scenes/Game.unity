@@ -4281,8 +4281,13 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_AnchoredPosition: {x: 0, y: -51}
   m_SizeDelta: {x: 440, y: 1001.8477}
+=======
+  m_AnchoredPosition: {x: 0, y: 10.080017}
+  m_SizeDelta: {x: 440, y: 1080}
+>>>>>>> parent of 18c8e95 (fix game time out)
 =======
   m_AnchoredPosition: {x: 0, y: 10.080017}
   m_SizeDelta: {x: 440, y: 1080}
@@ -17830,6 +17835,7 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
     - target: {fileID: 203693789812864530, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.9777778
@@ -17858,6 +17864,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -40.35741
       objectReference: {fileID: 0}
+=======
+>>>>>>> parent of 18c8e95 (fix game time out)
 =======
 >>>>>>> parent of 18c8e95 (fix game time out)
     - target: {fileID: 331249748023161045, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
@@ -18021,6 +18029,7 @@ PrefabInstance:
     - target: {fileID: 897936176676692726, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_SizeDelta.y
       value: 1440
+<<<<<<< HEAD
       objectReference: {fileID: 0}
     - target: {fileID: 897936176676692726, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_LocalScale.x
@@ -18033,6 +18042,8 @@ PrefabInstance:
     - target: {fileID: 897936176676692726, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.7285537
+=======
+>>>>>>> parent of 18c8e95 (fix game time out)
       objectReference: {fileID: 0}
     - target: {fileID: 897936176676692726, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -18041,7 +18052,11 @@ PrefabInstance:
     - target: {fileID: 897936176676692726, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_AnchoredPosition.y
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 655
+=======
+      value: 720
+>>>>>>> parent of 18c8e95 (fix game time out)
 =======
       value: 720
 >>>>>>> parent of 18c8e95 (fix game time out)
@@ -18987,6 +19002,7 @@ PrefabInstance:
       value: 1080
       objectReference: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
     - target: {fileID: 8066489216223943566, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_SizeDelta.y
       value: 1079.6926
@@ -18995,6 +19011,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -442.5037
       objectReference: {fileID: 0}
+=======
+>>>>>>> parent of 18c8e95 (fix game time out)
 =======
 >>>>>>> parent of 18c8e95 (fix game time out)
     - target: {fileID: 8137601152341889541, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
@@ -19156,7 +19174,11 @@ PrefabInstance:
     - target: {fileID: 8472293319611697148, guid: 07a71a23737b9c94f910c8efe39909fb, type: 3}
       propertyPath: m_AnchoredPosition.y
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: -402
+=======
+      value: -257
+>>>>>>> parent of 18c8e95 (fix game time out)
 =======
       value: -257
 >>>>>>> parent of 18c8e95 (fix game time out)
