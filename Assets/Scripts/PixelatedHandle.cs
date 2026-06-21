@@ -195,7 +195,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     {
      //   Debug.Log("StartSendFadeData ");
         StopAllCoroutines();
-        StartCoroutine(SendFaerDataToMaster());
+     //   StartCoroutine(SendFaerDataToMaster());
 
     }
     public void StopSendFadeData()

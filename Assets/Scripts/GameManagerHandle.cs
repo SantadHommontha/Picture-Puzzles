@@ -14,6 +14,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
 
     [SerializeField] private GameObject diconnectPalnet;
     private Coroutine co_KeepIm;
+    [SerializeField] private FloatValue gameTimerValue; 
     void Awake()
     {
         gameManager = GetComponent<GameManager>();
@@ -63,14 +64,14 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 }
                 break;
             case Game_State.Wait_For_Play:
-
+                gameTimerValue.Value = RoomData.Instance.gameTime;
                 break;
 
             case Game_State.SetUPImage:
-
+                gameTimerValue.Value = RoomData.Instance.gameTime;
                 break;
             case Game_State.Play:
-
+                gameTimerValue.Value = RoomData.Instance.gameTime;
                 break;
             case Game_State.GameStart:
 
@@ -195,7 +196,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                     //   StartState(Game_State.ShowImage);
                     gameManager.StartState(Game_State.ShowImage);
                 }
-                Debug.Log("111111");
+              //  Debug.Log("111111");
                 break;
             case Game_State.ShowImage:
 
@@ -209,7 +210,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                   //  InCorrect();
                     ShowImageAswer(false);
                 }
-                Debug.Log("2222222");
+             //   Debug.Log("2222222");
                 break;
         }
     }
