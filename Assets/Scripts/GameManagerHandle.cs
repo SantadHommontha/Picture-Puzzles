@@ -14,7 +14,12 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
 
     [SerializeField] private GameObject diconnectPalnet;
     private Coroutine co_KeepIm;
-    [SerializeField] private FloatValue gameTimerValue; 
+    [SerializeField] private FloatValue gameTimerValue;
+
+
+
+
+    [SerializeField] private GameObject aftermathAnswerBTN;
     void Awake()
     {
         gameManager = GetComponent<GameManager>();
