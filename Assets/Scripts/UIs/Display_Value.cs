@@ -12,6 +12,18 @@ public class Display_Value : MonoBehaviour
     [SerializeField] private FloatValue floatValue;
     [SerializeField] private StringValue stringValue;
 
+    [Space]
+    [SerializeField] private bool updateOnEnable = false;
+
+    public void OnEnable()
+    {
+        if (updateOnEnable)
+        {
+            if (stringValue) Show_UI(stringValue.Value);
+            if (intValue) Show_UI(intValue.Value.ToString());
+            if (floatValue) Show_UI(floatValue.Value.ToString("F1"));
+        }
+    }
     void Start()
     {   
         if (stringValue) stringValue.OnValueChange += Show_UI;
