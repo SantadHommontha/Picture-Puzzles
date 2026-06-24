@@ -86,9 +86,10 @@ public class GameManager : MonoBehaviour
             case Game_State.GameStart:
                 evenCollect.gameStart.Raise(this, -999);
                 RoomData.Instance.gameStart = true;
+
                 break;
             case Game_State.Game_Over:
-
+                 
                 RoomData.Instance.gameStart = false;
                 evenCollect.gameover.Raise(this, -999);
                 break;

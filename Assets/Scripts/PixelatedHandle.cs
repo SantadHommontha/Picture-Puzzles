@@ -252,7 +252,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
 
         mainGiltch.ReciveData(array2d, fadeDataWapper.changedPixels);
 
-        photonView.RPC("RPC_ReciveFadeDataFormMaster", RpcTarget.Others, _jsonData);
+      //  photonView.RPC("RPC_ReciveFadeDataFormMaster", RpcTarget.Others, _jsonData);
     }
 
 
@@ -322,19 +322,6 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

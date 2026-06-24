@@ -16,7 +16,8 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     private Coroutine co_KeepIm;
     [SerializeField] private FloatValue gameTimerValue;
 
-
+    [SerializeField] private GameObject play_screen_admin;
+    [SerializeField] private GameObject play_screen_client;
 
 
     [SerializeField] private GameObject aftermathAnswerBTN;
@@ -78,6 +79,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 break;
             case Game_State.Play:
                 gameTimerValue.Value = RoomData.Instance.gameTime;
+               
                 break;
             case Game_State.GameStart:
 
@@ -86,11 +88,15 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 {
                     PixelatedHandle.Instance.StartSendFadeData();
                     timer.Start_Time(RoomData.Instance.gameTime);
+                    play_screen_admin.SetActive(true);
+                    play_screen_client.SetActive(false);
                     SendGameDataToOther();
+
                 }
                 else
                 {
-
+                    play_screen_admin.SetActive(false);
+                    play_screen_client.SetActive(true);
                 }
                 break;
             case Game_State.Game_Over:
@@ -99,7 +105,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                     PixelatedHandle.Instance.StopSendFadeData();
                     timer.StopTimer();
                     SetGameOver();
-
+                    PixelatedHandle.Instance.RequateFadeData();
                 }
                 else
                 {
@@ -346,7 +352,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
 
     public void BacktoChooseImage()
     {
-        StartState(Game_State.Choose_Image);
+      //  StartState(Game_State.Choose_Image);
         photonView.RPC("RPC_BackTochooseImage", RpcTarget.Others);
     }
     [PunRPC]
