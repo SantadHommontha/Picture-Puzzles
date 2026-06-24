@@ -15,9 +15,10 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject diconnectPalnet;
     private Coroutine co_KeepIm;
     [SerializeField] private FloatValue gameTimerValue;
-
+    [SerializeField] private BoolValue v_oneClick;
     [SerializeField] private GameObject play_screen_admin;
     [SerializeField] private GameObject play_screen_client;
+    [SerializeField] private GameObject answerButton;
 
 
     [SerializeField] private GameObject aftermathAnswerBTN;
@@ -63,8 +64,8 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 {
 
                     timerValue.OnValueChange += GameTimerUpdate;
-                   
-                }
+                    BacktoChooseImage();
+                } 
                 else
                 {
 
@@ -72,6 +73,12 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 break;
             case Game_State.Wait_For_Play:
                 gameTimerValue.Value = RoomData.Instance.gameTime;
+                if (PhotonNetwork.IsMasterClient)
+                {
+
+
+                    TurnOffCanfade();
+                }
                 break;
 
             case Game_State.SetUPImage:
@@ -79,7 +86,17 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 break;
             case Game_State.Play:
                 gameTimerValue.Value = RoomData.Instance.gameTime;
-               
+                if (PhotonNetwork.IsMasterClient)
+                {         
+                    play_screen_admin.SetActive(true);
+                    play_screen_client.SetActive(false);
+                    TurnOnCanfade();
+                }
+                else
+                {
+                    play_screen_admin.SetActive(false);
+                    play_screen_client.SetActive(true);    
+                }
                 break;
             case Game_State.GameStart:
 
@@ -91,12 +108,14 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                     play_screen_admin.SetActive(true);
                     play_screen_client.SetActive(false);
                     SendGameDataToOther();
+                    PixelatedHandle.Instance.mainGiltch.canFade = true;
 
                 }
                 else
                 {
                     play_screen_admin.SetActive(false);
                     play_screen_client.SetActive(true);
+                    PixelatedHandle.Instance.mainGiltch.canFade = true ;
                 }
                 break;
             case Game_State.Game_Over:
@@ -104,12 +123,16 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 {
                     PixelatedHandle.Instance.StopSendFadeData();
                     timer.StopTimer();
+                    answerButton.SetActive(true);
                     SetGameOver();
                     PixelatedHandle.Instance.RequateFadeData();
+                    TurnOffCanfade();
+                  //  PixelatedHandle.Instance.mainGiltch.canFade = false;
                 }
                 else
                 {
-
+                    PixelatedHandle.Instance.mainGiltch.canFade = false;
+                    answerButton.SetActive(false);
                 }
 
                 break;
@@ -308,6 +331,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     private void RPC_ReciveGameOver()
     {
         gameManager.StartState(Game_State.Game_Over);
+        PixelatedHandle.Instance.mainGiltch.canFade = false;
     }
 
 
@@ -358,9 +382,12 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_BackTochooseImage()
     {
-        StartState(Game_State.Wait_For_Play);
+        gameManager.StartState(Game_State.Wait_For_Play);
     }
-
+    public void ShowImage()
+    {
+        gameManager.StartState(Game_State.ShowImage);
+    }
     private bool wasInRoom = false;
 
     public override void OnJoinedRoom()
@@ -392,5 +419,36 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 Debug.LogError("Failed to initiate ReconnectAndRejoin.");
             }
         }
+    }
+
+
+    public void SetOneClick(bool click)
+    {
+        v_oneClick.Value = click;
+        photonView.RPC("RPC_SetOneClick", RpcTarget.Others, v_oneClick.Value);
+    }
+    [PunRPC]
+    private void RPC_SetOneClick(bool click)
+    {
+        v_oneClick.Value = click;
+    }
+
+    public void TurnOffCanfade()
+    {
+        photonView.RPC("RPC_TurnOffCanfade", RpcTarget.Others);
+    }
+    [PunRPC]
+    private void RPC_TurnOffCanfade()
+    {
+        PixelatedHandle.Instance.mainGiltch.canFade = false;
+    }
+    public void TurnOnCanfade()
+    {
+        photonView.RPC("RPC_TurnOnCanfade", RpcTarget.Others);
+    }
+    [PunRPC]
+    private void RPC_TurnOnCanfade()
+    {
+        PixelatedHandle.Instance.mainGiltch.canFade = true;
     }
 }

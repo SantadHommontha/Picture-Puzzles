@@ -67,6 +67,9 @@ MonoBehaviour:
   - RPC_KeepIn
   - Keep
   - RPC_BackTochooseImage
+  - RPC_SetOneClick
+  - RPC_TurnOffCanfade
+  - RPC_TurnOnCanfade
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

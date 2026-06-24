@@ -47,7 +47,10 @@ public class GlitchPixelated : MonoBehaviour
     public float mouseDragRadius = 10f;
     public float fadeSpeed = 111;
     public bool mouseOnSprite => RaycastHit().collider == collider;
-    [HideInInspector] public bool canFade = true;
+
+   public bool canFade = false;
+
+    public int clickCount = 0;
     #endregion
 
     #region Private Variable
@@ -71,7 +74,7 @@ public class GlitchPixelated : MonoBehaviour
     [SerializeField] private FloatValue v_mouseDragRadius;
     [SerializeField] private FloatValue v_fadeSpeed;
 
-
+    [SerializeField] private BoolValue v_oneClick;
     #endregion
     void Start()
     {
@@ -125,7 +128,8 @@ public class GlitchPixelated : MonoBehaviour
         copyTexture.SetPixels(originalTexture.GetPixels());
         copyTexture.Apply();
 
-        canFade = true;
+        canFade = false;
+        clickCount = 0;
 
         sizeX = Mathf.CeilToInt(texturnWidth / (float)dividePixels);
         sizeY = Mathf.CeilToInt(texturnHeight / (float)dividePixels);
@@ -433,7 +437,15 @@ public class GlitchPixelated : MonoBehaviour
         if (RaycastHit().collider == collider)
         {
             if (!canFade) return;
+            if (v_oneClick.Value)
+            {
+                if(clickCount > 0)
+                {
+                    return;
+                }
+            }
             FindPixelSeclcetInMouseRadius();
+            clickCount++;
         }
     }
 
@@ -576,7 +588,7 @@ public class GlitchPixelated : MonoBehaviour
         {
             FadePixel(T.x, T.y, coloraFade[T.x, T.y]);
         }
-        canFade = true;
+        canFade = false;
     }
     public void GetFadeData(out float[,] _colorFadeValue, out List<Vector2Int> _changedPixels)
     {
