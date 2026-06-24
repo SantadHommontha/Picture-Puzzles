@@ -238,7 +238,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
       //  Debug.Log($"RPC_SendFadeData {jsonData}");
         photonView.RPC("RPC_ReciveFadeData", RpcTarget.MasterClient, jsonData);
         mainGiltch.ClearFadeData();
-        mainGiltch.canFade = true;
+        mainGiltch.canFade = false;
     }
 
     [PunRPC]
