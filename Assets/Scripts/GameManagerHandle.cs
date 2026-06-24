@@ -27,6 +27,10 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
         {
             gameManager.changeState += StartState;
             gameManager.StartState(Game_State.Choose_Image);
+            if (co_KeepIm != null)
+                StopCoroutine(co_KeepIm);
+            co_KeepIm = StartCoroutine(KeepIn());
+            diconnectPalnet.SetActive(false);
 
         }
         else
@@ -34,10 +38,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
             gameManager.StartState(Game_State.Enter_Name);
         }
 
-        if (co_KeepIm != null)
-            StopCoroutine(co_KeepIm);
-        co_KeepIm = StartCoroutine(KeepIn());
-        diconnectPalnet.SetActive(false);
+       
     }
 
 
@@ -338,7 +339,16 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
         wasInRoom = false;
     }
 
-
+    public void BacktoChooseImage()
+    {
+        StartState(Game_State.Choose_Image);
+        photonView.RPC("RPC_BackTochooseImage", RpcTarget.Others);
+    }
+    [PunRPC]
+    private void RPC_BackTochooseImage()
+    {
+        StartState(Game_State.Wait_For_Play);
+    }
 
     private bool wasInRoom = false;
 

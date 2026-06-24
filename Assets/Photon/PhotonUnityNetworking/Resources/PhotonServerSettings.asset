@@ -66,6 +66,7 @@ MonoBehaviour:
   - RPC_ReciveTimer
   - RPC_KeepIn
   - Keep
+  - RPC_BackTochooseImage
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
