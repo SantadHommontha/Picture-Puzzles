@@ -45,7 +45,7 @@ public class GlitchPixelated : MonoBehaviour
     //  public GlitchPixelated otherPicture;
     public int dividePixels = 10;
     public float mouseDragRadius = 10f;
-    public float fadeSpeed = 0.15f;
+    public float fadeSpeed = 111;
     public bool mouseOnSprite => RaycastHit().collider == collider;
     [HideInInspector] public bool canFade = true;
     #endregion
@@ -388,31 +388,31 @@ public class GlitchPixelated : MonoBehaviour
         Vector2Int gridPos = FindGridSeclcet(pixelPos.x, pixelPos.y);
 
         int radiusBlocks = Mathf.CeilToInt(mouseDragRadius);
-        // Debug.Log($"RB {radiusBlocks}");
-        for (int by = -radiusBlocks; by <= radiusBlocks; by++)
-        {
-            for (int bx = -radiusBlocks; bx <= radiusBlocks; bx++)
-            {
-                int gx = gridPos.x + bx;
-                int gy = gridPos.y + by;
+       // Debug.Log($"RB {gridPos}");
+        //for (int by = -radiusBlocks; by <= radiusBlocks; by++)
+        //{
+        //    for (int bx = -radiusBlocks; bx <= radiusBlocks; bx++)
+        //    {
+        //        int gx = gridPos.x + bx;
+        //        int gy = gridPos.y + by;
 
-                if (gx < 0 || gy < 0 || gx >= sizeX || gy >= sizeY)
-                    continue;
+        //        if (gx < 0 || gy < 0 || gx >= sizeX || gy >= sizeY)
+        //            continue;
 
-                if (bx * bx + by * by > radiusBlocks * radiusBlocks)
-                    continue;
+        //        if (bx * bx + by * by > radiusBlocks * radiusBlocks)
+        //            continue;
 
-                coloraFade[gx, gy] = Mathf.Clamp01(coloraFade[gx, gy] + fadeSpeed);
-                FadePixel(gx, gy, coloraFade[gx, gy], true);
-                currentColorFadeAdded[gx, gy] += fadeSpeed;
-                var cp = new Vector2Int(gx, gy);
-                // Debug.Log(cp);
-                if (!changedPixels.Contains(cp))
-                    changedPixels.Add(cp);
-                // Debug.Log($"gg");
-            }
-        }
-
+        //        coloraFade[gx, gy] = Mathf.Clamp01(coloraFade[gx, gy] + fadeSpeed);
+        //        FadePixel(gx, gy, coloraFade[gx, gy], true);
+        //        currentColorFadeAdded[gx, gy] += fadeSpeed;
+        //        var cp = new Vector2Int(gx, gy);
+        //        // Debug.Log(cp);
+        //        if (!changedPixels.Contains(cp))
+        //            changedPixels.Add(cp);
+        //        // Debug.Log($"gg");
+        //    }
+        //}
+        FadePixel(gridPos.x, gridPos.y, 1, true);
         copyTexture.Apply();
         UpdateSprite();
 
@@ -420,6 +420,15 @@ public class GlitchPixelated : MonoBehaviour
     #endregion
     // MOUSE INTERACTION
     public void MouseDrag()
+    {
+        //if (RaycastHit().collider == collider)
+        //{
+        //    if (!canFade) return;
+        //    FindPixelSeclcetInMouseRadius();
+        //}
+    }
+
+    public void OnMouseDown()
     {
         if (RaycastHit().collider == collider)
         {

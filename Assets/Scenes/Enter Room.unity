@@ -869,6 +869,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enter Room
       objectReference: {fileID: 0}
+    - target: {fileID: 3619564336682516812, guid: 24a1f1ce6422e3243882bc85c7b6d402, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4192797144934648280, guid: 24a1f1ce6422e3243882bc85c7b6d402, type: 3}
       propertyPath: m_SizeDelta.x
       value: 207
@@ -896,6 +900,10 @@ PrefabInstance:
     - target: {fileID: 5259459080290813702, guid: 24a1f1ce6422e3243882bc85c7b6d402, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735318739293348695, guid: 24a1f1ce6422e3243882bc85c7b6d402, type: 3}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5735318739293348695, guid: 24a1f1ce6422e3243882bc85c7b6d402, type: 3}
       propertyPath: m_margin.x
