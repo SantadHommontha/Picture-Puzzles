@@ -91,6 +91,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                     play_screen_client.SetActive(false);
                     TurnOffCanfade();
                     SetClickNumber();
+                    SetOneClick(v_oneClick.Value);
                 }
                 else
                 {
