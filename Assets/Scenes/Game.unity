@@ -694,7 +694,7 @@ MonoBehaviour:
   diconnectPalnet: {fileID: 1584872961}
   gameTimerValue: {fileID: 11400000, guid: c971703a6deb34542bfb6044fae64b9c, type: 2}
   v_oneClick: {fileID: 11400000, guid: 9980cb20870cc3d4cad7991a96cce60b, type: 2}
-  v_clickNumber: {fileID: 0}
+  v_clickNumber: {fileID: 11400000, guid: 58fd56cf6f3b3f847835eab9717780b1, type: 2}
   play_screen_admin: {fileID: 738048457}
   play_screen_client: {fileID: 373853768}
   answerButton: {fileID: 929802315}
@@ -17538,7 +17538,7 @@ MonoBehaviour:
   v_mouseDragRadius: {fileID: 11400000, guid: 6c50bd117b270cd47ad55c256ba29b03, type: 2}
   v_fadeSpeed: {fileID: 11400000, guid: 65198e9f26c751141a8d9d41dbd22559, type: 2}
   v_oneClick: {fileID: 11400000, guid: 9980cb20870cc3d4cad7991a96cce60b, type: 2}
-  v_clickNumber: {fileID: 0}
+  v_clickNumber: {fileID: 11400000, guid: 58fd56cf6f3b3f847835eab9717780b1, type: 2}
 --- !u!114 &1617676529
 MonoBehaviour:
   m_ObjectHideFlags: 0
