@@ -16,6 +16,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     private Coroutine co_KeepIm;
     [SerializeField] private FloatValue gameTimerValue;
     [SerializeField] private BoolValue v_oneClick;
+    [SerializeField] private IntValue v_clickNumber;
     [SerializeField] private GameObject play_screen_admin;
     [SerializeField] private GameObject play_screen_client;
     [SerializeField] private GameObject answerButton;
@@ -45,7 +46,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
             gameManager.StartState(Game_State.Enter_Name);
         }
 
-       
+
     }
 
 
@@ -53,7 +54,8 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     {
         EndState();
         currentState = _new_State;
-        Debug.Log(_new_State);
+        Debug.Log($"new state {_new_State}");
+
         switch (_new_State)
         {
             case Game_State.Enter_Name:
@@ -62,10 +64,9 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
             case Game_State.Choose_Image:
                 if (PhotonNetwork.IsMasterClient)
                 {
-
                     timerValue.OnValueChange += GameTimerUpdate;
                     BacktoChooseImage();
-                } 
+                }
                 else
                 {
 
@@ -75,8 +76,6 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 gameTimerValue.Value = RoomData.Instance.gameTime;
                 if (PhotonNetwork.IsMasterClient)
                 {
-
-
                     TurnOffCanfade();
                 }
                 break;
@@ -87,15 +86,16 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
             case Game_State.Play:
                 gameTimerValue.Value = RoomData.Instance.gameTime;
                 if (PhotonNetwork.IsMasterClient)
-                {         
+                {
                     play_screen_admin.SetActive(true);
                     play_screen_client.SetActive(false);
-                    TurnOnCanfade();
+                    TurnOffCanfade();
+                    SetClickNumber();
                 }
                 else
                 {
                     play_screen_admin.SetActive(false);
-                    play_screen_client.SetActive(true);    
+                    play_screen_client.SetActive(true);
                 }
                 break;
             case Game_State.GameStart:
@@ -108,6 +108,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                     play_screen_admin.SetActive(true);
                     play_screen_client.SetActive(false);
                     SendGameDataToOther();
+                    TurnOnCanfade();
                     PixelatedHandle.Instance.mainGiltch.canFade = true;
 
                 }
@@ -115,7 +116,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 {
                     play_screen_admin.SetActive(false);
                     play_screen_client.SetActive(true);
-                    PixelatedHandle.Instance.mainGiltch.canFade = true ;
+                    PixelatedHandle.Instance.mainGiltch.canFade = true;
                 }
                 break;
             case Game_State.Game_Over:
@@ -127,7 +128,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                     SetGameOver();
                     PixelatedHandle.Instance.RequateFadeData();
                     TurnOffCanfade();
-                  //  PixelatedHandle.Instance.mainGiltch.canFade = false;
+                    //  PixelatedHandle.Instance.mainGiltch.canFade = false;
                 }
                 else
                 {
@@ -148,6 +149,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                 }
                 break;
         }
+        Debug.Log($"CanFade {PixelatedHandle.Instance.mainGiltch.canFade}");
     }
     public void EndState()
     {
@@ -231,21 +233,21 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                     //   StartState(Game_State.ShowImage);
                     gameManager.StartState(Game_State.ShowImage);
                 }
-              //  Debug.Log("111111");
+                //  Debug.Log("111111");
                 break;
             case Game_State.ShowImage:
 
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                   // Correct();
+                    // Correct();
                     ShowImageAswer(true);
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
-                  //  InCorrect();
+                    //  InCorrect();
                     ShowImageAswer(false);
                 }
-             //   Debug.Log("2222222");
+                //   Debug.Log("2222222");
                 break;
         }
     }
@@ -376,7 +378,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
 
     public void BacktoChooseImage()
     {
-      //  StartState(Game_State.Choose_Image);
+        //  StartState(Game_State.Choose_Image);
         photonView.RPC("RPC_BackTochooseImage", RpcTarget.Others);
     }
     [PunRPC]
@@ -451,4 +453,17 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
     {
         PixelatedHandle.Instance.mainGiltch.canFade = true;
     }
+
+
+    public void SetClickNumber()
+    {
+        photonView.RPC("RPC_SetClickNumber", RpcTarget.Others);
+    }
+    [PunRPC]
+    private void RPC_SetClickNumber(int _clickNumber)
+    {
+        v_clickNumber.Value = _clickNumber;
+        PixelatedHandle.Instance.mainGiltch.ResetClickCount();
+    }
+
 }

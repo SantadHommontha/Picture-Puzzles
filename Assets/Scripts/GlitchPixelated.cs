@@ -75,6 +75,7 @@ public class GlitchPixelated : MonoBehaviour
     [SerializeField] private FloatValue v_fadeSpeed;
 
     [SerializeField] private BoolValue v_oneClick;
+    [SerializeField] private IntValue v_clickNumber;
     #endregion
     void Start()
     {
@@ -137,6 +138,11 @@ public class GlitchPixelated : MonoBehaviour
         pixelPattern = new Color[sizeX, sizeY];
         coloraFade = new float[sizeX, sizeY];
         currentColorFadeAdded = new float[sizeX, sizeY];
+    }
+
+    public void ResetClickCount()
+    {
+         clickCount = 0;
     }
 
     void Update()
@@ -439,13 +445,14 @@ public class GlitchPixelated : MonoBehaviour
             if (!canFade) return;
             if (v_oneClick.Value)
             {
-                if(clickCount > 0)
+                if(clickCount >=  v_clickNumber.Value)
                 {
                     return;
                 }
+                 clickCount++;
             }
             FindPixelSeclcetInMouseRadius();
-            clickCount++;
+           
         }
     }
 

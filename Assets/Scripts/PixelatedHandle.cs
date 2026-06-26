@@ -305,6 +305,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
     {
         while (true)
         {
+            print("gggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
             yield return new WaitForSeconds(delay);
             if (showDebug) Debug.Log($"Update {gameObject.name}");
             mainGiltch.canFade = false;
@@ -318,7 +319,8 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
             //   Debug.Log($"{changedPixelsData.Count}");
             otherGlitch.ReciveData(colorFadeValue, changedPixelsData);
             mainGiltch.ClearFadeData();
-            mainGiltch.canFade = true;
+            //old this are true
+            mainGiltch.canFade = false;
         }
 
     }
