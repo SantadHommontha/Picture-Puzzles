@@ -111,7 +111,8 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
                     SendGameDataToOther();
                     TurnOnCanfade();
                     PixelatedHandle.Instance.mainGiltch.canFade = true;
-
+                    SetClickNumber();
+                    SetOneClick(v_oneClick.Value);
                 }
                 else
                 {
@@ -458,7 +459,7 @@ public class GameManagerHandle : MonoBehaviourPunCallbacks
 
     public void SetClickNumber()
     {
-        photonView.RPC("RPC_SetClickNumber", RpcTarget.Others);
+        photonView.RPC("RPC_SetClickNumber", RpcTarget.Others,v_clickNumber.Value);
     }
     [PunRPC]
     private void RPC_SetClickNumber(int _clickNumber)
