@@ -59,7 +59,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         {1,2,3,4,5},
         {6,7,8,9,10}
     };
-
+    public Image imageTest;
     public float timeToSendFadeDataToMaster = 0.5f;     // public int[,] num2;
     // public int[] nt;
     // public int w;
@@ -114,6 +114,25 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         a = _a;
         b = _b;
     }
+
+    Sprite ConvertTextureToSprite(Texture2D texture)
+    {
+        // 1. ??????????? (Rect) ??? Texture ???????????????? Sprite (??????????)
+        Rect rect = new Rect(0, 0, texture.width, texture.height);
+
+        // 2. ???????????? (Pivot) ?????????????? (0.5f, 0.5f)
+        Vector2 pivot = new Vector2(0.5f, 0.5f);
+
+        // 3. ???????????????? (Pixels Per Unit) ?????????????? Unity ??? 100
+        float pixelsPerUnit = 100f;
+
+        // ?????????????? Sprite ????
+        return Sprite.Create(texture, rect, pivot, pixelsPerUnit);
+    }
+
+
+
+
     #region SendAndRecive Setup
     [ContextMenu("SendSetUp")]
     public void SendSetUp()
@@ -123,6 +142,7 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         mainGiltch.GetSetUp(out int _dividePixels, out float _mouseDragRadius, out float _fadeSpeed, out Color[,] _pixelatePatturn, out Color[] _allColors, out Texture2D _originalTextuen);
 
 
+        imageTest.sprite = ConvertTextureToSprite(_originalTextuen);
         Texture2dData texture2DData = new Texture2dData()
         {
             textureName = _originalTextuen.name,
@@ -180,7 +200,8 @@ public class PixelatedHandle : MonoBehaviourPunCallbacks
         // originalImage.name = setUpWapper.originalTextuen.textureName;
 
         mainGiltch.ReciveSetUp(dividePixels, mouseDragRadius, fadeSpeed, pixelatePatturn, originalTextuen);
-
+      //  print($"A :{a} B {b}");
+        imageTest.sprite = ConvertTextureToSprite(originalTextuen);
         finushSetUp.Raise(this, -999);
     }
     #endregion
