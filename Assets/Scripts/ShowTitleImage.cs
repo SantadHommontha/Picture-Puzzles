@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem.iOS;
+
 using UnityEngine.UI;
 
 public class ShowTitleImage : MonoBehaviour
