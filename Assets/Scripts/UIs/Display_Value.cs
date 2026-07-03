@@ -15,13 +15,17 @@ public class Display_Value : MonoBehaviour
     [Space]
     [SerializeField] private bool updateOnEnable = false;
 
+    [Space]
+    [SerializeField] private bool useUpdateFuntionToUpdateText = false;
     public void OnEnable()
     {
         if (updateOnEnable)
         {
-            if (stringValue) Show_UI(stringValue.Value);
-            if (intValue) Show_UI(intValue.Value.ToString());
-            if (floatValue) Show_UI(floatValue.Value.ToString("F1"));
+            //if (stringValue) Show_UI(stringValue.Value);
+            //if (intValue) Show_UI(intValue.Value.ToString());
+            //if (floatValue) Show_UI(floatValue.Value.ToString("F1"));
+
+            Show_UI();
         }
     }
     void Start()
@@ -33,10 +37,23 @@ public class Display_Value : MonoBehaviour
 
     private void Show_UI(string _text) => text_ui.text = $"{start_text}{_text}{end_text}";
 
-
+    private void Show_UI()
+    {
+        if (stringValue) Show_UI(stringValue.Value);
+        else if (intValue)Show_UI(intValue.Value.ToString());
+        else if (floatValue) Show_UI(floatValue.Value.ToString("F1"));
+    }
 
     private void IntValue(int _int) => Show_UI(_int.ToString());
     private void FloatValue(float _float) => Show_UI(_float.ToString("F1"));
 
+
+    private void FixedUpdate()
+    {
+        if(useUpdateFuntionToUpdateText)
+        {
+            Show_UI();
+        }
+    }
 
 }
